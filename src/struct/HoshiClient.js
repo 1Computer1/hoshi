@@ -1,5 +1,4 @@
 const { AkairoClient } = require('discord-akairo');
-const Logger = require('../util/Logger');
 
 class HoshiClient extends AkairoClient {
 	constructor(config) {
@@ -17,9 +16,8 @@ class HoshiClient extends AkairoClient {
 		this.config = config;
 	}
 
-	async start() {
-		await this.login(this.config.token);
-		Logger.info('Hoshi has logged in.');
+	start() {
+		return this.login(this.config.token);
 	}
 }
 
