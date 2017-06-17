@@ -1,7 +1,7 @@
 const { Command } = require('discord-akairo');
 const Logger = require('../../util/Logger');
 
-class StarCommand extends Command {
+class UnstarCommand extends Command {
 	constructor() {
 		super('unstar', {
 			aliases: ['unstar'],
@@ -34,4 +34,4 @@ class StarCommand extends Command {
 	}
 }
 
-module.exports = StarCommand;
+module.exports = UnstarCommand;
