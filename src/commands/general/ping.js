@@ -5,8 +5,9 @@ class PingCommand extends Command {
 		super('ping', { aliases: ['ping'] });
 	}
 
-	exec(message) {
-		return message.channel.send('Pong!');
+	async exec(message) {
+		const sent = await message.channel.send('Pong!');
+		return sent.edit(`Pong! (${sent.createdAt - message.createdAt} ms)`);
 	}
 }
 
