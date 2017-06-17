@@ -1,0 +1,25 @@
+{
+  "name": "hoshi",
+  "version": "1.0.0",
+  "description": "A starboard bot",
+  "main": "hoshi.js",
+  "scripts": {
+    "test": "eslint src"
+  },
+  "eslintConfig": {
+    "extends": "aqua"
+  },
+  "contributors": [
+    "1Computer",
+    "vzwGrey"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^4.0.0",
+    "eslint-config-aqua": "^1.4.1"
+  },
+  "dependencies": {
+    "discord-akairo": "github:1computer1/discord-akairo",
+    "discord.js": "github:hydrabolt/discord.js"
+  }
+}
