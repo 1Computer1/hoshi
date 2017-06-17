@@ -1,4 +1,5 @@
 const { AkairoClient } = require('discord-akairo');
+const Logger = require('../util/Logger');
 
 class HoshiClient extends AkairoClient {
 	constructor(config) {
@@ -6,7 +7,8 @@ class HoshiClient extends AkairoClient {
 			allowMention: true,
 			ownerID: config.owner,
 			prefix: '*',
-			commandDirectory: './src/commands'
+			commandDirectory: './src/commands',
+			listenerDirectory: './src/listeners'
 		}, {
 			disableEveryone: true,
 			disabledEvents: ['TYPING_START']
@@ -15,8 +17,9 @@ class HoshiClient extends AkairoClient {
 		this.config = config;
 	}
 
-	start() {
-		return this.login(this.config.token);
+	async start() {
+		await this.login(this.config.token);
+		Logger.info('Hoshi has logged in.');
 	}
 }
 
