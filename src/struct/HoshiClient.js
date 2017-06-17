@@ -3,9 +3,10 @@ const { AkairoClient } = require('discord-akairo');
 class HoshiClient extends AkairoClient {
 	constructor(config) {
 		super({
-			allowMention: true,
-			ownerID: config.owner,
 			prefix: '*',
+			allowMention: true,
+			handleEdits: true,
+			ownerID: config.owner,
 			commandDirectory: './src/commands',
 			listenerDirectory: './src/listeners'
 		}, {

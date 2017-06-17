@@ -1,7 +1,7 @@
-const config = require('./config.json');
 const HoshiClient = require('./src/struct/HoshiClient');
 const Logger = require('./src/util/Logger');
 
+const config = require('./config.json');
 const client = new HoshiClient(config);
 
 client.on('ready', () => Logger.info(`${client.user.tag} is ready to serve!`))

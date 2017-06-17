@@ -6,8 +6,10 @@ class PingCommand extends Command {
 	}
 
 	async exec(message) {
-		const sent = await message.channel.send('Pong!');
-		return sent.edit(`Pong! (${sent.createdAt - message.createdAt} ms)`);
+		const sent = await message.util.send('Pong!');
+		const sentTime = sent.editedTimestamp || sent.createdTimestamp;
+		const startTime = message.editedTimestamp || message.createdTimestamp;
+		return message.util.send(`Pong! (${sentTime - startTime} ms)`);
 	}
 }
 

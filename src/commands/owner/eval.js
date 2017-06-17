@@ -19,7 +19,7 @@ class EvalCommand extends Command {
 	}
 
 	async exec(message, { code }) {
-		if (!code) return message.send('No code provided!');
+		if (!code) return message.util.send('No code provided!');
 
 		const evaled = {};
 		const logs = [];
@@ -64,7 +64,7 @@ class EvalCommand extends Command {
 
 			if (output.length + code.length > 1900) output = 'Output too long.';
 
-			const sent = await message.channel.send([
+			const sent = await message.util.send([
 				`📥\u2000**Input**${cb}js`,
 				code,
 				cb,
@@ -87,7 +87,7 @@ class EvalCommand extends Command {
 			error = `${logs.join('\n')}\n${logs.length && error === 'undefined' ? '' : error}`;
 			error = error.replace(tokenRegex, '[TOKEN]');
 
-			const sent = await message.channel.send([
+			const sent = await message.util.send([
 				`📥\u2000**Input**${cb}js`,
 				code,
 				cb,

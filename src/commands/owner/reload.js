@@ -34,16 +34,16 @@ class ReloadCommand extends Command {
 
 	exec(message, { type, module: mod }) {
 		if (!mod) {
-			return message.channel.send(`Invalid ${type} ${type === 'command' ? 'alias' : 'ID'} specified to reload.`);
+			return message.util.send(`Invalid ${type} ${type === 'command' ? 'alias' : 'ID'} specified to reload.`);
 		}
 
 		try {
 			mod.reload();
-			return message.channel.send(`Sucessfully reloaded ${type} \`${mod.id}\``);
+			return message.util.send(`Sucessfully reloaded ${type} \`${mod.id}\`.`);
 		} catch (err) {
 			Logger.error(`Error occured reloading ${type} ${mod.id}`);
 			Logger.stackTrace(err);
-			return message.channel.send(`Failed to reload ${type} \`${mod.id}\``);
+			return message.util.send(`Failed to reload ${type} \`${mod.id}\`.`);
 		}
 	}
 }

@@ -1,8 +1,7 @@
+const Logger = require('../util/Logger');
 const Sequelize = require('sequelize');
 
-const { dbURL } = require('../../config');
-const Logger = require('../util/Logger');
-
+const { dbURL } = require('../../config.json');
 const db = new Sequelize(dbURL, { logging: false });
 
 class Database {
