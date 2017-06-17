@@ -1,4 +1,5 @@
 {
     "token": "abcDEFghiJKLmnoPQRstuVWXyz-",
-    "owner": ["123992700587343872", "86890631690977280"]
+    "owner": ["123992700587343872", "86890631690977280"],
+    "dbURL": "postgres://role:password@postgres:5432/db_name"
 }
