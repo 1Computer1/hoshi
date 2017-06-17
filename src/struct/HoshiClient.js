@@ -1,0 +1,22 @@
+const { AkairoClient } = require('discord-akairo');
+
+class HoshiClient extends AkairoClient {
+	constructor(config) {
+		super({
+			ownerID: config.owner,
+			prefix: '*',
+			commandDirectory: './src/commands'
+		}, {
+			disableEveryone: true,
+			disabledEvents: ['TYPING_START']
+		});
+
+		this.config = config;
+	}
+
+	start() {
+		return this.login(this.config.token);
+	}
+}
+
+module.exports = HoshiClient;
