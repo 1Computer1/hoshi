@@ -1,6 +1,6 @@
-const util = require('util');
 const chalk = require('chalk');
 const moment = require('moment');
+const util = require('util');
 
 class Logger {
 	static log(content) {
