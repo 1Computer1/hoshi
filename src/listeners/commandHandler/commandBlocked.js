@@ -17,8 +17,8 @@ class CommandBlockedListener extends Listener {
 		}[reason];
 
 		if (!text) return;
-		const name = message.guild ? message.guild.name : `${message.author.tag}/PM`;
-		Logger.log(`[${name}]: => ${command.id} ~ ${reason}`);
+		const tag = message.guild ? message.guild.name : `${message.author.tag}/PM`;
+		Logger.log(`=> ${command.id} ~ ${reason}`, { tag });
 		message.channel.send(text);
 	}
 }

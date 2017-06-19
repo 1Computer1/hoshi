@@ -7,8 +7,8 @@ const client = new HoshiClient(config);
 client.build();
 
 client.commandHandler.on('commandStarted', (message, command) => {
-	const name = message.guild ? message.guild.name : `${message.author.tag}/PM`;
-	Logger.log(`[${name}]: => ${command.id}`);
+	const tag = message.guild ? message.guild.name : `${message.author.tag}/PM`;
+	Logger.log(`=> ${command.id}`, { tag });
 });
 
 client.on('ready', () => Logger.info(`${client.user.tag} is ready to serve!`))

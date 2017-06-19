@@ -12,11 +12,11 @@ class Database {
 	static async authenticate() {
 		try {
 			await db.authenticate();
-			Logger.info('[POSTGRES]: Connection to database has been established successfully.');
+			Logger.info('Connection to database has been established successfully.', { tag: 'POSTGRES' });
 		} catch (err) {
-			Logger.error('[POSTGRES]: Unable to connect to the database:');
-			Logger.error(`[POSTGRES]: ${err}`);
-			Logger.info('[POSTGRES]: Attempting to connect again in 5 seconds...');
+			Logger.error('Unable to connect to the database:', { tag: 'POSTGRES' });
+			Logger.stacktrace(err, { tag: 'POSTGRES' });
+			Logger.info('Attempting to connect again in 5 seconds...', { tag: 'POSTGRES' });
 			setTimeout(this.authenticate, 5000);
 		}
 	}

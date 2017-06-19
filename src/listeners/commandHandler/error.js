@@ -12,7 +12,7 @@ class ErrorListener extends Listener {
 
 	exec(err, message) {
 		Logger.error('An error occured in a command.');
-		Logger.stackTrace(err);
+		Logger.stacktrace(err);
 
 		const owners = this.client.ownerID.map(id => this.client.users.get(id).tag);
 		return message.channel.send([

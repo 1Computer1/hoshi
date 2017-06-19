@@ -3,45 +3,27 @@ const moment = require('moment');
 const util = require('util');
 
 class Logger {
-	static log(content) {
-		this.write(content, {
-			color: 'grey',
-			tag: 'Log'
-		});
+	static log(content, { color = 'grey', tag = 'Log' } = {}) {
+		this.write(content, { color, tag });
 	}
 
-	static info(content) {
-		this.write(content, {
-			color: 'green',
-			tag: 'Info'
-		});
+	static info(content, { color = 'green', tag = 'Info' } = {}) {
+		this.write(content, { color, tag });
 	}
 
-	static warn(content) {
-		this.write(content, {
-			color: 'yellow',
-			tag: 'Warn'
-		});
+	static warn(content, { color = 'yellow', tag = 'Warn' } = {}) {
+		this.write(content, { color, tag });
 	}
 
-	static error(content) {
-		this.write(content, {
-			color: 'red',
-			tag: 'Error',
-			error: true
-		});
+	static error(content, { color = 'red', tag = 'Error' } = {}) {
+		this.write(content, { color, tag, error: true });
 	}
 
-	static stackTrace(content) {
-		this.write(content, {
-			color: 'white',
-			tag: 'Error',
-			error: true
-		});
+	static stacktrace(content, { color = 'white', tag = 'Error' } = {}) {
+		this.write(content, { color, tag, error: true });
 	}
 
-	static write(content, options = {}) {
-		const { color = 'grey', tag = 'Log', error = false } = options;
+	static write(content, { color = 'grey', tag = 'Log', error = false } = {}) {
 		const timestamp = chalk.cyan(`[${moment().format('YYYY-MM-DD HH:mm:ss')}]:`);
 		const levelTag = chalk.bold(`[${tag}]:`);
 		const text = chalk[color](this.clean(content));

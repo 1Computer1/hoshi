@@ -43,7 +43,7 @@ class ReloadCommand extends Command {
 			return message.util.send(`Sucessfully reloaded ${type} \`${mod.id}\`.`);
 		} catch (err) {
 			Logger.error(`Error occured reloading ${type} ${mod.id}`);
-			Logger.stackTrace(err);
+			Logger.stacktrace(err);
 			return message.util.send(`Failed to reload ${type} \`${mod.id}\`.`);
 		}
 	}
