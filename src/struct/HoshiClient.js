@@ -1,9 +1,12 @@
 const { AkairoClient } = require('discord-akairo');
 
+const SettingsProvider = require('./SettingsProviders');
+const Setting = require('../models/settings');
+
 class HoshiClient extends AkairoClient {
 	constructor(config) {
 		super({
-			prefix: '*',
+			prefix: message => this.settings.get(message.guild, 'prefix', '*'),
 			allowMention: true,
 			handleEdits: true,
 			ownerID: config.owner,
@@ -15,9 +18,11 @@ class HoshiClient extends AkairoClient {
 		});
 
 		this.config = config;
+		this.settings = new SettingsProvider(Setting);
 	}
 
-	start() {
+	async start() {
+		await this.settings.init();
 		return this.login(this.config.token);
 	}
 }

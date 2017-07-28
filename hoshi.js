@@ -1,7 +1,8 @@
+const config = require('./config.json');
+const Database = require('./src/struct/Database');
 const HoshiClient = require('./src/struct/HoshiClient');
 const Logger = require('./src/util/Logger');
 
-const config = require('./config.json');
 const client = new HoshiClient(config);
 
 client.build();
@@ -17,4 +18,5 @@ client.on('ready', () => Logger.info(`${client.user.tag} is ready to serve!`))
 	.on('error', err => Logger.error(err))
 	.on('warn', info => Logger.warn(info));
 
+Database.authenticate();
 client.start();
