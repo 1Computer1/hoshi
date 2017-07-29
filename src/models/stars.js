@@ -16,6 +16,10 @@ const Star = db.define('stars', {
 		type: Sequelize.STRING,
 		allowNull: false
 	},
+	starboardMessageID: {
+		type: Sequelize.STRING,
+		allowNull: false
+	},
 	starCount: {
 		type: Sequelize.INTEGER,
 		allowNull: false,
