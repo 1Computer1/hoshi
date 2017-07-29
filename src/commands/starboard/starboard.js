@@ -6,6 +6,7 @@ class StarCommand extends Command {
 			aliases: ['starboard'],
 			category: 'starboard',
 			channelRestriction: 'guild',
+			userPermissions: ['ADMINISTRATOR'],
 			args: [
 				{
 					id: 'channel',

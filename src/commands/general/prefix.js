@@ -5,6 +5,7 @@ class PrefixCommand extends Command {
 		super('prefix', {
 			aliases: ['prefix'],
 			category: 'general',
+			userPermissions: ['ADMINISTRATOR'],
 			args: [
 				{
 					id: 'prefix',
