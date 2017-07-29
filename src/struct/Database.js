@@ -16,7 +16,7 @@ class Database {
 		try {
 			await db.authenticate();
 			Logger.info('Connection to database has been established successfully.', { tag: 'POSTGRES' });
-			await Database.loadModels(path.join(__dirname, '..', 'models'));
+			await this.loadModels(path.join(__dirname, '..', 'models'));
 		} catch (err) {
 			Logger.error('Unable to connect to the database:', { tag: 'POSTGRES' });
 			Logger.stacktrace(err, { tag: 'POSTGRES' });
