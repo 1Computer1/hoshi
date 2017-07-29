@@ -1,4 +1,4 @@
-const Guild = require('discord.js/src/structures/Guild');
+const { Guild } = require('discord.js');
 
 module.exports = class SettingsProvider {
 	constructor(table) {
