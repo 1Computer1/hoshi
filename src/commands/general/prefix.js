@@ -6,7 +6,7 @@ class PrefixCommand extends Command {
 			aliases: ['prefix'],
 			category: 'general',
 			channelRestriction: 'guild',
-			userPermissions: ['ADMINISTRATOR'],
+			userPermissions: ['ADMINISTRATOR', 'MANAGE_SERVER'],
 			args: [
 				{
 					id: 'prefix',
