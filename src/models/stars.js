@@ -8,6 +8,10 @@ const Star = db.define('stars', {
 		primaryKey: true,
 		allowNull: false
 	},
+	authorID: {
+		type: Sequelize.STRING,
+		allowNull: false
+	},
 	channelID: {
 		type: Sequelize.STRING,
 		allowNull: false
