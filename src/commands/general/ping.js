@@ -9,10 +9,10 @@ class PingCommand extends Command {
 	}
 
 	async exec(message) {
-		const sent = await message.util.send('Pong!');
+		const sent = await message.util.reply('Pong!');
 		const sentTime = sent.editedTimestamp || sent.createdTimestamp;
 		const startTime = message.editedTimestamp || message.createdTimestamp;
-		return message.util.send(`Pong! (${sentTime - startTime} ms)`);
+		return message.util.reply(`Pong! (${sentTime - startTime} ms)`);
 	}
 }
 

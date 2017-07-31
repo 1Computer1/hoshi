@@ -20,9 +20,9 @@ class StarCommand extends Command {
 	}
 
 	async exec(message, { channel }) {
-		if (!channel) return message.util.send('You must provide a starboard channel.');
+		if (!channel) return message.util.reply('You must provide a starboard channel.');
 		await this.client.settings.set(message.guild, 'starboardChannelID', channel.id);
-		return message.util.send(`Starboard channel has been set to ${channel}`);
+		return message.util.reply(`Starboard channel has been set to ${channel}`);
 	}
 }
 

@@ -18,10 +18,10 @@ class PrefixCommand extends Command {
 	}
 
 	async exec(message, { prefix }) {
-		if (!prefix) message.util.send('Please provide a prefix!');
+		if (!prefix) message.util.reply('Please provide a prefix!');
 		await this.client.settings.set(message.guild, 'prefix', prefix);
 		if (prefix === '*') return message.util.send('Prefix has be reset to `*`');
-		return message.util.send(`Prefix has been set to \`${prefix}\``);
+		return message.util.reply(`Prefix has been set to \`${prefix}\``);
 	}
 }
 

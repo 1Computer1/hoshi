@@ -32,7 +32,7 @@ class UnstarCommand extends Command {
 		const starboard = this.client.starboards.get(message.guild.id);
 		const error = await starboard.remove(msg, message.author);
 		if (error) {
-			message.util.send(`${message.author}, ${error}`);
+			message.util.reply(error);
 		}
 	}
 }

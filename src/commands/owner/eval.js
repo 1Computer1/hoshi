@@ -19,7 +19,7 @@ class EvalCommand extends Command {
 	}
 
 	async exec(message, { code }) {
-		if (!code) return message.util.send('No code provided!');
+		if (!code) return message.util.reply('No code provided!');
 
 		const evaled = {};
 		const logs = [];

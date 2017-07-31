@@ -1,7 +1,9 @@
-const config = require('./config.json');
+require('./src/util/Extensions');
+
 const HoshiClient = require('./src/struct/HoshiClient');
 const Logger = require('./src/util/Logger');
 
+const config = require('./config.json');
 const client = new HoshiClient(config);
 client.build();
 
