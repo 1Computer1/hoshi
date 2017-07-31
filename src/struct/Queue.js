@@ -16,7 +16,7 @@ class Queue {
 		if (!promiseFunc) {
 			this._processing = false;
 		} else {
-			promiseFunc.call().then(this._process.bind(this));
+			promiseFunc().then(this._process.bind(this));
 		}
 	}
 }
