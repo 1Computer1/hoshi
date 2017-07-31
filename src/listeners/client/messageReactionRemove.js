@@ -14,7 +14,7 @@ class MessageReactionRemoveListener extends Listener {
 			const starboard = this.client.starboards.get(reaction.message.guild.id);
 			const error = await starboard.remove(reaction.message, user);
 			if (error) {
-				reaction.message.channel.send(`${user}, ${error.message}`);
+				reaction.message.channel.send(`${user}, ${error}`);
 			}
 		}
 	}

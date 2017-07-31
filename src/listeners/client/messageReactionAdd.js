@@ -14,8 +14,10 @@ class MessageReactionAddListener extends Listener {
 			const starboard = this.client.starboards.get(reaction.message.guild.id);
 			const error = await starboard.add(reaction.message, user);
 			if (error) {
-				reaction.remove(user);
-				reaction.message.channel.send(`${user}, ${error.message}`);
+				if (reaction.message.channel.permissionsFor(this.client.user).has('MANAGE_MESSAGES')) {
+					await reaction.remove(user);
+				}
+				reaction.message.channel.send(`${user}, ${error}`);
 			}
 		}
 	}
