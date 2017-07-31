@@ -2,7 +2,7 @@
 
 A starboard bot written for Discord using Discord.js.  
 Made by [1Computer](https://github.com/1computer1) and [vzwGrey](https://github.com/vzwGrey).  
-Invite Link: *Soon*  
+Invite Link: [Click here!](https://discordapp.com/oauth2/authorize?permissions=93184&scope=bot&client_id=341715769035456515)  
 
 ## Features
 
