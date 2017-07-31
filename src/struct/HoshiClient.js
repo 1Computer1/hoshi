@@ -4,7 +4,6 @@ const { Collection } = require('discord.js');
 const Database = require('./Database');
 const SettingsProvider = require('./SettingsProviders');
 const Setting = require('../models/settings');
-const Starboard = require('./Starboard');
 
 class HoshiClient extends AkairoClient {
 	constructor(config) {
@@ -28,10 +27,7 @@ class HoshiClient extends AkairoClient {
 	async start() {
 		await Database.authenticate();
 		await this.settings.init();
-		await this.login(this.config.token);
-		for (const guild of this.guilds.values()) {
-			this.starboards.set(guild.id, new Starboard(guild));
-		}
+		return this.login(this.config.token);
 	}
 }
 

@@ -10,8 +10,7 @@ client.commandHandler.on('commandStarted', (message, command) => {
 	Logger.log(`=> ${command.id}`, { tag });
 });
 
-client.on('ready', () => Logger.info(`${client.user.tag} is ready to serve!`))
-	.on('disconnect', () => Logger.warn('Connection lost...'))
+client.on('disconnect', () => Logger.warn('Connection lost...'))
 	.on('reconnect', () => Logger.info('Attempting to reconnect...'))
 	.on('error', err => Logger.error(err))
 	.on('warn', info => Logger.warn(info));

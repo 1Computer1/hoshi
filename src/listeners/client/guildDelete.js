@@ -11,6 +11,7 @@ class GuildDeleteListener extends Listener {
 
 	async exec(guild) {
 		await this.client.starboards.get(guild.id).destroy();
+		await this.client.settings.delete(guild);
 		this.client.starboards.delete(guild.id);
 	}
 }
