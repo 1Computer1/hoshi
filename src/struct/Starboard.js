@@ -90,6 +90,10 @@ class Starboard {
 		}
 	}
 
+	destroy() {
+		return Star.destroy({ where: { guildID: this.guild.id } });
+	}
+
 	static findAttachment(message) {
 		let attachmentImage;
 		const extensions = ['.png', '.jpg', '.jpeg', '.gif', '.webp'];
