@@ -11,11 +11,11 @@ class ReadyListener extends Listener {
 		});
 	}
 
-	async exec() {
+	exec() {
 		Logger.info(`${this.client.user.tag} is ready to serve!`);
-		for (const guild of this.guilds.values()) {
+		for (const guild of this.client.guilds.values()) {
 			const starboard = new Starboard(guild);
-			this.starboards.set(guild.id, starboard);
+			this.client.starboards.set(guild.id, starboard);
 
 			const starboardChannelID = this.client.settings.get(guild, 'starboardChannelID');
 			if (starboardChannelID && !starboard.channel) {

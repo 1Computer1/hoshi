@@ -67,12 +67,15 @@ class Starboard {
 		const star = this.stars.get(message.id);
 		const newStarredBy = star.starredBy.concat([starredBy.id]);
 
-		const starboardMessage = await this.channel.fetchMessage(star.starboardMessageID);
-		await starboardMessage.edit({ embed: Starboard.buildStarboardEmbed(message, newStarredBy.length) });
+		const embed = Starboard.buildStarboardEmbed(message, newStarredBy.length);
+		const starboardMessage = await this.channel.fetchMessage(star.starboardMessageID)
+			.then(msg => msg.edit({ embed }))
+			.catch(() => this.channel.send({ embed }));
 
 		const newStar = await star.update({
 			starCount: newStarredBy.length,
-			starredBy: newStarredBy
+			starredBy: newStarredBy,
+			starboardMessageID: starboardMessage.id
 		});
 
 		this.stars.set(message.id, newStar);
@@ -107,21 +110,24 @@ class Starboard {
 		}
 
 		const newStarredBy = star.starredBy.filter(id => id !== unstarredBy.id);
-		const starboardMessage = await this.channel.fetchMessage(star.starboardMessageID);
 
 		if (newStarredBy.length) {
-			await starboardMessage.edit({ embed: Starboard.buildStarboardEmbed(message, newStarredBy.length) });
+			const embed = Starboard.buildStarboardEmbed(message, newStarredBy.length);
+			const starboardMessage = await this.channel.fetchMessage(star.starboardMessageID)
+				.then(msg => msg.edit({ embed }))
+				.catch(() => this.channel.send({ embed }));
 
 			const newStar = await star.update({
 				starCount: newStarredBy.length,
-				starredBy: newStarredBy
+				starredBy: newStarredBy,
+				starboardMessageID: starboardMessage.id
 			});
 
 			this.stars.set(message.id, newStar);
 			return;
 		}
 
-		await starboardMessage.delete();
+		await this.channel.fetchMessage(star.starboardMessageID).then(msg => msg.delete()).catch(() => null);
 		await star.destroy();
 		this.stars.delete(message.id);
 	}
