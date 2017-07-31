@@ -67,7 +67,7 @@ class Starboard {
 			return 'You can\'t remove any star from this message because you never gave it one in the first place.';
 		}
 
-		if (message.reactions.get('⭐').users.has(unstarredBy.id)) {
+		if (message.reactions.has('⭐') && message.reactions.get('⭐').users.has(unstarredBy.id)) {
 			await message.reactions.get('⭐').remove(unstarredBy);
 		}
 
