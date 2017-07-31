@@ -21,7 +21,7 @@ class Starboard {
 		return this.guild.channels.get(channelID);
 	}
 
-	async add(message, starredBy) { // eslint-disable-line consistent-return
+	async add(message, starredBy) {
 		if (message.author.id === starredBy.id) {
 			return 'You can\'t star your own messages.';
 		}
@@ -58,9 +58,11 @@ class Starboard {
 				this.stars.set(message.id, newStar);
 			}
 		}
+
+		return undefined;
 	}
 
-	async remove(message, unstarredBy) { // eslint-disable-line consistent-return
+	async remove(message, unstarredBy) {
 		const star = this.stars.get(message.id);
 
 		if (!star.starredBy.includes(unstarredBy.id)) {
@@ -88,6 +90,8 @@ class Starboard {
 			await star.destroy();
 			this.stars.delete(message.id);
 		}
+
+		return undefined;
 	}
 
 	destroy() {
