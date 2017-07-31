@@ -78,7 +78,9 @@ class Starboard {
 		this.stars.set(message.id, newStar);
 	}
 
-	remove(message, unstarredBy) {
+	async remove(message, unstarredBy) {
+		if (message.author.id === unstarredBy.id) return undefined;
+
 		if (!this.channel) {
 			return 'There isn\'t a starboard channel to use.';
 		}
