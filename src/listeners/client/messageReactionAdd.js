@@ -14,7 +14,7 @@ class MessageReactionAddListener extends Listener {
 
 		if (reaction.emoji.name === '⭐') {
 			if (!reaction.message.channel.permissionsFor(this.client.user).has('MANAGE_MESSAGES')) {
-				reaction.message.channel.send('I\'m missing `Manage Messages` to star that message in this channel.');
+				reaction.message.reply('I\'m missing `Manage Messages` to star that message in this channel.');
 				return;
 			}
 
@@ -23,7 +23,7 @@ class MessageReactionAddListener extends Listener {
 
 			if (error) {
 				await reaction.remove(user);
-				reaction.message.channel.send(`${user}, ${error}`);
+				reaction.message.reply(error);
 			}
 		}
 	}

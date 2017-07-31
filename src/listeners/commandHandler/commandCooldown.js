@@ -14,7 +14,7 @@ class CommandCooldownListener extends Listener {
 		const time = remaining / 1000;
 		const tag = message.guild ? message.guild.name : `${message.author.tag}/PM`;
 		Logger.log(`=> ${command.id} ~ ${time}`, { tag });
-		message.channel.send(`You can use that command again in ${time} seconds.`);
+		message.reply(`You can use that command again in ${time} seconds.`);
 	}
 }
 
