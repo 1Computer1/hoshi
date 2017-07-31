@@ -12,9 +12,8 @@ class MessageReactionAddListener extends Listener {
 	async exec(reaction, user) {
 		if (reaction.emoji.name === '⭐') {
 			const starboard = this.client.starboards.get(reaction.message.guild.id);
-			try {
-				await starboard.add(reaction.message, user);
-			} catch (error) {
+			const error = await starboard.add(reaction.message, user);
+			if (error) {
 				reaction.message.channel.send(`${user}, ${error.message}`);
 			}
 		}

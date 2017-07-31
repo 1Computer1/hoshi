@@ -29,10 +29,9 @@ class UnstarCommand extends Command {
 
 	async exec(message, { message: msg }) {
 		const starboard = this.client.starboards.get(message.guild.id);
-		try {
-			await starboard.remove(msg, message.author);
-		} catch (error) {
-			message.util.send(`${message.author}, ${error.message}`);
+		const error = await starboard.remove(msg, message.author);
+		if (error) {
+			message.util.send(`${message.author}, ${error}`);
 		}
 	}
 }

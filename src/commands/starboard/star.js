@@ -29,10 +29,9 @@ class StarCommand extends Command {
 
 	async exec(message, { message: msg }) {
 		const starboard = this.client.starboards.get(message.guild.id);
-		try {
-			await starboard.add(msg, message.author);
-		} catch (error) {
-			message.util.send(`${message.author}, ${error.message}`);
+		const error = await starboard.add(msg, message.author);
+		if (error) {
+			message.util.send(`${message.author}, ${error}`);
 		}
 	}
 }

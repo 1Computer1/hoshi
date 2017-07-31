@@ -21,9 +21,9 @@ class Starboard {
 		return this.guild.channels.get(channelID);
 	}
 
-	async add(message, starredBy) {
+	async add(message, starredBy) { // eslint-disable-line consistent-return
 		if (message.author.id === starredBy.id) {
-			throw new Error('You can\'t star your own messages.');
+			return 'You can\'t star your own messages.';
 		}
 
 		if (!this.stars.has(message.id)) {
@@ -43,7 +43,7 @@ class Starboard {
 			const star = this.stars.get(message.id);
 
 			if (star.starredBy.includes(starredBy.id)) {
-				throw new Error('You have already starred this message before; You can\'t star it again.');
+				return 'You have already starred this message before; You can\'t star it again.';
 			} else {
 				const newStarredBy = star.starredBy.concat([starredBy.id]);
 
@@ -60,11 +60,11 @@ class Starboard {
 		}
 	}
 
-	async remove(message, unstarredBy) {
+	async remove(message, unstarredBy) { // eslint-disable-line consistent-return
 		const star = this.stars.get(message.id);
 
 		if (!star.starredBy.includes(unstarredBy.id)) {
-			throw new Error('You can\'t remove any star from this message because you never gave it one in the first place.');
+			return 'You can\'t remove any star from this message because you never gave it one in the first place.';
 		}
 
 		if (message.reactions.get('⭐').users.has(unstarredBy.id)) {
