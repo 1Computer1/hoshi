@@ -10,9 +10,17 @@ class MessageReactionRemoveListener extends Listener {
 	}
 
 	async exec(reaction, user) {
+		if (user.id === this.client.user.id) return;
+
 		if (reaction.emoji.name === '⭐') {
+			if (!reaction.message.channel.permissionsFor(this.client.user).has('MANAGE_MESSAGES')) {
+				reaction.message.channel.send('I\'m missing `Manage Messages` to unstar that message in this channel.');
+				return;
+			}
+
 			const starboard = this.client.starboards.get(reaction.message.guild.id);
 			const error = await starboard.remove(reaction.message, user);
+
 			if (error) {
 				reaction.message.channel.send(`${user}, ${error}`);
 			}

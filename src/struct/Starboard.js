@@ -22,6 +22,10 @@ class Starboard {
 	}
 
 	async add(message, starredBy) {
+		if (!this.channel) {
+			return 'There isn\'t a starboard channel to use.';
+		}
+
 		if (message.author.id === starredBy.id) {
 			return 'You can\'t star your own messages.';
 		}
@@ -68,9 +72,12 @@ class Starboard {
 	}
 
 	async remove(message, unstarredBy) {
-		const star = this.stars.get(message.id);
+		if (!this.channel) {
+			return 'There isn\'t a starboard channel to use.';
+		}
 
-		if (!star.starredBy.includes(unstarredBy.id)) {
+		const star = this.stars.get(message.id);
+		if (!star || !star.starredBy.includes(unstarredBy.id)) {
 			return 'You can\'t remove any star from this message because you never gave it one in the first place.';
 		}
 
@@ -109,17 +116,14 @@ class Starboard {
 	}
 
 	missingPermissions() {
-		const missingPerms = this.channel.permissionsFor(this.client.user).missing([
+		const missingPermissions = this.client.listenerHandler.modules.get('commandBlocked').missingPermissions;
+		const str = missingPermissions(this.channel, this.client.user, [
 			'MANAGE_MESSAGES',
 			'SEND_MESSAGES',
 			'READ_MESSAGE_HISTORY'
-		]).map(str => `\`${str.replace(/_/g, ' ').toLowerCase().replace(/\b(\w)/g, char => char.toUpperCase())}\``);
+		]);
 
-		const missingPermsString = missingPerms.length > 1
-			? `${missingPerms.slice(0, -1).join(', ')} and ${missingPerms.slice(-1)[0]}`
-			: missingPerms[0];
-
-		return `I'm missing ${missingPermsString} permissions in ${this.channel}.`;
+		return `I'm missing ${str} in ${this.channel}.`;
 	}
 
 	static findAttachment(message) {

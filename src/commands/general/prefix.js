@@ -6,7 +6,7 @@ class PrefixCommand extends Command {
 			aliases: ['prefix'],
 			category: 'general',
 			channelRestriction: 'guild',
-			userPermissions: ['ADMINISTRATOR', 'MANAGE_SERVER'],
+			userPermissions: ['MANAGE_GUILD'],
 			args: [
 				{
 					id: 'prefix',
@@ -20,8 +20,8 @@ class PrefixCommand extends Command {
 	async exec(message, { prefix }) {
 		if (!prefix) message.util.send('Please provide a prefix!');
 		await this.client.settings.set(message.guild, 'prefix', prefix);
-		if (prefix === '*') return message.util.send('Prefix has be reset to `*`!');
-		return message.util.send(`Prefix has be set to \`${prefix}\`!`);
+		if (prefix === '*') return message.util.send('Prefix has be reset to `*`');
+		return message.util.send(`Prefix has been set to \`${prefix}\``);
 	}
 }
 

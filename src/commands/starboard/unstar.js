@@ -6,6 +6,7 @@ class UnstarCommand extends Command {
 			aliases: ['unstar'],
 			category: 'starboard',
 			channelRestriction: 'guild',
+			clientPermissions: ['MANAGE_MESSAGES'],
 			args: [
 				// Indices are swapped in order to process channel first.
 				{

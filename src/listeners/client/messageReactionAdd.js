@@ -10,13 +10,19 @@ class MessageReactionAddListener extends Listener {
 	}
 
 	async exec(reaction, user) {
+		if (user.id === this.client.user.id) return;
+
 		if (reaction.emoji.name === '⭐') {
+			if (!reaction.message.channel.permissionsFor(this.client.user).has('MANAGE_MESSAGES')) {
+				reaction.message.channel.send('I\'m missing `Manage Messages` to star that message in this channel.');
+				return;
+			}
+
 			const starboard = this.client.starboards.get(reaction.message.guild.id);
 			const error = await starboard.add(reaction.message, user);
+
 			if (error) {
-				if (reaction.message.channel.permissionsFor(this.client.user).has('MANAGE_MESSAGES')) {
-					await reaction.remove(user);
-				}
+				await reaction.remove(user);
 				reaction.message.channel.send(`${user}, ${error}`);
 			}
 		}
