@@ -1,5 +1,4 @@
 const { Command } = require('discord-akairo');
-const Logger = require('../../util/Logger');
 
 class UnstarCommand extends Command {
 	constructor() {
