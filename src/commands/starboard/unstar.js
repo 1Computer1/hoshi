@@ -28,9 +28,13 @@ class UnstarCommand extends Command {
 		});
 	}
 
-	exec(message, { channel, message: msg }) {
-		// Temporary, implement unstarring later.
-		Logger.log(`${channel.name}: ${msg.content}`);
+	async exec(message, { message: msg }) {
+		const starboard = this.client.starboards.get(message.guild.id);
+		try {
+			await starboard.remove(msg, message.author);
+		} catch (error) {
+			message.util.send(`${message.author}, ${error.message}`);
+		}
 	}
 }
 

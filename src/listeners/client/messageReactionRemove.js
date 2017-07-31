@@ -9,13 +9,15 @@ class MessageReactionRemoveListener extends Listener {
 		});
 	}
 
-	exec() {
-		/**
-		 * Implement all this later.
-		 *
-		 * if (reaction.emoji !== '⭐') return;
-		 * doStarboardThingsHere();
-		 */
+	async exec(reaction, user) {
+		if (reaction.emoji.name === '⭐') {
+			const starboard = this.client.starboards.get(reaction.message.guild.id);
+			try {
+				await starboard.remove(reaction.message, user);
+			} catch (error) {
+				reaction.message.channel.send(`${user}, ${error.message}`);
+			}
+		}
 	}
 }
 

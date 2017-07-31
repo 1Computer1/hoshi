@@ -59,6 +59,36 @@ class Starboard {
 		}
 	}
 
+	async remove(message, unstarBy) {
+		const star = this.stars.get(message.id);
+
+		if (!star.starredBy.includes(unstarBy.id)) {
+			throw new Error('You can\'t remove any star from this message because you never gave it one in the first place.');
+		}
+
+		if (message.reactions.get('⭐').users.has(unstarBy.id)) {
+			await message.reactions.get('⭐').remove(unstarBy);
+		}
+
+		const newStarredBy = star.starredBy.filter(id => id !== unstarBy.id);
+
+		const starboardMessage = await this.channel.fetchMessage(star.starboardMessageID);
+		if (newStarredBy.length) {
+			await starboardMessage.edit({ embed: Starboard.buildStarboardEmbed(message, newStarredBy.length) });
+
+			const newStar = await star.update({
+				starCount: newStarredBy.length,
+				starredBy: newStarredBy
+			});
+
+			this.stars.set(message.id, newStar);
+		} else {
+			await starboardMessage.delete();
+			await star.destroy();
+			this.stars.delete(message.id);
+		}
+	}
+
 	static buildStarboardEmbed(message, starCount = 1) {
 		const embed = new MessageEmbed()
 			.setColor(0xFFAC33)
