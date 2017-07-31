@@ -47,7 +47,7 @@ class Starboard {
 		return undefined;
 	}
 
-	async addStar(message, user) {
+	async addStar(message, starredBy) {
 		if (!this.stars.has(message.id)) {
 			const starboardMessage = await this.channel.send({ embed: Starboard.buildStarboardEmbed(message) });
 
@@ -57,7 +57,7 @@ class Starboard {
 				channelID: message.channel.id,
 				guildID: this.guild.id,
 				starboardMessageID: starboardMessage.id,
-				starredBy: [user.id]
+				starredBy: [starredBy.id]
 			});
 
 			this.stars.set(message.id, star);
@@ -65,7 +65,7 @@ class Starboard {
 		}
 
 		const star = this.stars.get(message.id);
-		const newStarredBy = star.starredBy.concat([user.id]);
+		const newStarredBy = star.starredBy.concat([starredBy.id]);
 
 		const starboardMessage = await this.channel.fetchMessage(star.starboardMessageID);
 		await starboardMessage.edit({ embed: Starboard.buildStarboardEmbed(message, newStarredBy.length) });
@@ -97,14 +97,14 @@ class Starboard {
 		return undefined;
 	}
 
-	async removeStar(message, user) {
+	async removeStar(message, unstarredBy) {
 		const star = this.stars.get(message.id);
 
-		if (message.reactions.has('⭐') && message.reactions.get('⭐').users.has(user.id)) {
-			await message.reactions.get('⭐').remove(user);
+		if (message.reactions.has('⭐') && message.reactions.get('⭐').users.has(unstarredBy.id)) {
+			await message.reactions.get('⭐').remove(unstarredBy);
 		}
 
-		const newStarredBy = star.starredBy.filter(id => id !== user.id);
+		const newStarredBy = star.starredBy.filter(id => id !== unstarredBy.id);
 		const starboardMessage = await this.channel.fetchMessage(star.starboardMessageID);
 
 		if (newStarredBy.length) {
@@ -116,11 +116,12 @@ class Starboard {
 			});
 
 			this.stars.set(message.id, newStar);
-		} else {
-			await starboardMessage.delete();
-			await star.destroy();
-			this.stars.delete(message.id);
+			return;
 		}
+
+		await starboardMessage.delete();
+		await star.destroy();
+		this.stars.delete(message.id);
 	}
 
 	destroy() {
