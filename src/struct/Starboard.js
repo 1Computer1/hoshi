@@ -1,13 +1,14 @@
 const { MessageEmbed } = require('discord.js');
 const path = require('path');
 const Star = require('../models/stars');
+const Queue = require('./Queue');
 
 class Starboard {
 	constructor(guild) {
 		this.client = guild.client;
 		this.guild = guild;
-
 		this.stars = new Map();
+		this.queue = new Queue();
 
 		Star.findAll({ where: { guildID: this.guild.id } }).then(stars => {
 			for (const star of stars) {
@@ -21,7 +22,7 @@ class Starboard {
 		return this.guild.channels.get(channelID);
 	}
 
-	async add(message, starredBy) {
+	add(message, starredBy) {
 		if (!this.channel) {
 			return 'There isn\'t a starboard channel to use.';
 		}
@@ -35,6 +36,18 @@ class Starboard {
 			return missingPerms;
 		}
 
+		if (this.stars.has(message.id)) {
+			const star = this.stars.get(message.id);
+			if (star.starredBy.includes(starredBy.id)) {
+				return 'You have already starred this message before; You can\'t star it again.';
+			}
+		}
+
+		this.queue.add(this.addStar.bind(this, message, starredBy));
+		return undefined;
+	}
+
+	async addStar(message, user) {
 		if (!this.stars.has(message.id)) {
 			const starboardMessage = await this.channel.send({ embed: Starboard.buildStarboardEmbed(message) });
 
@@ -44,34 +57,28 @@ class Starboard {
 				channelID: message.channel.id,
 				guildID: this.guild.id,
 				starboardMessageID: starboardMessage.id,
-				starredBy: [starredBy.id]
+				starredBy: [user.id]
 			});
 
 			this.stars.set(message.id, star);
-		} else {
-			const star = this.stars.get(message.id);
-
-			if (star.starredBy.includes(starredBy.id)) {
-				return 'You have already starred this message before; You can\'t star it again.';
-			} else {
-				const newStarredBy = star.starredBy.concat([starredBy.id]);
-
-				const starboardMessage = await this.channel.fetchMessage(star.starboardMessageID);
-				await starboardMessage.edit({ embed: Starboard.buildStarboardEmbed(message, newStarredBy.length) });
-
-				const newStar = await star.update({
-					starCount: newStarredBy.length,
-					starredBy: newStarredBy
-				});
-
-				this.stars.set(message.id, newStar);
-			}
+			return;
 		}
 
-		return undefined;
+		const star = this.stars.get(message.id);
+		const newStarredBy = star.starredBy.concat([user.id]);
+
+		const starboardMessage = await this.channel.fetchMessage(star.starboardMessageID);
+		await starboardMessage.edit({ embed: Starboard.buildStarboardEmbed(message, newStarredBy.length) });
+
+		const newStar = await star.update({
+			starCount: newStarredBy.length,
+			starredBy: newStarredBy
+		});
+
+		this.stars.set(message.id, newStar);
 	}
 
-	async remove(message, unstarredBy) {
+	remove(message, unstarredBy) {
 		if (!this.channel) {
 			return 'There isn\'t a starboard channel to use.';
 		}
@@ -86,13 +93,20 @@ class Starboard {
 			return missingPerms;
 		}
 
-		if (message.reactions.has('⭐') && message.reactions.get('⭐').users.has(unstarredBy.id)) {
-			await message.reactions.get('⭐').remove(unstarredBy);
+		this.queue.add(this.removeStar.bind(this, message, unstarredBy));
+		return undefined;
+	}
+
+	async removeStar(message, user) {
+		const star = this.stars.get(message.id);
+
+		if (message.reactions.has('⭐') && message.reactions.get('⭐').users.has(user.id)) {
+			await message.reactions.get('⭐').remove(user);
 		}
 
-		const newStarredBy = star.starredBy.filter(id => id !== unstarredBy.id);
-
+		const newStarredBy = star.starredBy.filter(id => id !== user.id);
 		const starboardMessage = await this.channel.fetchMessage(star.starboardMessageID);
+
 		if (newStarredBy.length) {
 			await starboardMessage.edit({ embed: Starboard.buildStarboardEmbed(message, newStarredBy.length) });
 
@@ -107,8 +121,6 @@ class Starboard {
 			await star.destroy();
 			this.stars.delete(message.id);
 		}
-
-		return undefined;
 	}
 
 	destroy() {
