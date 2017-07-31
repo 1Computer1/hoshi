@@ -1,3 +1,4 @@
+const { MessageEmbed } = require('discord.js');
 const Star = require('../models/stars');
 
 class Starboard {
@@ -19,8 +20,8 @@ class Starboard {
 		return this.guild.channels.get(channelId);
 	}
 
-	async add(message, starBy) {
-		if (message.author.id === starBy.id) {
+	async add(message, starredBy) {
+		if (message.author.id === starredBy.id) {
 			throw new Error('You can\'t star your own messages.');
 		}
 
@@ -33,17 +34,17 @@ class Starboard {
 				channelID: message.channel.id,
 				guildID: this.guild.id,
 				starboardMessageID: starboardMessage.id,
-				starredBy: [starBy.id]
+				starredBy: [starredBy.id]
 			});
 
 			this.stars.set(message.id, star);
 		} else {
 			const star = this.stars.get(message.id);
 
-			if (star.starredBy.includes(starBy.id)) {
+			if (star.starredBy.includes(starredBy.id)) {
 				throw new Error('You have already starred this message before; You can\'t star it again.');
 			} else {
-				const newStarredBy = star.starredBy.concat([starBy.id]);
+				const newStarredBy = star.starredBy.concat([starredBy.id]);
 
 				const starboardMessage = await this.channel.fetchMessage(star.starboardMessageID);
 				await starboardMessage.edit({ embed: Starboard.buildStarboardEmbed(message, newStarredBy.length) });
@@ -59,35 +60,21 @@ class Starboard {
 	}
 
 	static buildStarboardEmbed(message, starCount = 1) {
-		const embed = {
-			color: 0xFFAC33,
-			fields: [
-				{
-					name: 'Author',
-					value: message.author.toString(),
-					inline: true
-				},
-				{
-					name: 'Channel',
-					value: message.channel.toString(),
-					inline: true
-				}
-			],
-			thumbnail: { url: message.author.displayAvatarURL() },
-			timestamp: new Date(),
-			footer: { text: `⭐ ${starCount}`}
-		};
+		const embed = new MessageEmbed()
+			.setColor(0xFFAC33)
+			.addField('Author', message.author, true)
+			.addField('Channel', message.channel, true)
+			.setThumbnail(message.author.displayAvatarURL())
+			.setTimestamp(message.createdAt)
+			.setFooter(`⭐ ${starCount}`);
 
 		if (message.content) {
-			embed.fields.push({
-				name: 'Message',
-				value: message.content
-			});
+			embed.addField('Message', message.content);
 		}
 
 		const attachment = message.attachments.find(a => a.height);
 		if (attachment) {
-			embed.image = { url: attachment.url };
+			embed.setImage(attachment.url);
 		}
 
 		return embed;
