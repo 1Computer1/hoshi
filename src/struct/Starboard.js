@@ -188,7 +188,7 @@ class Starboard {
 			.setColor(0xFFAC33)
 			.addField('Author', message.author, true)
 			.addField('Channel', message.channel, true)
-			.setThumbnail(message.author.displayAvatarURL({ size: 1024 }))
+			.setThumbnail(message.author.displayAvatarURL())
 			.setTimestamp(message.createdAt)
 			.setFooter(`${star} ${starCount} | ${message.id}`);
 
