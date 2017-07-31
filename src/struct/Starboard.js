@@ -60,18 +60,18 @@ class Starboard {
 		}
 	}
 
-	async remove(message, unstarBy) {
+	async remove(message, unstarredBy) {
 		const star = this.stars.get(message.id);
 
-		if (!star.starredBy.includes(unstarBy.id)) {
+		if (!star.starredBy.includes(unstarredBy.id)) {
 			throw new Error('You can\'t remove any star from this message because you never gave it one in the first place.');
 		}
 
-		if (message.reactions.get('⭐').users.has(unstarBy.id)) {
-			await message.reactions.get('⭐').remove(unstarBy);
+		if (message.reactions.get('⭐').users.has(unstarredBy.id)) {
+			await message.reactions.get('⭐').remove(unstarredBy);
 		}
 
-		const newStarredBy = star.starredBy.filter(id => id !== unstarBy.id);
+		const newStarredBy = star.starredBy.filter(id => id !== unstarredBy.id);
 
 		const starboardMessage = await this.channel.fetchMessage(star.starboardMessageID);
 		if (newStarredBy.length) {
