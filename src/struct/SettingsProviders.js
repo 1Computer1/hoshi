@@ -1,6 +1,6 @@
 const { Guild } = require('discord.js');
 
-module.exports = class SettingsProvider {
+class SettingsProvider {
 	constructor(table) {
 		this._table = table;
 		this._settings = new Map();
@@ -56,4 +56,6 @@ module.exports = class SettingsProvider {
 		if (typeof guild === 'string' && !isNaN(guild)) return guild;
 		throw new TypeError('Invalid guild specified. Must be a Guild instance, guild ID, "global", or null.');
 	}
-};
+}
+
+module.exports = SettingsProvider;
