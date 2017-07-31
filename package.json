@@ -23,7 +23,7 @@
     "discord-akairo": "github:1computer1/discord-akairo",
     "discord.js": "github:hydrabolt/discord.js",
     "moment": "^2.18.1",
-    "pg": "^6.2.4",
-    "sequelize": "^4.1.0"
+    "pg": "^6.4.1",
+    "sequelize": "^4.4.2"
   }
 }
