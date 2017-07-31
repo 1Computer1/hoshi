@@ -132,6 +132,14 @@ class Starboard {
 		this.stars.delete(message.id);
 	}
 
+	async delete(message) {
+		const star = this.stars.get(message.id);
+		const starboardMessage = await this.channel.fetchMessage(star.starboardMessageID);
+		await starboardMessage.delete();
+		await star.destroy();
+		this.stars.delete(message.id);
+	}
+
 	destroy() {
 		return Star.destroy({ where: { guildID: this.guild.id } });
 	}
