@@ -10,14 +10,11 @@ class StarCommand extends Command {
 			args: [
 				{
 					id: 'channel',
-					prompt: {
-						start: 'What channel would you like to use as the starboard?',
-						retry: 'Please give me a valid channel.'
-					},
 					type: 'textChannel',
-					default: message => message.guild.channels.find(c =>
-						c.type === 'text' && c.name.toLowerCase() === 'starboard'
-					)
+					prompt: {
+						start: msg => `${msg.author} **::** What channel would you like to use as the starboard?`,
+						retry: msg => `${msg.author} **::** Please provide a valid text channel.`
+					}
 				}
 			]
 		});

@@ -11,26 +11,26 @@ class StarInfoCommand extends Command {
 				// Indices are swapped in order to process channel first.
 				{
 					id: 'channel',
-					prompt: {
-						start: 'What channel is the message you are trying to view the starinfo of in?',
-						retry: 'Please give me a valid channel.'
-					},
-					optional: true,
 					index: 1,
 					type: 'textChannel',
-					default: message => message.channel
+					default: message => message.channel,
+					prompt: {
+						start: msg => `${msg.author} **::** What channel is the message you are trying to view the info of in?`,
+						retry: msg => `${msg.author} **::** Please provide a valid text channel.`,
+						optional: true
+					}
 				},
 				{
 					id: 'message',
-					prompt: {
-						start: 'What message would you like to view the starinfo of? (use its ID).',
-						retry: (message, { channel }) => `Oops! I can't find that message in ${channel}. Remember to use its ID.`
-					},
 					index: 0,
 					type: (word, message, { channel }) => {
 						if (!word) return null;
 						// eslint-disable-next-line prefer-promise-reject-errors
 						return channel.fetchMessage(word).catch(() => Promise.reject());
+					},
+					prompt: {
+						start: 'What message would you like to view the info of (use its ID)?',
+						retry: (message, { channel }) => `Oops! I can't find that message in ${channel}. Remember to use its ID.`
 					}
 				}
 			]

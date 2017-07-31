@@ -13,7 +13,14 @@ class HoshiClient extends AkairoClient {
 			handleEdits: true,
 			ownerID: config.owner,
 			commandDirectory: './src/commands',
-			listenerDirectory: './src/listeners'
+			listenerDirectory: './src/listeners',
+			defaultPrompt: {
+				timeout: msg => `${msg.author} **::** Time ran out, command has been cancelled.`,
+				ended: msg => `${msg.author} **::** Too many retries, command has been cancelled.`,
+				cancel: msg => `${msg.author} **::** Command has been cancelled.`,
+				retries: 4,
+				time: 30000
+			}
 		}, {
 			disableEveryone: true,
 			disabledEvents: ['TYPING_START']
