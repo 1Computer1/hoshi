@@ -17,8 +17,8 @@ class Starboard {
 	}
 
 	get channel() {
-		const channelId = this.client.settings.get(this.guild, 'starboardChannelID');
-		return this.guild.channels.get(channelId);
+		const channelID = this.client.settings.get(this.guild, 'starboardChannelID');
+		return this.guild.channels.get(channelID);
 	}
 
 	async add(message, starredBy) {
