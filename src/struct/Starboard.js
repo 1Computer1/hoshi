@@ -123,6 +123,7 @@ class Starboard {
 			'READ_MESSAGE_HISTORY'
 		]);
 
+		if (!str) return undefined;
 		return `I'm missing ${str} in ${this.channel}.`;
 	}
 
