@@ -1,4 +1,5 @@
 const { MessageEmbed } = require('discord.js');
+const path = require('path');
 const Star = require('../models/stars');
 
 class Starboard {
@@ -89,6 +90,25 @@ class Starboard {
 		}
 	}
 
+	static findAttachment(message) {
+		let attachmentImage;
+		const extensions = ['.png', '.jpg', '.jpeg', '.gif', '.webp'];
+		const linkRegex = /https?:\/\/(?:\w+\.)?[\w-]+\.[\w]{2,3}(?:\/[\w-_.]+)+\.(?:png|jpg|jpeg|gif|webp)/;
+
+		if (message.attachments.some(attachment => extensions.includes(path.extname(attachment.url)))) {
+			attachmentImage = message.attachments.first().url;
+		}
+
+		if (!attachmentImage) {
+			const linkMatch = message.content.match(linkRegex);
+			if (linkMatch && extensions.includes(path.extname(linkMatch[0]))) {
+				attachmentImage = linkMatch[0];
+			}
+		}
+
+		return attachmentImage;
+	}
+
 	static buildStarboardEmbed(message, starCount = 1) {
 		const embed = new MessageEmbed()
 			.setColor(0xFFAC33)
@@ -102,9 +122,9 @@ class Starboard {
 			embed.addField('Message', message.content);
 		}
 
-		const attachment = message.attachments.find(a => a.height);
+		const attachment = this.findAttachment(message);
 		if (attachment) {
-			embed.setImage(attachment.url);
+			embed.setImage(attachment);
 		}
 
 		return embed;
