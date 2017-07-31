@@ -78,7 +78,7 @@ class Starboard {
 		this.stars.set(message.id, newStar);
 	}
 
-	async remove(message, unstarredBy) {
+	remove(message, unstarredBy) {
 		if (message.author.id === unstarredBy.id) return undefined;
 
 		if (!this.channel) {
@@ -162,16 +162,26 @@ class Starboard {
 	}
 
 	static buildStarboardEmbed(message, starCount = 1) {
+		const star = starCount < 3
+			? '⭐'
+			: starCount < 5
+				? '🌟'
+				: starCount < 10
+					? '✨'
+					: '🌌';
+
 		const embed = new MessageEmbed()
 			.setColor(0xFFAC33)
 			.addField('Author', message.author, true)
 			.addField('Channel', message.channel, true)
-			.setThumbnail(message.author.displayAvatarURL())
+			.setThumbnail(message.author.displayAvatarURL({ size: 1024 }))
 			.setTimestamp(message.createdAt)
-			.setFooter(`⭐ ${starCount}`);
+			.setFooter(`${star} ${starCount} | ${message.id}`);
 
 		if (message.content) {
-			embed.addField('Message', message.content);
+			let content = message.content.substring(0, 1000);
+			if (message.content.length > 1000) content += '...';
+			embed.addField('Message', content);
 		}
 
 		const attachment = this.findAttachment(message);
