@@ -9,7 +9,7 @@ Invite Link: *Soon*
 - Starring and unstarring messages via reaction or command.
 - Setting a custom starboard channel.
 - Deleting all stars for a message.
-- Seeing the people starred a message.
+- Seeing the people who starred a message.
 
 ## Setup
 
