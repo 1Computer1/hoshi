@@ -4,7 +4,7 @@
   "description": "A starboard bot",
   "main": "hoshi.js",
   "scripts": {
-    "test": "eslint src"
+    "test": "eslint ./"
   },
   "eslintConfig": {
     "extends": "aqua"
