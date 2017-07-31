@@ -26,6 +26,11 @@ class Starboard {
 			return 'You can\'t star your own messages.';
 		}
 
+		const perms = this.channel.permissionsFor(this.client.user);
+		if (!perms.has(['SEND_MESSAGES', 'MANAGE_MESSAGES', 'READ_MESSAGE_HISTORY'])) {
+			return 'Starboard channel is missing permissions.';
+		}
+
 		if (!this.stars.has(message.id)) {
 			const starboardMessage = await this.channel.send({ embed: Starboard.buildStarboardEmbed(message) });
 
@@ -67,6 +72,11 @@ class Starboard {
 
 		if (!star.starredBy.includes(unstarredBy.id)) {
 			return 'You can\'t remove any star from this message because you never gave it one in the first place.';
+		}
+
+		const perms = this.channel.permissionsFor(this.client.user);
+		if (!perms.has(['SEND_MESSAGES', 'MANAGE_MESSAGES', 'READ_MESSAGE_HISTORY'])) {
+			return 'Starboard channel is missing permissions.';
 		}
 
 		if (message.reactions.has('⭐') && message.reactions.get('⭐').users.has(unstarredBy.id)) {
