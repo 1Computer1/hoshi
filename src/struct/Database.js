@@ -1,5 +1,5 @@
-const readDir = require('util').promisify(require('fs').readdir);
 const path = require('path');
+const readdir = require('util').promisify(require('fs').readdir);
 const Sequelize = require('sequelize');
 
 const { dbURL } = require('../../config.json');
@@ -26,7 +26,7 @@ class Database {
 	}
 
 	static async loadModels(modelsPath) {
-		const files = await readDir(modelsPath);
+		const files = await readdir(modelsPath);
 
 		for (const file of files) {
 			const filePath = path.join(modelsPath, file);

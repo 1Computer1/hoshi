@@ -1,3 +1,4 @@
+const path = require('path');
 const { AkairoClient } = require('discord-akairo');
 const { Collection } = require('discord.js');
 
@@ -8,12 +9,12 @@ const Setting = require('../models/settings');
 class HoshiClient extends AkairoClient {
 	constructor(config) {
 		super({
-			prefix: message => this.settings.get(message.guild, 'prefix', '*'),
+			prefix: message => this.settings.get(message.guild, 'prefix', config.prefix),
 			allowMention: true,
 			handleEdits: true,
 			ownerID: config.owner,
-			commandDirectory: './src/commands',
-			listenerDirectory: './src/listeners',
+			commandDirectory: path.join(__dirname, '..', 'commands'),
+			listenerDirectory: path.join(__dirname, '..', 'listeners'),
 			defaultPrompt: {
 				timeout: msg => `${msg.author} **::** Time ran out, command has been cancelled.`,
 				ended: msg => `${msg.author} **::** Too many retries, command has been cancelled.`,
