@@ -24,7 +24,8 @@ class Starboard {
 
 	add(message, starredBy) {
 		if (!this.channel) {
-			return 'There isn\'t a starboard channel to use.';
+			const prefix = this.client.commandHandler.prefix(message);
+			return `There isn't a starboard channel to use. Set one using the \`${prefix}starboard\` command!`;
 		}
 
 		if (message.author.id === starredBy.id) {
@@ -85,7 +86,8 @@ class Starboard {
 		if (message.author.id === unstarredBy.id) return undefined;
 
 		if (!this.channel) {
-			return 'There isn\'t a starboard channel to use.';
+			const prefix = this.client.commandHandler.prefix(message);
+			return `There isn't a starboard channel to use. Set one using the \`${prefix}starboard\` command!`;
 		}
 
 		const star = this.stars.get(message.id);
