@@ -4,7 +4,7 @@ const { MessageEmbed } = require('discord.js');
 class HelpCommand extends Command {
 	constructor() {
 		super('help', {
-			aliases: ['help', 'halp', 'info', 'guide'],
+			aliases: ['help', 'halp', 'guide'],
 			category: 'general'
 		});
 	}
@@ -22,7 +22,7 @@ class HelpCommand extends Command {
 				'- `Send Messages`',
 				'',
 				'To setup the starboard, create a channel for it.',
-				`Then, use the \`${prefix}starboard [channel]\` command to set it to that channel.`,
+				`Then, use the \`${prefix}starboard <channel>\` command to set it to that channel.`,
 				'This command requires the `Manage Guild` permission to be usable.',
 				'You can now star messages and they will be sent to that channel.'
 			])
@@ -37,7 +37,7 @@ class HelpCommand extends Command {
 				'Deleting or changing the starboard channel itself will reset all stars.'
 			])
 			.addField('Other', [
-				`Use the \`${prefix}prefix [prefix]\` command to change prefix.`,
+				`Use the \`${prefix}prefix <prefix>\` command to change prefix.`,
 				'This command requires the `Manage Guild` permission to be usable.',
 				'You can also mention the bot to use commands.'
 			]);
