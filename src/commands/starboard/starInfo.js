@@ -29,7 +29,7 @@ class StarInfoCommand extends Command {
 						return channel.fetchMessage(word).catch(() => Promise.reject());
 					},
 					prompt: {
-						start: 'What message would you like to view the info of (use its ID)?',
+						start: 'What is the ID of the message you would like to view the info of?',
 						retry: (message, { channel }) => `Oops! I can't find that message in ${channel}. Remember to use its ID.`
 					}
 				}

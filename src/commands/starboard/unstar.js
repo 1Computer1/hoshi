@@ -29,7 +29,7 @@ class UnstarCommand extends Command {
 						return channel.fetchMessage(word).catch(() => Promise.reject());
 					},
 					prompt: {
-						start: msg => `${msg.author} **::** What message would you like to remove a star from? (use its ID).`,
+						start: msg => `${msg.author} **::** What is the ID of the message you would like to remove a star from?`,
 						retry: (msg, { channel }) =>
 							`${msg.author} **::** Oops! I can't find that message in ${channel}. Remember to use its ID.`
 					}

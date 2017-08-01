@@ -29,7 +29,7 @@ class StarCommand extends Command {
 						return channel.fetchMessage(word).catch(() => Promise.reject());
 					},
 					prompt: {
-						start: msg => `${msg.author} **::** What message would you like to add a star to? (use its ID).`,
+						start: msg => `${msg.author} **::** What is the ID of the message you would like to add a star to?`,
 						retry: (msg, { channel }) =>
 							`${msg.author} **::** Oops! I can't find that message in ${channel}. Remember to use its ID.`
 					}

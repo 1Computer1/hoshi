@@ -32,7 +32,7 @@ class DeleteStarCommand extends Command {
 					},
 					prompt: {
 						start: msg =>
-							`${msg.author} **::** What message would you like to remove from the starboard? (use its ID).`,
+							`${msg.author} **::** What is the ID of the message you would like to remove from the starboard?`,
 						retry: (msg, { channel }) =>
 							`${msg.author} **::** Oops! I can't find that message in ${channel}. Remember to use its ID.`
 					}
