@@ -20,19 +20,19 @@ class StarCommand extends Command {
 					id: 'confirm',
 					match: 'none',
 					type: (word, message, { channel }) => {
+						if (!word) return null;
+
 						const oldID = this.client.settings.get(message.guild, 'starboardChannelID');
 						if (oldID && oldID !== channel.id) {
-							// Yes or yea, or anything less
+							// Yes, yea, ye, or y.
 							if (/^y(?:e(?:a|s)?)?$/i.test(word)) return 'yes';
-							// Nope or nay, or anything less
-							if (/^n(?:op?e?|ay?)?$/i.test(word)) return 'no';
-							return null;
+							return 'no';
 						}
 
 						return 'first';
 					},
 					prompt: {
-						start: msg => `${msg.author} **::** Are you sure you want to delete the previous starboard? (y/n)`,
+						start: msg => `${msg.author} **::** Are you sure you want to delete the previous starboard? (y/N)`,
 						retry: () => ''
 					}
 				}
