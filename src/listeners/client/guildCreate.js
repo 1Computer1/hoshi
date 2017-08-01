@@ -1,5 +1,4 @@
 const { Listener } = require('discord-akairo');
-
 const Starboard = require('../../struct/Starboard');
 
 class GuildCreateListener extends Listener {
