@@ -9,32 +9,32 @@ class BlacklistCommand extends Command {
 			userPermissions: ['MANAGE_GUILD'],
 			args: [
 				{
-					id: 'user',
+					id: 'member',
+					type: 'member',
 					prompt: {
-						start: 'What user do you want to blacklist?',
-						retry: 'You did not supply a valid user; Please try again.'
-					},
-					type: 'user'
+						start: msg => `${msg.author} **::** Which user do you want to blacklist?`,
+						retry: msg => `${msg.author} **::** You did not supply a valid user. Please try again.`
+					}
 				}
 			]
 		});
 	}
 
-	async exec(message, { user }) {
+	async exec(message, { member }) {
 		const blacklist = this.client.settings.get(message.guild, 'blacklist', []);
 
-		if (blacklist.includes(user.id)) {
-			const index = blacklist.indexOf(user.id);
+		if (blacklist.includes(member.id)) {
+			const index = blacklist.indexOf(member.id);
 			blacklist.splice(index, 1);
 			await this.client.settings.set(message.guild, 'blacklist', blacklist);
 
-			return message.util.send(`${user.tag} has been removed from the blacklist.`);
+			return message.util.send(`${member.tag} has been removed from the blacklist.`);
 		} else {
-			blacklist.push(user.id);
+			blacklist.push(member.id);
 			await this.client.settings.set(message.guild, 'blacklist', blacklist);
 
 			// eslint-disable-next-line max-len
-			return message.util.send(`${user.tag} has been blacklisted from using the starboard on this server.`);
+			return message.util.send(`${member.tag} has been blacklisted from using the starboard on this server.`);
 		}
 	}
 }
