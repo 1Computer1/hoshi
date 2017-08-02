@@ -17,9 +17,11 @@ class HelpCommand extends Command {
 			.setTitle('Guide to Hoshi')
 			.addField('Setup', [
 				'Hoshi requires the following permissions to be usable:',
-				'- `Read Message History`',
+				'- `Read Messages`',
 				'- `Manage Messages`',
+				'- `Read Message History`',
 				'- `Send Messages`',
+				'- `Embed Links`',
 				'',
 				'To setup the starboard, create a channel for it.',
 				`Then, use the \`${prefix}starboard <channel>\` command to set it to that channel.`,

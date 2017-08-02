@@ -149,9 +149,11 @@ class Starboard {
 	missingPermissions() {
 		const missingPermissions = this.client.listenerHandler.modules.get('commandBlocked').missingPermissions;
 		const str = missingPermissions(this.channel, this.client.user, [
+			'READ_MESSAGES',
 			'MANAGE_MESSAGES',
+			'READ_MESSAGE_HISTORY',
 			'SEND_MESSAGES',
-			'READ_MESSAGE_HISTORY'
+			'EMBED_LINKS'
 		]);
 
 		if (!str) return undefined;
