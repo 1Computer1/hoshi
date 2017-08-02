@@ -9,7 +9,7 @@ const Setting = require('../models/settings');
 class HoshiClient extends AkairoClient {
 	constructor(config) {
 		super({
-			prefix: message => this.settings.get(message.guild, 'prefix', config.prefix),
+			prefix: message => this.settings.get(message.guild, 'prefix', '*'),
 			allowMention: true,
 			handleEdits: true,
 			ownerID: config.owner,
