@@ -12,26 +12,29 @@ class DeleteStarCommand extends Command {
 				// Indices are swapped in order to process channel first.
 				{
 					id: 'channel',
-					prompt: {
-						start: 'What channel is the message you are trying to remove from the starboard in?',
-						retry: 'Please give me a valid channel.'
-					},
-					optional: true,
 					index: 1,
 					type: 'textChannel',
-					default: message => message.channel
+					default: message => message.channel,
+					prompt: {
+						start: msg =>
+							`${msg.author} **::** What channel is the message you are trying to remove from the starboard in?`,
+						retry: msg => `${msg.author} **::** Please provide a valid text channel.`,
+						optional: true
+					}
 				},
 				{
 					id: 'message',
-					prompt: {
-						start: 'What message would you like to remove from the starboard? (use its ID).',
-						retry: (message, { channel }) => `Oops! I can't find that message in ${channel}. Remember to use its ID.`
-					},
 					index: 0,
 					type: (word, message, { channel }) => {
 						if (!word) return null;
 						// eslint-disable-next-line prefer-promise-reject-errors
 						return channel.fetchMessage(word).catch(() => Promise.reject());
+					},
+					prompt: {
+						start: msg =>
+							`${msg.author} **::** What is the ID of the message you would like to remove from the starboard?`,
+						retry: (msg, { channel }) =>
+							`${msg.author} **::** Oops! I can't find that message in ${channel}. Remember to use its ID.`
 					}
 				}
 			]
@@ -41,7 +44,7 @@ class DeleteStarCommand extends Command {
 	async exec(message, { message: msg }) {
 		const starboard = this.client.starboards.get(message.guild.id);
 		await starboard.delete(msg);
-		return message.util.reply('the message has been removed from the starboard');
+		return message.util.reply('The message has been removed from the starboard');
 	}
 }
 

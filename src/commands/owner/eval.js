@@ -80,7 +80,7 @@ class EvalCommand extends Command {
 			return sent;
 		} catch (err) {
 			Logger.error('An eval error occured.');
-			Logger.stackTrace(err);
+			Logger.stacktrace(err);
 			let error = err;
 
 			error = error.toString();

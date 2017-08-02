@@ -12,6 +12,10 @@ class ErrorListener extends Listener {
 
 	exec(err, message) {
 		Logger.error('An error occured in a command.');
+
+		const tag = message.guild ? message.guild.name : `${message.author.tag}/PM`;
+		Logger.error(message.content, { tag });
+
 		Logger.stacktrace(err);
 
 		const owners = this.client.ownerID.map(id => this.client.users.get(id).tag);

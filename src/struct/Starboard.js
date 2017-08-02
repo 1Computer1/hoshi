@@ -27,7 +27,8 @@ class Starboard {
 		if (blacklist.includes(starredBy.id)) return 'You have been blacklisted from using the starboard';
 
 		if (!this.channel) {
-			return 'There isn\'t a starboard channel to use.';
+			const prefix = this.client.commandHandler.prefix(message);
+			return `There isn't a starboard channel to use. Set one using the \`${prefix}starboard\` command!`;
 		}
 
 		if (message.author.id === starredBy.id) {
@@ -91,7 +92,8 @@ class Starboard {
 		if (message.author.id === unstarredBy.id) return undefined;
 
 		if (!this.channel) {
-			return 'There isn\'t a starboard channel to use.';
+			const prefix = this.client.commandHandler.prefix(message);
+			return `There isn't a starboard channel to use. Set one using the \`${prefix}starboard\` command!`;
 		}
 
 		const star = this.stars.get(message.id);
@@ -153,9 +155,11 @@ class Starboard {
 	missingPermissions() {
 		const missingPermissions = this.client.listenerHandler.modules.get('commandBlocked').missingPermissions;
 		const str = missingPermissions(this.channel, this.client.user, [
+			'READ_MESSAGES',
 			'MANAGE_MESSAGES',
+			'READ_MESSAGE_HISTORY',
 			'SEND_MESSAGES',
-			'READ_MESSAGE_HISTORY'
+			'EMBED_LINKS'
 		]);
 
 		if (!str) return undefined;
@@ -194,7 +198,7 @@ class Starboard {
 			.setColor(0xFFAC33)
 			.addField('Author', message.author, true)
 			.addField('Channel', message.channel, true)
-			.setThumbnail(message.author.displayAvatarURL({ size: 1024 }))
+			.setThumbnail(message.author.displayAvatarURL())
 			.setTimestamp(message.createdAt)
 			.setFooter(`${star} ${starCount} | ${message.id}`);
 

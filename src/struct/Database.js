@@ -1,5 +1,5 @@
-const readDir = require('util').promisify(require('fs').readdir);
 const path = require('path');
+const readdir = require('util').promisify(require('fs').readdir);
 const Sequelize = require('sequelize');
 
 const { dbURL } = require('../../config.json');
@@ -15,18 +15,18 @@ class Database {
 	static async authenticate() {
 		try {
 			await db.authenticate();
-			Logger.info('Connection to database has been established successfully.', { tag: 'POSTGRES' });
+			Logger.info('Connection to database has been established successfully.', { tag: 'Postgres' });
 			await this.loadModels(path.join(__dirname, '..', 'models'));
 		} catch (err) {
-			Logger.error('Unable to connect to the database:', { tag: 'POSTGRES' });
-			Logger.stacktrace(err, { tag: 'POSTGRES' });
-			Logger.info('Attempting to connect again in 5 seconds...', { tag: 'POSTGRES' });
+			Logger.error('Unable to connect to the database:', { tag: 'Postgres' });
+			Logger.stacktrace(err, { tag: 'Postgres' });
+			Logger.info('Attempting to connect again in 5 seconds...', { tag: 'Postgres' });
 			setTimeout(this.authenticate, 5000);
 		}
 	}
 
 	static async loadModels(modelsPath) {
-		const files = await readDir(modelsPath);
+		const files = await readdir(modelsPath);
 
 		for (const file of files) {
 			const filePath = path.join(modelsPath, file);

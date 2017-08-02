@@ -13,6 +13,8 @@ class ReadyListener extends Listener {
 
 	exec() {
 		Logger.info(`${this.client.user.tag} is ready to serve!`);
+		this.client.user.setGame('@Hoshi help');
+
 		for (const guild of this.client.guilds.values()) {
 			const starboard = new Starboard(guild);
 			this.client.starboards.set(guild.id, starboard);
