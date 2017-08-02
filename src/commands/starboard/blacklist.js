@@ -28,13 +28,13 @@ class BlacklistCommand extends Command {
 			blacklist.splice(index, 1);
 			await this.client.settings.set(message.guild, 'blacklist', blacklist);
 
-			return message.util.send(`${member.tag} has been removed from the blacklist.`);
+			return message.util.send(`${member.user.tag} has been removed from the blacklist.`);
 		} else {
 			blacklist.push(member.id);
 			await this.client.settings.set(message.guild, 'blacklist', blacklist);
 
 			// eslint-disable-next-line max-len
-			return message.util.send(`${member.tag} has been blacklisted from using the starboard on this server.`);
+			return message.util.send(`${member.user.tag} has been blacklisted from using the starboard on this server.`);
 		}
 	}
 }
