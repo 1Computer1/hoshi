@@ -23,6 +23,9 @@ class Starboard {
 	}
 
 	add(message, starredBy) {
+		const blacklist = this.client.settings.get(message.guild, 'blacklist', []);
+		if (blacklist.includes(starredBy.id)) return 'You have been blacklisted from using the starboard';
+
 		if (!this.channel) {
 			return 'There isn\'t a starboard channel to use.';
 		}
@@ -82,6 +85,9 @@ class Starboard {
 	}
 
 	remove(message, unstarredBy) {
+		const blacklist = this.client.settings.get(message.guild, 'blacklist', []);
+		if (blacklist.includes(unstarredBy.id)) return undefined;
+
 		if (message.author.id === unstarredBy.id) return undefined;
 
 		if (!this.channel) {
