@@ -22,6 +22,10 @@ class RemoveRepCommand extends Command {
 	}
 
 	async exec(message, { member }) {
+		if (message.author.id === member.id) {
+			return message.util.reply('You cannot remove reputation from yourself!');
+		}
+
 		const previous = await Reputation.findOne({
 			where: {
 				sourceID: message.author.id,

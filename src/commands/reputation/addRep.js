@@ -26,6 +26,10 @@ class AddRepCommand extends Command {
 	}
 
 	async exec(message, { member, reason }) {
+		if (message.author.id === member.id) {
+			return message.util.reply('You cannot give reputation to yourself!');
+		}
+
 		const previous = await Reputation.findOne({
 			where: {
 				sourceID: message.author.id,

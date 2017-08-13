@@ -14,7 +14,7 @@ class ShowRepCommand extends Command {
 				{
 					id: 'member',
 					type: 'member',
-					default: message => message.author,
+					default: message => message.member,
 					prompt: {
 						start: msg => `${msg.author} **::** Whose reputation would you like to view?`,
 						retry: msg => `${msg.author} **::** Please provide a valid user.`,
@@ -40,15 +40,30 @@ class ShowRepCommand extends Command {
 	async exec(message, { member, page }) {
 		const reputations = await Reputation.findAll({ where: { targetID: member.id } });
 		const guildReputations = reputations.filter(rep => rep.guildID === message.guild.id);
-		const paginated = guildReputations.slice((page - 1) * this.perPage, page * this.perPage);
-		const sources = await Promise.all(paginated.map(rep => this.client.fetchUser(rep.sourceID)));
 
 		const embed = new MessageEmbed()
 			.setColor(0xFFAC33)
-			.setAuthor(member.user.tag)
 			.setThumbnail(member.user.displayAvatarURL())
-			.addField('Reputation', `**Guild**: ${guildReputations.length}\n**Global**: ${reputations.length}`)
-			.addField('Reasons', paginated.map((rep, index) => `**${sources[index].tag} ::** ${rep.reason}`).join('\n'));
+			.setTitle(`User Information for ${member.user.tag}`)
+			.addField('Reputation Count', [
+				`**Local**: ${guildReputations.length}`,
+				`**Global**: ${reputations.length}`
+			]);
+
+		if ((page - 1) * this.perPage > guildReputations.length) {
+			page = Math.floor(guildReputations.length / this.perPage) + 1;
+		}
+
+		if (guildReputations.length) {
+			const paginated = guildReputations.slice((page - 1) * this.perPage, page * this.perPage);
+			const sources = await Promise.all(paginated.map(rep => this.client.fetchUser(rep.sourceID)));
+
+			embed.addField(`Reasons (Page ${page})`, paginated.map((rep, index) => {
+				let text = rep.reason.substring(0, 160);
+				if (rep.reason.length > 160) text += '...';
+				return `**${sources[index].tag} ::** ${text}`;
+			}).join('\n'));
+		}
 
 		return message.util.send({ embed });
 	}

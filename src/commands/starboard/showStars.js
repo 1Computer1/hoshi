@@ -23,25 +23,42 @@ class ShowStarsCommand extends Command {
 				}
 			]
 		});
-
-		this.perPage = 5;
 	}
 
 	async exec(message, { member }) {
 		const stars = await Star.findAll({ where: { authorID: member.id } });
 		const guildStars = stars.filter(star => star.guildID === message.guild.id);
-		const topStar = stars.sort((a, b) => a.starCount - b.starCount)[0];
-		const topStarMessage = await message.guild.channels.get(topStar.channelID).fetchMessage(topStar.messageID);
 
 		const embed = new MessageEmbed()
 			.setColor(0xFFAC33)
-			.setAuthor(member.user.tag)
 			.setThumbnail(member.user.displayAvatarURL())
-			.addField('Stars', `**Guild**: ${guildStars.length}\n**Global**: ${stars.length}`)
-			.addField('Top Star', [
-				topStarMessage.content,
-				`- ${member.user.username} in ${topStarMessage.channel} (${topStar.starCount} \\⭐)`
+			.setTitle(`User Information for ${member.user.tag}`)
+			.addField('Star Count', [
+				`**Local**: ${guildStars.length}`,
+				`**Global**: ${stars.length}`
 			]);
+
+		if (guildStars.length) {
+			const topStar = guildStars.sort((a, b) => a.starCount - b.starCount)[0];
+			const msg = await message.guild.channels.get(topStar.channelID).fetchMessage(topStar.messageID).catch(() => null);
+
+			if (msg) {
+				let content = message.content.substring(0, 1000);
+				if (message.content.length > 1000) content += '...';
+
+				const emoji = topStar.starCount < 3
+					? '⭐'
+					: topStar.starCount < 5
+						? '🌟'
+						: topStar.starCount < 10
+							? '✨'
+							: '🌌';
+
+				embed.addField('Top Star', `\\${emoji} ${topStar.starCount} (${msg.id})`, true)
+					.addField('Channel', msg.channel, true)
+					.addField(`Message`, content || '\u200B');
+			}
+		}
 
 		return message.util.send({ embed });
 	}
