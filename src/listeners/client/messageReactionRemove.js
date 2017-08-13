@@ -11,7 +11,7 @@ class MessageReactionRemoveListener extends Listener {
 
 	async exec(reaction, user) {
 		if (user.id === this.client.user.id) return;
-		if (reaction.message.channel.type === 'dm') return;
+		if (!reaction.message.guild) return;
 
 		if (reaction.emoji.name === '⭐') {
 			if (!reaction.message.channel.permissionsFor(this.client.user).has('MANAGE_MESSAGES')) {
