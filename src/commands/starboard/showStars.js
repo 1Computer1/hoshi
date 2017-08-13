@@ -3,7 +3,7 @@ const { MessageEmbed } = require('discord.js');
 
 const Star = require('../../models/stars');
 
-class ShowStarCommand extends Command {
+class ShowStarsCommand extends Command {
 	constructor() {
 		super('showStars', {
 			aliases: ['showStars', 'show-stars', 'showStar', 'show-star'],
@@ -47,4 +47,4 @@ class ShowStarCommand extends Command {
 	}
 }
 
-module.exports = ShowStarCommand;
+module.exports = ShowStarsCommand;
