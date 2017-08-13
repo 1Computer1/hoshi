@@ -10,6 +10,7 @@ class StarCommand extends Command {
 			args: [
 				{
 					id: 'channel',
+					match: 'content',
 					type: 'textChannel',
 					prompt: {
 						start: msg => `${msg.author} **::** What channel would you like to use as the starboard?`,

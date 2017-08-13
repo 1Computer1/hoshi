@@ -12,6 +12,7 @@ class DeleteStarCommand extends Command {
 				// Indices are swapped in order to process channel first.
 				{
 					id: 'channel',
+					match: 'rest',
 					index: 1,
 					type: 'textChannel',
 					default: message => message.channel,

@@ -12,6 +12,7 @@ class StarInfoCommand extends Command {
 				{
 					id: 'channel',
 					index: 1,
+					match: 'rest',
 					type: 'textChannel',
 					default: message => message.channel,
 					prompt: {

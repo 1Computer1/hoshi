@@ -10,6 +10,7 @@ class BlacklistCommand extends Command {
 			args: [
 				{
 					id: 'member',
+					match: 'content',
 					type: 'member',
 					prompt: {
 						start: msg => `${msg.author} **::** Which user do you want to blacklist?`,
