@@ -1,20 +1,20 @@
 const { Command } = require('discord-akairo');
 const { MessageEmbed } = require('discord.js');
-const { stripIndents } = require('common-tags');
 
 const Star = require('../../models/stars');
-const Reputation = require('../../models/reputations');
 
-class PingCommand extends Command {
+class ShowStarCommand extends Command {
 	constructor() {
-		super('show-stars', {
-			aliases: ['show-stars', 'showstars'],
-			category: 'general',
+		super('showStars', {
+			aliases: ['showStars', 'show-stars', 'showStar', 'show-star'],
+			category: 'starboard',
+			channelRestriction: 'guild',
 			args: [
 				{
 					id: 'member',
+					match: 'content',
 					type: 'member',
-					default: message => message.author,
+					default: message => message.member,
 					prompt: {
 						start: msg => `${msg.author} **::** Whose reputation would you like to view?`,
 						retry: msg => `${msg.author} **::** Please provide a valid member.`,
@@ -38,13 +38,13 @@ class PingCommand extends Command {
 			.setAuthor(member.user.tag)
 			.setThumbnail(member.user.displayAvatarURL())
 			.addField('Stars', `**Guild**: ${guildStars.length}\n**Global**: ${stars.length}`)
-			.addField('Top Star', stripIndents`
-				"${topStarMessage.content}"
-				- ${member.user.username} in ${topStarMessage.channel} (${topStar.starCount} \\⭐)
-			`);
+			.addField('Top Star', [
+				topStarMessage.content,
+				`- ${member.user.username} in ${topStarMessage.channel} (${topStar.starCount} \\⭐)`
+			]);
 
 		return message.util.send({ embed });
 	}
 }
 
-module.exports = PingCommand;
+module.exports = ShowStarCommand;

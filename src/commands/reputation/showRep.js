@@ -1,14 +1,15 @@
 const { Command } = require('discord-akairo');
 const { MessageEmbed } = require('discord.js');
 
-const Star = require('../../models/stars');
 const Reputation = require('../../models/reputations');
 
-class PingCommand extends Command {
+class ShowRepCommand extends Command {
 	constructor() {
-		super('show-rep', {
-			aliases: ['show-rep', 'showrep'],
-			category: 'general',
+		super('showRep', {
+			aliases: ['showRep', 'show-rep'],
+			category: 'reputation',
+			channelRestriction: 'guild',
+			split: 'quoted',
 			args: [
 				{
 					id: 'member',
@@ -53,4 +54,4 @@ class PingCommand extends Command {
 	}
 }
 
-module.exports = PingCommand;
+module.exports = ShowRepCommand;
