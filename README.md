@@ -7,13 +7,14 @@ Invite Link: [Click here!](https://discordapp.com/oauth2/authorize?permissions=9
 
 ## Features
 
-- Custom prefixes (just like any other *good* bot).
+- Setting a custom prefix.
 - Starring and unstarring messages via reaction or command.
 - Setting a custom starboard channel.
-- Deleting all stars for a message.
+- Deleting messages from the starboard in case of abuse.
 - Viewing the people who starred a message.
-- Blacklisting people from using or for *abusing* the starboard.
-- Easily deleting messages from the starboard in case of abuse.
+- Blacklisting people from using the starboard.
+- Adding positive reputation to users.
+- Viewing local and global stars and reputation.
 
 ## Setup
 

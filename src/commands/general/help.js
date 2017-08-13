@@ -34,14 +34,26 @@ class HelpCommand extends Command {
 				'Note that messages sent before the Hoshi went online will not work with reactions.',
 				`You can also use the commands \`${prefix}star <messageID>\` and \`${prefix}unstar <messageID>\`.`,
 				'',
-				`Use the \`${prefix}star-info <messageID>\` to view who has starred a message.`,
 				`Those with \`Manage Messages\` can use \`${prefix}delete <messageID>\` to delete stars.`,
-				'Deleting or changing the starboard channel itself will reset all stars.'
+				'Deleting or changing the starboard channel itself will reset all stars.',
+				'',
+				`View those who starred a message with \`${prefix}starinfo <messageID>\`.`,
+				`View the star count for a user with \`${prefix}showstars <user>\`.`
+			])
+			.addField('Reputation', [
+				`You can add positive reputation to users with the \`${prefix}addrep <user>\` command.`,
+				`You can specify a reason for the rep or replace the previous reason.`,
+				`Use \`${prefix}removerep <user>\` to remove reputation from the user`,
+				'',
+				`View the reputation count for a user with \`${prefix}showrep <user>\`.`
 			])
 			.addField('Other', [
 				`Use the \`${prefix}prefix <prefix>\` command to change prefix.`,
 				'This command requires the `Manage Guild` permission to be usable.',
-				'You can also mention the bot to use commands.'
+				'You can also mention the bot to use commands.',
+				'',
+				`For more information about Hoshi, check out \`${prefix}about\` and \`${prefix}stats\`.`,
+				`Invite Hoshi to your server with \`${prefix}invite\`.`
 			]);
 
 		return message.util.send({ embed });
