@@ -1,59 +1,38 @@
+const { SequelizeProvider } = require('discord-akairo');
 const { Guild } = require('discord.js');
 
-class SettingsProvider {
+class SettingsProvider extends SequelizeProvider {
 	constructor(table) {
-		this._table = table;
-		this._settings = new Map();
-	}
-
-	async init() {
-		const settings = await this._table.findAll();
-
-		for (const setting of settings) {
-			this._settings.set(setting.guildID, setting.settings);
-		}
+		super(table, {
+			idColumn: 'guildID',
+			dataColumn: 'settings'
+		});
 	}
 
 	get(guild, key, defaultValue) {
-		const guildID = this.constructor.getGuildID(guild);
-		return this._settings.has(guildID) ? this._settings.get(guildID)[key] || defaultValue : defaultValue;
+		const id = this.constructor.getGuildID(guild);
+		return super.get(id, key, defaultValue);
 	}
 
-	async set(guild, key, value) {
-		const guildID = this.constructor.getGuildID(guild);
-		const settings = this._settings.get(guildID) || {};
-		settings[key] = value;
-
-		this._settings.set(guildID, settings);
-
-		await this._table.upsert({
-			guildID,
-			settings
-		});
+	set(guild, key, value) {
+		const id = this.constructor.getGuildID(guild);
+		return super.set(id, key, value);
 	}
 
-	async delete(guild, key) {
-		const guildID = this.constructor.getGuildID(guild);
-		const settings = this._settings.get(guildID) || {};
-		delete settings[key];
-
-		await this._table.upsert({
-			guildID,
-			settings
-		});
+	delete(guild, key) {
+		const id = this.constructor.getGuildID(guild);
+		return super.delete(id, key);
 	}
 
-	async clear(guild) {
-		const guildID = this.constructor.getGuildID(guild);
-		this._settings.delete(guildID);
-
-		await this._table.destroy({ where: { guildID } });
+	clear(guild) {
+		const id = this.constructor.getGuildID(guild);
+		return super.clear(id);
 	}
 
 	static getGuildID(guild) {
 		if (guild instanceof Guild) return guild.id;
 		if (guild === 'global' || guild === null) return 'global';
-		if (typeof guild === 'string' && !isNaN(guild)) return guild;
+		if (typeof guild === 'string' && /^\d+$/.test(guild)) return guild;
 		throw new TypeError('Invalid guild specified. Must be a Guild instance, guild ID, "global", or null.');
 	}
 }
