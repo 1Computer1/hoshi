@@ -3,10 +3,10 @@ const { MessageEmbed } = require('discord.js');
 
 const Reputation = require('../../models/reputations');
 
-class ShowRepCommand extends Command {
+class ShowRepsCommand extends Command {
 	constructor() {
-		super('showRep', {
-			aliases: ['showRep', 'show-rep'],
+		super('showReps', {
+			aliases: ['showReps', 'show-reps', 'showRep', 'show-rep'],
 			category: 'reputation',
 			channelRestriction: 'guild',
 			split: 'quoted',
@@ -69,4 +69,4 @@ class ShowRepCommand extends Command {
 	}
 }
 
-module.exports = ShowRepCommand;
+module.exports = ShowRepsCommand;
