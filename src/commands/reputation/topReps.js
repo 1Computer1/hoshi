@@ -3,10 +3,10 @@ const { MessageEmbed } = require('discord.js');
 
 const Reputation = require('../../models/reputations');
 
-class RepLeaderboardCommand extends Command {
+class TopRepsCommand extends Command {
 	constructor() {
-		super('rep-leaderboard', {
-			aliases: ['rep-leaderboard', 'repleaderboard'],
+		super('topReps', {
+			aliases: ['topReps', 'top-reps', 'topRep', 'top-rep'],
 			category: 'reputation',
 			channelRestriction: 'guild',
 			args: [
@@ -45,6 +45,7 @@ class RepLeaderboardCommand extends Command {
 
 			return result;
 		}, []);
+
 		const sorted = await Promise.all(grouped.sort((a, b) => a.count - b.count).map(async user => {
 			const fetched = await this.client.fetchUser(user.id);
 
@@ -54,18 +55,16 @@ class RepLeaderboardCommand extends Command {
 				count: user.count
 			};
 		}));
+
 		const paginated = sorted.slice((page - 1) * this.perPage, page * this.perPage);
-
-
-		const embed = new MessageEmbed()
-			.setTitle('Reputation Leaderboard');
+		const embed = new MessageEmbed().setTitle('Reputation Leaderboard');
 
 		if (paginated.length) {
-			embed.setDescription(
-				paginated
-					.map((user, index) => `${index + 1}. **${user.tag} ::** ${user.count}`)
-					.join('\n')
-			);
+			const desc = paginated
+				.map((user, index) => `${index + 1}. **${user.tag} ::** ${user.count}`)
+				.join('\n');
+
+			embed.setDescription(desc);
 		} else {
 			embed.setDescription('*Nothing to show here yet...*');
 		}
@@ -74,4 +73,4 @@ class RepLeaderboardCommand extends Command {
 	}
 }
 
-module.exports = RepLeaderboardCommand;
+module.exports = TopRepsCommand;

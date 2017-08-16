@@ -3,10 +3,10 @@ const { MessageEmbed } = require('discord.js');
 
 const Star = require('../../models/stars');
 
-class StarLeaderboardCommand extends Command {
+class TopStarsCommand extends Command {
 	constructor() {
-		super('star-leaderboard', {
-			aliases: ['star-leaderboard', 'starleaderboard'],
+		super('topStars', {
+			aliases: ['topStars', 'top-stars', 'topStar', 'top-star'],
 			category: 'starboard',
 			channelRestriction: 'guild',
 			args: [
@@ -31,10 +31,10 @@ class StarLeaderboardCommand extends Command {
 			where: { guildID: message.guild.id },
 			attributes: ['authorID', 'starCount']
 		});
+
 		const users = [];
 		for (const { starCount, authorID } of allStars) {
 			const index = users.findIndex(user => user.id === authorID);
-			users[authorID] = (users[authorID] || 0) + starCount;
 
 			if (index > -1) {
 				users[index] = {
@@ -56,15 +56,14 @@ class StarLeaderboardCommand extends Command {
 		const sortedUsers = users.sort((a, b) => a.count - b.count);
 		const paginated = sortedUsers.slice((page - 1) * this.perPage, page * this.perPage);
 
-		const embed = new MessageEmbed()
-			.setTitle('Star Leaderboard');
+		const embed = new MessageEmbed().setTitle('Star Leaderboard');
 
 		if (paginated.length) {
-			embed.setDescription(
-				paginated
-					.map((user, index) => `${index + 1}. **${user.tag} ::** ${user.count} \\${this.getStarEmoji(user.count)}`)
-					.join('\n')
-			);
+			const desc = paginated
+				.map((user, index) => `${index + 1}. **${user.tag} ::** ${user.count} \\${this.getStarEmoji(user.count)}`)
+				.join('\n');
+
+			embed.setDescription(desc);
 		} else {
 			embed.setDescription('*Nothing to show here yet...*');
 		}
@@ -83,4 +82,4 @@ class StarLeaderboardCommand extends Command {
 	}
 }
 
-module.exports = StarLeaderboardCommand;
+module.exports = TopStarsCommand;
