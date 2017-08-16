@@ -38,14 +38,16 @@ class HelpCommand extends Command {
 				'Deleting or changing the starboard channel itself will reset all stars.',
 				'',
 				`View those who starred a message with \`${prefix}starinfo <messageID>\`.`,
-				`View the star count for a user with \`${prefix}showstars <user>\`.`
+				`View the star count for a user with \`${prefix}showstars <user>\`.`,
+				`View the leaderboards for stars with \`${prefix}topstars <user>\`.`
 			])
 			.addField('Reputation', [
 				`You can add positive reputation to users with the \`${prefix}addrep <user>\` command.`,
 				`You can specify a reason for the rep or replace the previous reason.`,
 				`Use \`${prefix}removerep <user>\` to remove reputation from the user`,
 				'',
-				`View the reputation count for a user with \`${prefix}showrep <user>\`.`
+				`View the reputation count for a user with \`${prefix}showreps <user>\`.`,
+				`View the leaderboards for reputations with \`${prefix}topreps <user>\`.`
 			])
 			.addField('Other', [
 				`Use the \`${prefix}prefix <prefix>\` command to change prefix.`,
