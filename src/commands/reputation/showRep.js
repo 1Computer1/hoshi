@@ -16,7 +16,7 @@ class ShowRepCommand extends Command {
 					type: 'member',
 					default: message => message.member,
 					prompt: {
-						start: msg => `${msg.author} **::** Whose reputation would you like to view?`,
+						start: msg => `${msg.author} **::** That user could not be found. Whose reputation would you like to view?`,
 						retry: msg => `${msg.author} **::** Please provide a valid user.`,
 						optional: true
 					}
@@ -26,7 +26,7 @@ class ShowRepCommand extends Command {
 					type: 'integer',
 					default: 1,
 					prompt: {
-						start: msg => `${msg.author} **::** What page?`,
+						start: msg => `${msg.author} **::** Invalid page. Which page would you like to view?`,
 						retry: msg => `${msg.author} **::** Please provide a valid page number.`,
 						optional: true
 					}

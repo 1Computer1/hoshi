@@ -16,7 +16,8 @@ class UnstarCommand extends Command {
 					type: 'textChannel',
 					default: message => message.channel,
 					prompt: {
-						start: msg => `${msg.author} **::** What channel is the message you are trying to remove a star from in?`,
+						// eslint-disable-next-line max-len
+						start: msg => `${msg.author} **::** That channel could not be found. What channel is the message you are trying to remove a star from in?`,
 						retry: msg => `${msg.author} **::** Please provide a valid text channel.`,
 						optional: true
 					}
