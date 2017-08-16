@@ -58,7 +58,7 @@ class RepLeaderboardCommand extends Command {
 
 
 		const embed = new MessageEmbed()
-			.setTitle('Star Leaderboard');
+			.setTitle('Reputation Leaderboard');
 
 		if (paginated.length) {
 			embed.setDescription(
