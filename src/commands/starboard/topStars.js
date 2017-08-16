@@ -54,8 +54,11 @@ class TopStarsCommand extends Command {
 		}
 
 		const sortedUsers = users.sort((a, b) => a.count - b.count);
-		const paginated = sortedUsers.slice((page - 1) * this.perPage, page * this.perPage);
+		if ((page - 1) * this.perPage > sortedUsers.length) {
+			page = Math.floor(sortedUsers.length / this.perPage) + 1;
+		}
 
+		const paginated = sortedUsers.slice((page - 1) * this.perPage, page * this.perPage);
 		const embed = new MessageEmbed().setTitle('Star Leaderboard');
 
 		if (paginated.length) {

@@ -56,6 +56,10 @@ class TopRepsCommand extends Command {
 			};
 		}));
 
+		if ((page - 1) * this.perPage > sorted.length) {
+			page = Math.floor(sorted.length / this.perPage) + 1;
+		}
+
 		const paginated = sorted.slice((page - 1) * this.perPage, page * this.perPage);
 		const embed = new MessageEmbed().setTitle('Reputation Leaderboard');
 
