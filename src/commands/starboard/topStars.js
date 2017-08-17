@@ -9,6 +9,7 @@ class TopStarsCommand extends Command {
 			aliases: ['topStars', 'top-stars', 'topStar', 'top-star'],
 			category: 'starboard',
 			channelRestriction: 'guild',
+			clientPermissions: ['EMBED_LINKS'],
 			args: [
 				{
 					id: 'page',

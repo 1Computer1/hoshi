@@ -5,7 +5,8 @@ class InviteCommand extends Command {
 	constructor() {
 		super('invite', {
 			aliases: ['invite'],
-			category: 'general'
+			category: 'general',
+			clientPermissions: ['EMBED_LINKS']
 		});
 	}
 

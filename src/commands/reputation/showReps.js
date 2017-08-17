@@ -9,6 +9,7 @@ class ShowRepsCommand extends Command {
 			aliases: ['showReps', 'show-reps', 'showRep', 'show-rep'],
 			category: 'reputation',
 			channelRestriction: 'guild',
+			clientPermissions: ['EMBED_LINKS'],
 			split: 'quoted',
 			args: [
 				{

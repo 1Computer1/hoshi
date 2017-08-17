@@ -8,7 +8,8 @@ class StatsCommand extends Command {
 	constructor() {
 		super('stats', {
 			aliases: ['stats'],
-			category: 'general'
+			category: 'general',
+			clientPermissions: ['EMBED_LINKS']
 		});
 	}
 

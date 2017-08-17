@@ -9,6 +9,7 @@ class ShowStarsCommand extends Command {
 			aliases: ['showStars', 'show-stars', 'showStar', 'show-star'],
 			category: 'starboard',
 			channelRestriction: 'guild',
+			clientPermissions: ['EMBED_LINKS'],
 			args: [
 				{
 					id: 'member',

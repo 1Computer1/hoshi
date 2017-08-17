@@ -5,7 +5,8 @@ class AboutCommand extends Command {
 	constructor() {
 		super('about', {
 			aliases: ['about', 'info'],
-			category: 'general'
+			category: 'general',
+			clientPermissions: ['EMBED_LINKS']
 		});
 	}
 

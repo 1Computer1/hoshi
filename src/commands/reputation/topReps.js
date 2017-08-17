@@ -9,6 +9,7 @@ class TopRepsCommand extends Command {
 			aliases: ['topReps', 'top-reps', 'topRep', 'top-rep'],
 			category: 'reputation',
 			channelRestriction: 'guild',
+			clientPermissions: ['EMBED_LINKS'],
 			args: [
 				{
 					id: 'page',
