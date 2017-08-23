@@ -13,7 +13,7 @@ class InviteCommand extends Command {
 	async fetchInvite() {
 		if (this.invite) return this.invite;
 		const invite = await this.client.generateInvite([
-			'READ_MESSAGES',
+			'VIEW_CHANNEL',
 			'MANAGE_MESSAGES',
 			'READ_MESSAGE_HISTORY',
 			'SEND_MESSAGES',
