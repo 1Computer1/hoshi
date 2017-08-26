@@ -62,7 +62,7 @@ class ShowRepsCommand extends Command {
 				let text = rep.reason.substring(0, 160);
 				if (rep.reason.length > 160) text += '...';
 				return `**${sources[index].tag} ::** ${text}`;
-			}).join('\n'));
+			}));
 		}
 
 		return message.util.send({ embed });

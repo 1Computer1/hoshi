@@ -62,8 +62,7 @@ class TopStarsCommand extends Command {
 
 		if (paginated.length) {
 			const desc = paginated
-				.map(([user, count], index) => `${index + 1}. **${user.tag} ::** ${count} \\${this.getStarEmoji(count)}`)
-				.join('\n');
+				.map(([user, count], index) => `${index + 1}. **${user.tag} ::** ${count} \\${this.getStarEmoji(count)}`);
 
 			embed.setDescription(desc);
 		} else {

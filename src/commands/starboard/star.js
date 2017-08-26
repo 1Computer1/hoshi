@@ -16,7 +16,6 @@ class StarCommand extends Command {
 					type: 'textChannel',
 					default: message => message.channel,
 					prompt: {
-						// eslint-disable-next-line max-len
 						start: msg => `${msg.author} **::** That channel could not be found. What channel is the message you are trying to add a star to in?`,
 						retry: msg => `${msg.author} **::** Please provide a valid text channel.`,
 						optional: true
@@ -32,8 +31,7 @@ class StarCommand extends Command {
 					},
 					prompt: {
 						start: msg => `${msg.author} **::** What is the ID of the message you would like to add a star to?`,
-						retry: (msg, { channel }) =>
-							`${msg.author} **::** Oops! I can't find that message in ${channel}. Remember to use its ID.`
+						retry: (msg, { channel }) => `${msg.author} **::** Oops! I can't find that message in ${channel}. Remember to use its ID.`
 					}
 				}
 			]

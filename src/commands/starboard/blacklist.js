@@ -34,7 +34,6 @@ class BlacklistCommand extends Command {
 			blacklist.push(member.id);
 			await this.client.settings.set(message.guild, 'blacklist', blacklist);
 
-			// eslint-disable-next-line max-len
 			return message.util.send(`${member.user.tag} has been blacklisted from using the starboard on this server.`);
 		}
 	}

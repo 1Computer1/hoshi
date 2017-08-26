@@ -52,8 +52,10 @@ class AddRepCommand extends Command {
 				}
 			});
 
-			// eslint-disable-next-line max-len
-			return message.util.reply(`You have added reputation to ${member} with the reason: ${reason}\nThis replaced the previous reason: ${previous.reason}`);
+			return message.util.reply([
+				`You have added reputation to ${member} with the reason: ${reason}`,
+				`This replaced the previous reason: ${previous.reason}`
+			]);
 		}
 
 		await Reputation.create({

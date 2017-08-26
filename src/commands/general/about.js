@@ -20,7 +20,6 @@ class AboutCommand extends Command {
 			.setDescription([
 				`Hoshi is developed by **${comp.tag}** and **${grey.tag}**.`,
 				'',
-				// eslint-disable-next-line max-len
 				'Hoshi uses the **[Discord.js](https://discord.js.org)** library and the **[Akairo](https://1computer1.github.io/discord-akairo)** framework.',
 				'You can find the Github repo for Hoshi **[here](https://github.com/1Computer1/hoshi)**.',
 				'',

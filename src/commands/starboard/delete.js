@@ -17,9 +17,7 @@ class DeleteStarCommand extends Command {
 					type: 'textChannel',
 					default: message => message.channel,
 					prompt: {
-						start: msg =>
-							// eslint-disable-next-line max-len
-							`${msg.author} **::** That channel could not be found. What channel is the message you are trying to remove from the starboard in?`,
+						start: msg => `${msg.author} **::** That channel could not be found. What channel is the message you are trying to remove from the starboard in?`,
 						retry: msg => `${msg.author} **::** Please provide a valid text channel.`,
 						optional: true
 					}
@@ -33,10 +31,8 @@ class DeleteStarCommand extends Command {
 						return channel.fetchMessage(word).catch(() => Promise.reject());
 					},
 					prompt: {
-						start: msg =>
-							`${msg.author} **::** What is the ID of the message you would like to remove from the starboard?`,
-						retry: (msg, { channel }) =>
-							`${msg.author} **::** Oops! I can't find that message in ${channel}. Remember to use its ID.`
+						start: msg => `${msg.author} **::** What is the ID of the message you would like to remove from the starboard?`,
+						retry: (msg, { channel }) => `${msg.author} **::** Oops! I can't find that message in ${channel}. Remember to use its ID.`
 					}
 				}
 			]

@@ -7,7 +7,13 @@
     "test": "eslint ./"
   },
   "eslintConfig": {
-    "extends": "aqua"
+    "extends": "aqua",
+    "rules": {
+      "max-len": ["error", 120, 2, {
+        "ignoreStrings": true,
+        "ignoreTemplateLiterals": true
+      }]
+    }
   },
   "contributors": [
     "1Computer",
