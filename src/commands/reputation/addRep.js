@@ -32,7 +32,7 @@ class AddRepCommand extends Command {
 
 		const blacklist = this.client.settings.get(message.guild, 'blacklist', []);
 		if (blacklist.includes(message.author.id)) {
-			return message.util.reply('You can\'t use this command because you have been blacklisted');
+			return message.util.reply('You can\'t use this command because you have been blacklisted.');
 		}
 
 		const previous = await Reputation.findOne({

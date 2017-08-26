@@ -40,7 +40,8 @@ class RemoveRepCommand extends Command {
 		});
 
 		if (!previous) {
-			return message.util.reply(`You cannot remove reputation from ${member} because you never gave them any.`);
+			// eslint-disable-next-line max-len
+			return message.util.reply(`You cannot remove reputation from ${member.user.tag} because you never gave them any.`);
 		}
 
 		await Reputation.destroy({
