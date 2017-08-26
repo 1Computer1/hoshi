@@ -1,3 +1,4 @@
+const { RichEmbed } = require('discord.js');
 const path = require('path');
 const Star = require('../models/stars');
 const Queue = require('./Queue');
@@ -154,7 +155,7 @@ class Starboard {
 	missingPermissions() {
 		const missingPermissions = this.client.listenerHandler.modules.get('commandBlocked').missingPermissions;
 		const str = missingPermissions(this.channel, this.client.user, [
-			'VIEW_CHANNEL',
+			'READ_MESSAGES',
 			'MANAGE_MESSAGES',
 			'READ_MESSAGE_HISTORY',
 			'SEND_MESSAGES',
@@ -193,11 +194,11 @@ class Starboard {
 					? '✨'
 					: '🌌';
 
-		const embed = this.client.util.embed()
+		const embed = new RichEmbed()
 			.setColor(0xFFAC33)
 			.addField('Author', message.author, true)
 			.addField('Channel', message.channel, true)
-			.setThumbnail(message.author.displayAvatarURL())
+			.setThumbnail(message.author.displayAvatarURL)
 			.setTimestamp(message.createdAt)
 			.setFooter(`${star} ${starCount} | ${message.id}`);
 

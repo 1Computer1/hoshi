@@ -31,7 +31,7 @@ class ShowStarsCommand extends Command {
 
 		const embed = this.client.util.embed()
 			.setColor(0xFFAC33)
-			.setThumbnail(member.user.displayAvatarURL())
+			.setThumbnail(member.user.displayAvatarURL)
 			.setTitle(`User Information for ${member.user.tag}`)
 			.addField('Star Count', [
 				`**Local**: ${guildStars.length}`,
