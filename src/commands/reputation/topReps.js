@@ -1,5 +1,4 @@
 const { Command } = require('discord-akairo');
-const { MessageEmbed } = require('discord.js');
 
 const Reputation = require('../../models/reputations');
 
@@ -62,7 +61,7 @@ class TopRepsCommand extends Command {
 		}
 
 		const paginated = sorted.slice((page - 1) * this.perPage, page * this.perPage);
-		const embed = new MessageEmbed()
+		const embed = this.client.util.embed()
 			.setColor(0xFFAC33)
 			.setTitle('Reputation Leaderboard');
 

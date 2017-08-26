@@ -1,5 +1,4 @@
 const { Command } = require('discord-akairo');
-const { MessageEmbed } = require('discord.js');
 
 class HelpCommand extends Command {
 	constructor() {
@@ -13,7 +12,7 @@ class HelpCommand extends Command {
 	exec(message) {
 		const prefix = this.handler.prefix(message);
 
-		const embed = new MessageEmbed()
+		const embed = this.client.util.embed()
 			.setColor(0xFFAC33)
 			.setTitle('Guide to Hoshi')
 			.addField('Setup', [

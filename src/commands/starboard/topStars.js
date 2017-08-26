@@ -1,5 +1,4 @@
 const { Command } = require('discord-akairo');
-const { MessageEmbed } = require('discord.js');
 
 const Star = require('../../models/stars');
 
@@ -60,7 +59,7 @@ class TopStarsCommand extends Command {
 		}
 
 		const paginated = sortedUsers.slice((page - 1) * this.perPage, page * this.perPage);
-		const embed = new MessageEmbed()
+		const embed = this.client.util.embed()
 			.setColor(0xFFAC33)
 			.setTitle('Star Leaderboard');
 

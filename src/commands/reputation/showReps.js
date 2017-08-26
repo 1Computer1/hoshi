@@ -1,5 +1,4 @@
 const { Command } = require('discord-akairo');
-const { MessageEmbed } = require('discord.js');
 
 const Reputation = require('../../models/reputations');
 
@@ -42,7 +41,7 @@ class ShowRepsCommand extends Command {
 		const reputations = await Reputation.findAll({ where: { targetID: member.id } });
 		const guildReputations = reputations.filter(rep => rep.guildID === message.guild.id);
 
-		const embed = new MessageEmbed()
+		const embed = this.client.util.embed()
 			.setColor(0xFFAC33)
 			.setThumbnail(member.user.displayAvatarURL())
 			.setTitle(`User Information for ${member.user.tag}`)

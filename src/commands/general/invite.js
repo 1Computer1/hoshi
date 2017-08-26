@@ -1,5 +1,4 @@
 const { Command } = require('discord-akairo');
-const { MessageEmbed } = require('discord.js');
 
 class InviteCommand extends Command {
 	constructor() {
@@ -25,7 +24,7 @@ class InviteCommand extends Command {
 	}
 
 	async exec(message) {
-		const embed = new MessageEmbed()
+		const embed = this.client.util.embed()
 			.setColor(0xFFAC33)
 			.setDescription(`**[Add Hoshi to your server!](${await this.fetchInvite()})**`);
 

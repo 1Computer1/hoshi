@@ -1,4 +1,3 @@
-const { MessageEmbed } = require('discord.js');
 const path = require('path');
 const Star = require('../models/stars');
 const Queue = require('./Queue');
@@ -194,7 +193,7 @@ class Starboard {
 					? '✨'
 					: '🌌';
 
-		const embed = new MessageEmbed()
+		const embed = this.client.util.embed()
 			.setColor(0xFFAC33)
 			.addField('Author', message.author, true)
 			.addField('Channel', message.channel, true)

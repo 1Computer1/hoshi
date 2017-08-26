@@ -1,5 +1,4 @@
 const { Command } = require('discord-akairo');
-const { MessageEmbed } = require('discord.js');
 
 class AboutCommand extends Command {
 	constructor() {
@@ -15,7 +14,7 @@ class AboutCommand extends Command {
 		const comp = this.client.users.get('123992700587343872');
 		const grey = this.client.users.get('86890631690977280');
 
-		const embed = new MessageEmbed()
+		const embed = this.client.util.embed()
 			.setColor(0xFFAC33)
 			.setTitle('About Hoshi')
 			.setDescription([

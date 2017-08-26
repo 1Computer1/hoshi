@@ -1,7 +1,6 @@
 const Akairo = require('discord-akairo');
 const { Command } = Akairo;
 const Discord = require('discord.js');
-const { MessageEmbed } = Discord;
 const Star = require('../../models/stars');
 
 class StatsCommand extends Command {
@@ -34,7 +33,7 @@ class StatsCommand extends Command {
 	}
 
 	async exec(message) {
-		const embed = new MessageEmbed()
+		const embed = this.client.util.embed()
 			.setColor(0xFFAC33)
 			.setTitle('Hoshi Statistics')
 			.addField('Discord', [

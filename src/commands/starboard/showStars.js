@@ -1,5 +1,4 @@
 const { Command } = require('discord-akairo');
-const { MessageEmbed } = require('discord.js');
 
 const Star = require('../../models/stars');
 
@@ -30,7 +29,7 @@ class ShowStarsCommand extends Command {
 		const stars = await Star.findAll({ where: { authorID: member.id } });
 		const guildStars = stars.filter(star => star.guildID === message.guild.id);
 
-		const embed = new MessageEmbed()
+		const embed = this.client.util.embed()
 			.setColor(0xFFAC33)
 			.setThumbnail(member.user.displayAvatarURL())
 			.setTitle(`User Information for ${member.user.tag}`)

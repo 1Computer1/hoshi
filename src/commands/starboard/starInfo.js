@@ -1,5 +1,4 @@
 const { Command } = require('discord-akairo');
-const { MessageEmbed } = require('discord.js');
 
 class StarInfoCommand extends Command {
 	constructor() {
@@ -59,7 +58,7 @@ class StarInfoCommand extends Command {
 					? '✨'
 					: '🌌';
 
-		const embed = new MessageEmbed()
+		const embed = this.client.util.embed()
 			.setColor(0xFFAC33)
 			.addField('Author', msg.author, true)
 			.addField('Channel', msg.channel, true)
