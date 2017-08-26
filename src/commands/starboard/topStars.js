@@ -27,45 +27,42 @@ class TopStarsCommand extends Command {
 	}
 
 	async exec(message, { page }) {
-		const allStars = await Star.findAll({
+		const stars = await Star.findAll({
 			where: { guildID: message.guild.id },
 			attributes: ['authorID', 'starCount']
 		});
 
-		const users = [];
-		for (const { starCount, authorID } of allStars) {
-			const index = users.findIndex(user => user.id === authorID);
+		const grouped = stars.reduce((obj, curr) => {
+			if (!obj[curr.authorID]) obj[curr.authorID] = 0;
+			obj[curr.authorID] += curr.starCount;
+			return obj;
+		}, {});
 
-			if (index > -1) {
-				users[index] = {
-					id: users[index].id,
-					tag: users[index].tag,
-					count: users[index].count + starCount
-				};
-			} else {
-				const fetched = await this.client.fetchUser(authorID); // eslint-disable-line no-await-in-loop
+		const sortedUsers = Object.entries(grouped).sort((a, b) => b[1] - a[1]);
 
-				users.push({
-					id: authorID,
-					tag: fetched.tag,
-					count: starCount
-				});
-			}
-		}
-
-		const sortedUsers = users.sort((a, b) => a.count - b.count);
 		if ((page - 1) * this.perPage > sortedUsers.length) {
 			page = Math.floor(sortedUsers.length / this.perPage) + 1;
 		}
 
 		const paginated = sortedUsers.slice((page - 1) * this.perPage, page * this.perPage);
+
+		const promises = [];
+		for (let i = 0; i < paginated.length; i++) {
+			const id = paginated[i][0];
+			promises.push(this.client.fetchUser(id).then(user => {
+				paginated[i][0] = user;
+			}));
+		}
+
+		await Promise.all(promises);
+
 		const embed = this.client.util.embed()
 			.setColor(0xFFAC33)
 			.setTitle('Star Leaderboard');
 
 		if (paginated.length) {
 			const desc = paginated
-				.map((user, index) => `${index + 1}. **${user.tag} ::** ${user.count} \\${this.getStarEmoji(user.count)}`)
+				.map(([user, count], index) => `${index + 1}. **${user.tag} ::** ${count} \\${this.getStarEmoji(count)}`)
 				.join('\n');
 
 			embed.setDescription(desc);

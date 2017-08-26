@@ -28,46 +28,37 @@ class TopRepsCommand extends Command {
 
 	async exec(message, { page }) {
 		const reps = await Reputation.findAll({ where: { guildID: message.guild.id } });
-		const grouped = reps.reduce((result, current) => {
-			const index = result.findIndex(rep => rep.targetID === current.targetID);
+		const grouped = reps.reduce((obj, curr) => {
+			if (!obj[curr.targetID]) obj[curr.targetID] = 0;
+			obj[curr.targetID]++;
+			return obj;
+		}, {});
 
-			if (index > -1) {
-				result[index] = {
-					id: current.targetID,
-					count: result[index].count + 1
-				};
-			} else {
-				result.push({
-					id: current.targetID,
-					count: 1
-				});
-			}
-
-			return result;
-		}, []);
-
-		const sorted = await Promise.all(grouped.sort((a, b) => a.count - b.count).map(async user => {
-			const fetched = await this.client.fetchUser(user.id);
-
-			return {
-				id: user.id,
-				tag: fetched.tag,
-				count: user.count
-			};
-		}));
+		const sorted = Object.entries(grouped).sort((a, b) => b[1] - a[1]);
 
 		if ((page - 1) * this.perPage > sorted.length) {
 			page = Math.floor(sorted.length / this.perPage) + 1;
 		}
 
 		const paginated = sorted.slice((page - 1) * this.perPage, page * this.perPage);
+
+		const promises = [];
+		for (let i = 0; i < paginated.length; i++) {
+			const id = paginated[i][0];
+			promises.push(this.client.fetchUser(id).then(user => {
+				paginated[i][0] = user;
+			}));
+		}
+
+		await Promise.all(promises);
+
 		const embed = this.client.util.embed()
 			.setColor(0xFFAC33)
 			.setTitle('Reputation Leaderboard');
 
 		if (paginated.length) {
 			const desc = paginated
-				.map((user, index) => `${index + 1}. **${user.tag} ::** ${user.count}`)
+				.map(([user, amount], index) => `${index + 1}. **${user.tag} ::** ${amount}`)
 				.join('\n');
 
 			embed.setDescription(desc);
