@@ -60,7 +60,9 @@ class TopStarsCommand extends Command {
 		}
 
 		const paginated = sortedUsers.slice((page - 1) * this.perPage, page * this.perPage);
-		const embed = new MessageEmbed().setTitle('Star Leaderboard');
+		const embed = new MessageEmbed()
+			.setColor(0xFFAC33)
+			.setTitle('Star Leaderboard');
 
 		if (paginated.length) {
 			const desc = paginated

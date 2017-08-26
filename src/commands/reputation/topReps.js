@@ -62,7 +62,9 @@ class TopRepsCommand extends Command {
 		}
 
 		const paginated = sorted.slice((page - 1) * this.perPage, page * this.perPage);
-		const embed = new MessageEmbed().setTitle('Reputation Leaderboard');
+		const embed = new MessageEmbed()
+			.setColor(0xFFAC33)
+			.setTitle('Reputation Leaderboard');
 
 		if (paginated.length) {
 			const desc = paginated
