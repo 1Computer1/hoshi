@@ -1,4 +1,5 @@
 const { Command } = require('discord-akairo');
+const Starboard = require('../../struct/Starboard');
 
 const Star = require('../../models/stars');
 
@@ -62,7 +63,7 @@ class TopStarsCommand extends Command {
 
 		if (paginated.length) {
 			const desc = paginated
-				.map(([user, count], index) => `${index + 1}. **${user.tag} ::** ${count} \\${this.getStarEmoji(count)}`);
+				.map(([user, count], index) => `${index + 1}. **${user.tag} ::** ${count} \\${Starboard.getStarEmoji(count)}`);
 
 			embed.setDescription(desc);
 		} else {
@@ -70,16 +71,6 @@ class TopStarsCommand extends Command {
 		}
 
 		return message.util.send({ embed });
-	}
-
-	getStarEmoji(count) {
-		return count < 3
-			? '⭐'
-			: count < 5
-				? '🌟'
-				: count < 10
-					? '✨'
-					: '🌌';
 	}
 }
 

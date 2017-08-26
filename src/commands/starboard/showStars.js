@@ -1,4 +1,5 @@
 const { Command } = require('discord-akairo');
+const Starboard = require('../../struct/Starboard');
 
 const Star = require('../../models/stars');
 
@@ -46,14 +47,7 @@ class ShowStarsCommand extends Command {
 				let content = message.content.substring(0, 1000);
 				if (message.content.length > 1000) content += '...';
 
-				const emoji = topStar.starCount < 3
-					? '⭐'
-					: topStar.starCount < 5
-						? '🌟'
-						: topStar.starCount < 10
-							? '✨'
-							: '🌌';
-
+				const emoji = Starboard.getStarEmoji(topStar.starCount);
 				embed.addField('Top Star', `\\${emoji} ${topStar.starCount} (${msg.id})`, true)
 					.addField('Channel', msg.channel, true)
 					.addField(`Message`, content || '\u200B');

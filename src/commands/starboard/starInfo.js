@@ -1,4 +1,5 @@
 const { Command } = require('discord-akairo');
+const Starboard = require('../../struct/Starboard');
 
 class StarInfoCommand extends Command {
 	constructor() {
@@ -49,14 +50,7 @@ class StarInfoCommand extends Command {
 			return message.util.reply('That message has not been starred.');
 		}
 
-		const emoji = star.starredBy.length < 3
-			? '⭐'
-			: star.starredBy.length < 5
-				? '🌟'
-				: star.starredBy.length < 10
-					? '✨'
-					: '🌌';
-
+		const emoji = Starboard.getStarEmoji(star.starredBy.length);
 		const embed = this.client.util.embed()
 			.setColor(0xFFAC33)
 			.addField('Author', msg.author, true)

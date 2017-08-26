@@ -1,4 +1,3 @@
-const { RichEmbed } = require('discord.js');
 const path = require('path');
 const Star = require('../models/stars');
 const Queue = require('./Queue');
@@ -53,7 +52,7 @@ class Starboard {
 
 	async addStar(message, starredBy) {
 		if (!this.stars.has(message.id)) {
-			const starboardMessage = await this.channel.send({ embed: Starboard.buildStarboardEmbed(message) });
+			const starboardMessage = await this.channel.send({ embed: this.buildStarboardEmbed(message) });
 
 			const star = await Star.create({
 				messageID: message.id,
@@ -71,7 +70,7 @@ class Starboard {
 		const star = this.stars.get(message.id);
 		const newStarredBy = star.starredBy.concat([starredBy.id]);
 
-		const embed = Starboard.buildStarboardEmbed(message, newStarredBy.length);
+		const embed = this.buildStarboardEmbed(message, newStarredBy.length);
 		const starboardMessage = await this.channel.fetchMessage(star.starboardMessageID)
 			.then(msg => msg.edit({ embed }))
 			.catch(() => this.channel.send({ embed }));
@@ -120,7 +119,7 @@ class Starboard {
 		const newStarredBy = star.starredBy.filter(id => id !== unstarredBy.id);
 
 		if (newStarredBy.length) {
-			const embed = Starboard.buildStarboardEmbed(message, newStarredBy.length);
+			const embed = this.buildStarboardEmbed(message, newStarredBy.length);
 			const starboardMessage = await this.channel.fetchMessage(star.starboardMessageID)
 				.then(msg => msg.edit({ embed }))
 				.catch(() => this.channel.send({ embed }));
@@ -166,35 +165,9 @@ class Starboard {
 		return `I'm missing ${str} in ${this.channel}.`;
 	}
 
-	static findAttachment(message) {
-		let attachmentImage;
-		const extensions = ['.png', '.jpg', '.jpeg', '.gif', '.webp'];
-		const linkRegex = /https?:\/\/(?:\w+\.)?[\w-]+\.[\w]{2,3}(?:\/[\w-_.]+)+\.(?:png|jpg|jpeg|gif|webp)/;
-
-		if (message.attachments.some(attachment => extensions.includes(path.extname(attachment.url)))) {
-			attachmentImage = message.attachments.first().url;
-		}
-
-		if (!attachmentImage) {
-			const linkMatch = message.content.match(linkRegex);
-			if (linkMatch && extensions.includes(path.extname(linkMatch[0]))) {
-				attachmentImage = linkMatch[0];
-			}
-		}
-
-		return attachmentImage;
-	}
-
-	static buildStarboardEmbed(message, starCount = 1) {
-		const star = starCount < 3
-			? '⭐'
-			: starCount < 5
-				? '🌟'
-				: starCount < 10
-					? '✨'
-					: '🌌';
-
-		const embed = new RichEmbed()
+	buildStarboardEmbed(message, starCount = 1) {
+		const star = this.getStarEmoji(starCount);
+		const embed = this.client.util.embed()
 			.setColor(0xFFAC33)
 			.addField('Author', message.author, true)
 			.addField('Channel', message.channel, true)
@@ -214,6 +187,35 @@ class Starboard {
 		}
 
 		return embed;
+	}
+
+	static findAttachment(message) {
+		let attachmentImage;
+		const extensions = ['.png', '.jpg', '.jpeg', '.gif', '.webp'];
+		const linkRegex = /https?:\/\/(?:\w+\.)?[\w-]+\.[\w]{2,3}(?:\/[\w-_.]+)+\.(?:png|jpg|jpeg|gif|webp)/;
+
+		if (message.attachments.some(attachment => extensions.includes(path.extname(attachment.url)))) {
+			attachmentImage = message.attachments.first().url;
+		}
+
+		if (!attachmentImage) {
+			const linkMatch = message.content.match(linkRegex);
+			if (linkMatch && extensions.includes(path.extname(linkMatch[0]))) {
+				attachmentImage = linkMatch[0];
+			}
+		}
+
+		return attachmentImage;
+	}
+
+	static getStarEmoji(count) {
+		return count < 3
+			? '⭐'
+			: count < 5
+				? '🌟'
+				: count < 10
+					? '✨'
+					: '🌌';
 	}
 }
 
