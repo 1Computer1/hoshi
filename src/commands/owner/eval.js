@@ -56,7 +56,7 @@ class EvalCommand extends Command {
 
 		try {
 			let output = eval(code);
-			if (output instanceof Promise) output = await output;
+			if (typeof output.then === 'function') output = await output;
 
 			if (typeof output !== 'string') output = util.inspect(output, { depth: 0 });
 			output = `${logs.join('\n')}\n${logs.length && output === 'undefined' ? '' : output}`;
