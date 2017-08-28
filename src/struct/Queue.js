@@ -11,7 +11,7 @@ class Queue {
 
 	_process() {
 		this._processing = true;
-		const promiseFunc = this._queue.pop();
+		const promiseFunc = this._queue.shift();
 
 		if (!promiseFunc) {
 			this._processing = false;
