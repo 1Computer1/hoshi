@@ -166,7 +166,7 @@ class Starboard {
 	}
 
 	buildStarboardEmbed(message, starCount = 1) {
-		const star = this.getStarEmoji(starCount);
+		const star = Starboard.getStarEmoji(starCount);
 		const embed = this.client.util.embed()
 			.setColor(0xFFAC33)
 			.addField('Author', message.author, true)
@@ -181,7 +181,7 @@ class Starboard {
 			embed.addField('Message', content);
 		}
 
-		const attachment = this.findAttachment(message);
+		const attachment = Starboard.findAttachment(message);
 		if (attachment) {
 			embed.setImage(attachment);
 		}

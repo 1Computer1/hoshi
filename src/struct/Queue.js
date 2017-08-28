@@ -1,3 +1,5 @@
+const Logger = require('../util/Logger');
+
 class Queue {
 	constructor() {
 		this._queue = [];
@@ -16,7 +18,11 @@ class Queue {
 		if (!promiseFunc) {
 			this._processing = false;
 		} else {
-			promiseFunc().then(this._process.bind(this));
+			promiseFunc().then(this._process.bind(this)).catch(err => {
+				Logger.error('An error occured in the queue');
+				Logger.stacktrace(err);
+				return this._process();
+			});
 		}
 	}
 }
