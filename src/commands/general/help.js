@@ -61,8 +61,12 @@ class HelpCommand extends Command {
 				`Invite Hoshi to your server with \`${prefix}invite\`.`
 			]);
 
-		await message.author.send({ embed });
-		return message.util.send('I\'ve sent you a DM with help.');
+		try {
+			await message.author.send({ embed });
+			return message.util.send('I\'ve sent you a DM with help.');
+		} catch (err) {
+			return message.util.send('I could not send you a help DM.');
+		}
 	}
 }
 
