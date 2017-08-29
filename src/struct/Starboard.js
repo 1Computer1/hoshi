@@ -136,8 +136,11 @@ class Starboard {
 			return missingPerms;
 		}
 
-		if (message.reactions.has('%E2%AD%90') && message.reactions.get('%E2%AD%90').users.has(unstarredBy.id)) {
-			await message.reactions.get('%E2%AD%90').remove(unstarredBy);
+		if (message.reactions.has('⭐') || message.reactions.has('%E2%AD%90')) {
+			const reaction = message.reactions.get('⭐') || message.reactions.get('%E2%AD%90');
+			if (reaction.users.has(unstarredBy.id)) {
+				await reaction.remove(unstarredBy);
+			}
 		}
 
 		const newStarredBy = star.starredBy.filter(id => id !== unstarredBy.id);
