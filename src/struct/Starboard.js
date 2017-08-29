@@ -8,11 +8,14 @@ class Starboard {
 		this.guild = guild;
 		this.stars = new Map();
 		this.queue = new Queue();
+		this.initiated = false;
 
 		Star.findAll({ where: { guildID: this.guild.id } }).then(stars => {
 			for (const star of stars) {
 				this.stars.set(star.messageID, star);
 			}
+
+			this.initiated = true;
 		});
 	}
 
@@ -22,8 +25,20 @@ class Starboard {
 	}
 
 	add(message, starredBy) {
+		return new Promise(resolve => {
+			this.queue.add(() => this.addStar(message, starredBy).then(resolve));
+		});
+	}
+
+	async addStar(message, starredBy) {
+		if (!this.initiated) {
+			return 'Starboard has not fully loaded, please wait.';
+		}
+
 		const blacklist = this.client.settings.get(message.guild, 'blacklist', []);
-		if (blacklist.includes(starredBy.id)) return 'You have been blacklisted from using the starboard';
+		if (blacklist.includes(starredBy.id)) {
+			return 'You have been blacklisted from using the starboard';
+		}
 
 		if (!this.channel) {
 			const prefix = this.client.commandHandler.prefix(message);
@@ -46,11 +61,6 @@ class Starboard {
 			}
 		}
 
-		this.queue.add(this.addStar.bind(this, message, starredBy));
-		return undefined;
-	}
-
-	async addStar(message, starredBy) {
 		if (!this.stars.has(message.id)) {
 			const starboardMessage = await this.channel.send({ embed: this.buildStarboardEmbed(message) });
 
@@ -64,7 +74,7 @@ class Starboard {
 			});
 
 			this.stars.set(message.id, star);
-			return;
+			return undefined;
 		}
 
 		const star = this.stars.get(message.id);
@@ -82,12 +92,22 @@ class Starboard {
 		});
 
 		this.stars.set(message.id, newStar);
+		return undefined;
 	}
 
 	remove(message, unstarredBy) {
+		return new Promise(resolve => {
+			this.queue.add(() => this.removeStar(message, unstarredBy).then(resolve));
+		});
+	}
+
+	async removeStar(message, unstarredBy) {
+		if (!this.initiated) {
+			return 'Starboard has not fully loaded, please wait.';
+		}
+
 		const blacklist = this.client.settings.get(message.guild, 'blacklist', []);
 		if (blacklist.includes(unstarredBy.id)) return undefined;
-
 		if (message.author.id === unstarredBy.id) return undefined;
 
 		if (!this.channel) {
@@ -104,13 +124,6 @@ class Starboard {
 		if (missingPerms) {
 			return missingPerms;
 		}
-
-		this.queue.add(this.removeStar.bind(this, message, unstarredBy));
-		return undefined;
-	}
-
-	async removeStar(message, unstarredBy) {
-		const star = this.stars.get(message.id);
 
 		if (message.reactions.has('⭐') && message.reactions.get('⭐').users.has(unstarredBy.id)) {
 			await message.reactions.get('⭐').remove(unstarredBy);
@@ -131,20 +144,41 @@ class Starboard {
 			});
 
 			this.stars.set(message.id, newStar);
-			return;
+			return undefined;
 		}
 
 		await this.channel.fetchMessage(star.starboardMessageID).then(msg => msg.delete()).catch(() => null);
 		await star.destroy();
 		this.stars.delete(message.id);
+		return undefined;
 	}
 
-	async delete(message) {
+	delete(message) {
+		return new Promise(resolve => {
+			this.queue.add(() => this.deleteStar(message).then(resolve));
+		});
+	}
+
+	async deleteStar(message) {
+		if (!this.initiated) {
+			return 'Starboard has not fully loaded, please wait.';
+		}
+
 		const star = this.stars.get(message.id);
+		if (!star) return undefined;
+
+		const missingPerms = this.missingPermissions();
+		if (missingPerms) {
+			return missingPerms;
+		}
+
 		const starboardMessage = await this.channel.fetchMessage(star.starboardMessageID);
+		if (!starboardMessage) return undefined;
+
 		await starboardMessage.delete();
 		await star.destroy();
 		this.stars.delete(message.id);
+		return undefined;
 	}
 
 	destroy() {

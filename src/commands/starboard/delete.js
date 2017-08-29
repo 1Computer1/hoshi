@@ -41,7 +41,17 @@ class DeleteStarCommand extends Command {
 
 	async exec(message, { message: msg }) {
 		const starboard = this.client.starboards.get(message.guild.id);
-		await starboard.delete(msg);
+
+		if (!starboard.stars.has(msg.id)) {
+			return message.util.reply('The message cannot be removed because it does not exist in the starboard.');
+		}
+
+		const error = await starboard.delete(msg);
+		if (error) {
+			return message.util.reply(error);
+		}
+
+		await msg.clearReactions();
 		return message.util.reply('The message has been removed from the starboard.');
 	}
 }

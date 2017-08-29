@@ -39,6 +39,11 @@ class UnstarCommand extends Command {
 	}
 
 	async exec(message, { message: msg }) {
+		if (msg.author.id === message.author.id) {
+			message.util.reply('You can\'t unstar your own message.');
+			return;
+		}
+
 		const starboard = this.client.starboards.get(message.guild.id);
 		const error = await starboard.remove(msg, message.author);
 		if (error) {
