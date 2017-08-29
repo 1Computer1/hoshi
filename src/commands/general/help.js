@@ -50,6 +50,9 @@ class HelpCommand extends Command {
 				`View the leaderboards for reputations with \`${prefix}topreps <user>\`.`
 			])
 			.addField('Other', [
+				`Use the \`${prefix}blacklist <user>\` to disallow someone from using the starboard or reputation commands.`,
+				'You can use it again on the same user to remove them from the blacklist.',
+				'',
 				`Use the \`${prefix}prefix <prefix>\` command to change prefix.`,
 				'This command requires the `Manage Guild` permission to be usable.',
 				'You can also mention the bot to use commands.',
