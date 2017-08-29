@@ -24,7 +24,7 @@ class MessageReactionAddListener extends Listener {
 
 			if (error) {
 				await reaction.remove(user);
-				reaction.message.reply(error);
+				reaction.message.channel.send(`${user} **::** ${error}`);
 			}
 		}
 	}
