@@ -15,7 +15,7 @@ class MessageReactionAddListener extends Listener {
 
 		if (reaction.emoji.name === '⭐') {
 			if (!reaction.message.channel.permissionsFor(this.client.user).has('MANAGE_MESSAGES')) {
-				reaction.message.reply('I\'m missing `Manage Messages` to star that message in this channel.');
+				reaction.message.channel.send(`${user} **::** I'm missing \`Manage Messages\` to star that message in this channel.`);
 				return;
 			}
 
