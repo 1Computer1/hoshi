@@ -53,8 +53,12 @@ class AddRepCommand extends Command {
 			});
 
 			const reply = [];
-			if (reason) reply.push(`You have added reputation to ${member} with the reason: ${reason}`);
-			else reply.push(`You have added reputation to ${member}.`);
+			if (reason) {
+				reply.push(`You have added reputation to ${member} with the reason: ${reason}`);
+			} else {
+				reply.push(`You have added reputation to ${member}.`);
+			}
+
 			if (previous.reason) reply.push(`This replaced the previous reason: ${previous.reason}`);
 
 			return message.util.reply(reply);
