@@ -32,7 +32,10 @@ class Starboard {
 		}
 
 		return new Promise(resolve => {
-			queue.add(() => promiseFunc().then(resolve));
+			queue.add(() => promiseFunc().then(() => {
+				if (!queue.length) this.queues.delete(message.id);
+				resolve();
+			}));
 		});
 	}
 

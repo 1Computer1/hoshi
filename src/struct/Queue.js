@@ -6,6 +6,10 @@ class Queue {
 		this._processing = false;
 	}
 
+	get length() {
+		return this._queue.length;
+	}
+
 	add(promiseFunc) {
 		this._queue.push(promiseFunc);
 		if (!this._processing) this._process();
