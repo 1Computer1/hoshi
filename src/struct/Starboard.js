@@ -7,7 +7,7 @@ class Starboard {
 		this.client = guild.client;
 		this.guild = guild;
 		this.stars = new Map();
-		this.queue = new Queue();
+		this.queues = new Map();
 		this.initiated = false;
 
 		Star.findAll({ where: { guildID: this.guild.id } }).then(stars => {
@@ -24,10 +24,20 @@ class Starboard {
 		return this.guild.channels.get(channelID);
 	}
 
-	add(message, starredBy) {
+	queue(message, promiseFunc) {
+		let queue = this.queues.get(message.id);
+		if (!queue) {
+			this.queues.set(message.id, new Queue());
+			queue = this.queues.get(message.id);
+		}
+
 		return new Promise(resolve => {
-			this.queue.add(() => this.addStar(message, starredBy).then(resolve));
+			queue.add(() => promiseFunc().then(resolve));
 		});
+	}
+
+	add(message, starredBy) {
+		return this.queue(message, this.addStar.bind(this, message, starredBy));
 	}
 
 	async addStar(message, starredBy) {
@@ -96,9 +106,7 @@ class Starboard {
 	}
 
 	remove(message, unstarredBy) {
-		return new Promise(resolve => {
-			this.queue.add(() => this.removeStar(message, unstarredBy).then(resolve));
-		});
+		return this.queue(message, this.removeStar.bind(this, message, unstarredBy));
 	}
 
 	async removeStar(message, unstarredBy) {
@@ -154,9 +162,7 @@ class Starboard {
 	}
 
 	delete(message) {
-		return new Promise(resolve => {
-			this.queue.add(() => this.deleteStar(message).then(resolve));
-		});
+		return this.queue(message, this.deleteStar.bind(this, message));
 	}
 
 	async deleteStar(message) {
