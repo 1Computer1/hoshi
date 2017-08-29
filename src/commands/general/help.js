@@ -9,7 +9,7 @@ class HelpCommand extends Command {
 		});
 	}
 
-	exec(message) {
+	async exec(message) {
 		const prefix = this.handler.prefix(message);
 
 		const embed = this.client.util.embed()
@@ -58,7 +58,8 @@ class HelpCommand extends Command {
 				`Invite Hoshi to your server with \`${prefix}invite\`.`
 			]);
 
-		return message.util.send({ embed });
+		await message.author.send({ embed });
+		return message.util.send('I\'ve sent you a DM with help.');
 	}
 }
 
