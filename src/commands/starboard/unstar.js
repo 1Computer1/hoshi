@@ -44,7 +44,14 @@ class UnstarCommand extends Command {
 			return;
 		}
 
-		const starboard = this.client.starboards.get(message.guild.id);
+		const starboard = this.client.starboards.get(msg.guild.id);
+		const star = starboard.stars.get(msg.id);
+
+		if (!star || !star.starredBy.includes(message.author.id)) {
+			message.util.reply('You can\'t remove any star from this message because you never gave it one in the first place.');
+			return;
+		}
+
 		const error = await starboard.remove(msg, message.author);
 		if (error) {
 			message.util.reply(error);

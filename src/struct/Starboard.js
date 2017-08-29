@@ -126,11 +126,6 @@ class Starboard {
 			return `There isn't a starboard channel to use. Set one using the \`${prefix}starboard\` command!`;
 		}
 
-		const star = this.stars.get(message.id);
-		if (!star || !star.starredBy.includes(unstarredBy.id)) {
-			return 'You can\'t remove any star from this message because you never gave it one in the first place.';
-		}
-
 		const missingPerms = this.missingPermissions();
 		if (missingPerms) {
 			return missingPerms;
@@ -141,6 +136,11 @@ class Starboard {
 			if (reaction.users.has(unstarredBy.id)) {
 				await reaction.remove(unstarredBy);
 			}
+		}
+
+		const star = this.stars.get(message.id);
+		if (!star || !star.starredBy.includes(unstarredBy.id)) {
+			return undefined;
 		}
 
 		const newStarredBy = star.starredBy.filter(id => id !== unstarredBy.id);
