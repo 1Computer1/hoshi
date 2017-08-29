@@ -172,10 +172,11 @@ class Starboard {
 			return missingPerms;
 		}
 
-		const starboardMessage = await this.channel.fetchMessage(star.starboardMessageID);
-		if (!starboardMessage) return undefined;
+		const starboardMessage = await this.channel.fetchMessage(star.starboardMessageID).catch(() => null);
+		if (starboardMessage) {
+			await starboardMessage.delete();
+		}
 
-		await starboardMessage.delete();
 		await star.destroy();
 		this.stars.delete(message.id);
 		return undefined;
