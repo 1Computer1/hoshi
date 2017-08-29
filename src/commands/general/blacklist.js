@@ -4,7 +4,7 @@ class BlacklistCommand extends Command {
 	constructor() {
 		super('blacklist', {
 			aliases: ['blacklist'],
-			category: 'starboard',
+			category: 'general',
 			channelRestriction: 'guild',
 			userPermissions: ['MANAGE_GUILD'],
 			args: [
