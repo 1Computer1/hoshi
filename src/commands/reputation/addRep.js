@@ -52,10 +52,12 @@ class AddRepCommand extends Command {
 				}
 			});
 
-			return message.util.reply([
-				`You have added reputation to ${member} with the reason: ${reason}`,
-				`This replaced the previous reason: ${previous.reason}`
-			]);
+			const reply = [];
+			if (reason) reply.push(`You have added reputation to ${member} with the reason: ${reason}`);
+			else reply.push(`You have added reputation to ${member}.`);
+			if (previous.reason) reply.push(`This replaced the previous reason: ${previous.reason}`);
+
+			return message.util.reply(reply);
 		}
 
 		await Reputation.create({
@@ -65,7 +67,11 @@ class AddRepCommand extends Command {
 			guildID: message.guild.id
 		});
 
-		return message.util.reply(`You have added reputation to ${member} with the reason: ${reason}`);
+		if (reason) {
+			return message.util.reply(`You have added reputation to ${member} with the reason: ${reason}`);
+		} else {
+			return message.util.reply(`You have added reputation to ${member}.`);
+		}
 	}
 }
 
