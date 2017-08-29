@@ -15,6 +15,7 @@ class HoshiClient extends AkairoClient {
 			commandUtilLifetime: 3e5,
 			ownerID: config.owner,
 			commandDirectory: path.join(__dirname, '..', 'commands'),
+			inhibitorDirectory: path.join(__dirname, '..', 'inhibitors'),
 			listenerDirectory: path.join(__dirname, '..', 'listeners'),
 			defaultPrompt: {
 				timeout: msg => `${msg.author} **::** Time ran out, command has been cancelled.`,
