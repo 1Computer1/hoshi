@@ -23,7 +23,7 @@ class MessageReactionRemoveListener extends Listener {
 			const error = await starboard.remove(reaction.message, user);
 
 			if (error) {
-				reaction.message.reply(error);
+				reaction.message.channel.send(`${user} **::** ${error}`);
 			}
 		}
 	}
