@@ -45,6 +45,24 @@ class UnstarCommand extends Command {
 		}
 
 		const starboard = this.client.starboards.get(msg.guild.id);
+
+		if (!starboard.initiated) {
+			message.util.reply('Starboard has not fully loaded, please wait.');
+			return;
+		}
+
+		if (!starboard.channel) {
+			const prefix = this.client.commandHandler.prefix(message);
+			message.util.reply(`There isn't a starboard channel to use. Set one using the \`${prefix}starboard\` command!`);
+			return;
+		}
+
+		const missingPerms = starboard.missingPermissions();
+		if (missingPerms) {
+			message.util.reply(missingPerms);
+			return;
+		}
+
 		const star = starboard.stars.get(msg.id);
 
 		if (!star || !star.starredBy.includes(message.author.id)) {

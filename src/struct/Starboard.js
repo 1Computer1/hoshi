@@ -40,10 +40,6 @@ class Starboard {
 	}
 
 	add(message, starredBy) {
-		return this.queue(message, this.addStar.bind(this, message, starredBy));
-	}
-
-	async addStar(message, starredBy) {
 		if (!this.initiated) {
 			return 'Starboard has not fully loaded, please wait.';
 		}
@@ -58,15 +54,19 @@ class Starboard {
 			return `There isn't a starboard channel to use. Set one using the \`${prefix}starboard\` command!`;
 		}
 
-		if (message.author.id === starredBy.id) {
-			return 'You can\'t star your own messages.';
-		}
-
 		const missingPerms = this.missingPermissions();
 		if (missingPerms) {
 			return missingPerms;
 		}
 
+		if (message.author.id === starredBy.id) {
+			return 'You can\'t star your own messages.';
+		}
+
+		return this.queue(message, this.addStar.bind(this, message, starredBy));
+	}
+
+	async addStar(message, starredBy) {
 		if (this.stars.has(message.id)) {
 			const star = this.stars.get(message.id);
 			if (star.starredBy.includes(starredBy.id)) {
@@ -109,26 +109,22 @@ class Starboard {
 	}
 
 	remove(message, unstarredBy) {
-		return this.queue(message, this.removeStar.bind(this, message, unstarredBy));
-	}
-
-	async removeStar(message, unstarredBy) {
-		if (!this.initiated) {
-			return 'Starboard has not fully loaded, please wait.';
-		}
+		if (!this.initiated) return undefined;
 
 		const blacklist = this.client.settings.get(message.guild, 'blacklist', []);
 		if (blacklist.includes(unstarredBy.id)) return undefined;
 		if (message.author.id === unstarredBy.id) return undefined;
 
-		if (!this.channel) {
-			const prefix = this.client.commandHandler.prefix(message);
-			return `There isn't a starboard channel to use. Set one using the \`${prefix}starboard\` command!`;
-		}
+		if (!this.channel) return undefined;
+		if (this.missingPermissions()) return undefined;
 
-		const missingPerms = this.missingPermissions();
-		if (missingPerms) {
-			return missingPerms;
+		return this.queue(message, this.removeStar.bind(this, message, unstarredBy));
+	}
+
+	async removeStar(message, unstarredBy) {
+		const star = this.stars.get(message.id);
+		if (!star || !star.starredBy.includes(unstarredBy.id)) {
+			return undefined;
 		}
 
 		if (message.reactions.has('⭐') || message.reactions.has('%E2%AD%90')) {
@@ -136,11 +132,6 @@ class Starboard {
 			if (reaction.users.has(unstarredBy.id)) {
 				await reaction.remove(unstarredBy);
 			}
-		}
-
-		const star = this.stars.get(message.id);
-		if (!star || !star.starredBy.includes(unstarredBy.id)) {
-			return undefined;
 		}
 
 		const newStarredBy = star.starredBy.filter(id => id !== unstarredBy.id);
@@ -168,21 +159,14 @@ class Starboard {
 	}
 
 	delete(message) {
+		if (!this.initiated) return undefined;
+		if (this.missingPermissions()) return undefined;
 		return this.queue(message, this.deleteStar.bind(this, message));
 	}
 
 	async deleteStar(message) {
-		if (!this.initiated) {
-			return 'Starboard has not fully loaded, please wait.';
-		}
-
 		const star = this.stars.get(message.id);
 		if (!star) return undefined;
-
-		const missingPerms = this.missingPermissions();
-		if (missingPerms) {
-			return missingPerms;
-		}
 
 		const starboardMessage = await this.channel.fetchMessage(star.starboardMessageID).catch(() => null);
 		if (starboardMessage) {
