@@ -14,11 +14,6 @@ class MessageReactionRemoveListener extends Listener {
 		if (!reaction.message.guild) return;
 
 		if (reaction.emoji.name === '⭐') {
-			if (!reaction.message.channel.permissionsFor(this.client.user).has('MANAGE_MESSAGES')) {
-				reaction.message.channel.send(`${user} **::** I'm missing \`Manage Messages\` to unstar that message in this channel.`);
-				return;
-			}
-
 			const starboard = this.client.starboards.get(reaction.message.guild.id);
 			const error = await starboard.remove(reaction.message, user);
 

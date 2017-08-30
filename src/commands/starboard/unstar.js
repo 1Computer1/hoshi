@@ -57,6 +57,11 @@ class UnstarCommand extends Command {
 			return;
 		}
 
+		if (!message.channel.permissionsFor(this.client.user).has('MANAGE_MESSAGES')) {
+			message.util.reply('I\'m missing `Manage Messages` to unstar that message in this channel.');
+			return;
+		}
+
 		const missingPerms = starboard.missingPermissions();
 		if (missingPerms) {
 			message.util.reply(missingPerms);
