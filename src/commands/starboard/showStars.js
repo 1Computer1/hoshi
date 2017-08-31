@@ -44,8 +44,8 @@ class ShowStarsCommand extends Command {
 			const msg = await message.guild.channels.get(topStar.channelID).fetchMessage(topStar.messageID).catch(() => null);
 
 			if (msg) {
-				let content = message.content.substring(0, 1000);
-				if (message.content.length > 1000) content += '...';
+				let content = msg.content.substring(0, 1000);
+				if (msg.content.length > 1000) content += '...';
 
 				const emoji = Starboard.getStarEmoji(topStar.starCount);
 				embed.addField('Top Star', `\\${emoji} ${topStar.starCount} (${msg.id})`, true)
