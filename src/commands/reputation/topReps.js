@@ -54,7 +54,7 @@ class TopRepsCommand extends Command {
 
 		const embed = this.client.util.embed()
 			.setColor(0xFFAC33)
-			.setTitle('Reputation Leaderboard');
+			.setTitle(`Reputation Leaderboard | Page ${page} of ${Math.ceil(sorted.length / page)}`);
 
 		if (paginated.length) {
 			const desc = paginated
