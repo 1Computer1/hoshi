@@ -58,7 +58,7 @@ class TopRepsCommand extends Command {
 
 		if (paginated.length) {
 			const desc = paginated
-				.map(([user, amount], index) => `${index + 1}. **${user.tag} ::** ${amount}`);
+				.map(([user, amount], index) => `${1 + index + ((page - 1) * this.perPage)}. **${user.tag} ::** ${amount}`);
 
 			embed.setDescription(desc);
 		} else {
