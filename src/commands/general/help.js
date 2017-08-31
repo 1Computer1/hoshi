@@ -39,7 +39,7 @@ class HelpCommand extends Command {
 				'',
 				`View those who starred a message with \`${prefix}starinfo <messageID>\`.`,
 				`View the star count for a user with \`${prefix}showstars <user>\`.`,
-				`View the leaderboards for stars with \`${prefix}topstars <user>\`.`
+				`View the leaderboards for stars with \`${prefix}topstars\`.`
 			])
 			.addField('Reputation', [
 				`You can add positive reputation to users with the \`${prefix}addrep <user>\` command.`,
@@ -47,7 +47,7 @@ class HelpCommand extends Command {
 				`Use \`${prefix}removerep <user>\` to remove reputation from the user`,
 				'',
 				`View the reputation count for a user with \`${prefix}showreps <user>\`.`,
-				`View the leaderboards for reputations with \`${prefix}topreps <user>\`.`
+				`View the leaderboards for reputations with \`${prefix}topreps\`.`
 			])
 			.addField('Other', [
 				`Use the \`${prefix}blacklist <user>\` to disallow someone from using the starboard or reputation commands.`,
