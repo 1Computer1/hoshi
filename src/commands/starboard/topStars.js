@@ -59,11 +59,11 @@ class TopStarsCommand extends Command {
 
 		const embed = this.client.util.embed()
 			.setColor(0xFFAC33)
-			.setTitle('Star Leaderboard');
+			.setTitle(`Star Leaderboard | Page ${page} of ${Math.ceil(sortedUsers.length / page)}`);
 
 		if (paginated.length) {
 			const desc = paginated
-				.map(([user, count], index) => `${index + 1}. **${user.tag} ::** ${count} \\${Starboard.getStarEmoji(count)}`);
+				.map(([user, count], index) => `${1 + index + ((page - 1) * this.perPage)}. **${user.tag} ::** ${count} \\${Starboard.getStarEmoji(count)}`);
 
 			embed.setDescription(desc);
 		} else {
