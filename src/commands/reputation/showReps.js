@@ -41,13 +41,15 @@ class ShowRepsCommand extends Command {
 		const reputations = await Reputation.findAll({ where: { targetID: member.id } });
 		const guildReputations = reputations.filter(rep => rep.guildID === message.guild.id);
 
+		const plural = (num, str) => Math.abs(num) === 1 ? `${num} ${str}` : `${num} ${str}s`;
+
 		const embed = this.client.util.embed()
 			.setColor(0xFFAC33)
 			.setThumbnail(member.user.displayAvatarURL)
 			.setTitle(`User Information for ${member.user.tag}`)
 			.addField('Reputation Count', [
-				`**Local**: ${guildReputations.length}`,
-				`**Global**: ${reputations.length}`
+				`**Local**: ${plural(guildReputations.length, 'rep')}`,
+				`**Global**: ${plural(reputations.length, 'rep')}`
 			]);
 
 		if ((page - 1) * this.perPage > guildReputations.length) {
@@ -58,7 +60,7 @@ class ShowRepsCommand extends Command {
 			const paginated = guildReputations.slice((page - 1) * this.perPage, page * this.perPage);
 			const sources = await Promise.all(paginated.map(rep => this.client.fetchUser(rep.sourceID)));
 
-			embed.addField(`Reasons | Page ${page} of ${Math.ceil(guildReputations.length / this.perPage)}`, paginated.map((rep, index) => {
+			embed.addField(`Reasons — Page ${page} of ${Math.ceil(guildReputations.length / this.perPage)}`, paginated.map((rep, index) => {
 				let text = rep.reason.substring(0, 160);
 				if (rep.reason.length > 160) text += '...';
 				return `**${sources[index].tag} ::** ${text}`;

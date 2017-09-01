@@ -59,7 +59,7 @@ class TopStarsCommand extends Command {
 
 		const embed = this.client.util.embed()
 			.setColor(0xFFAC33)
-			.setTitle(`Star Leaderboard | Page ${page} of ${Math.ceil(sortedUsers.length / this.perPage)}`);
+			.setTitle(`Star Leaderboard — Page ${page} of ${Math.ceil(sortedUsers.length / this.perPage)}`);
 
 		if (paginated.length) {
 			const desc = paginated
