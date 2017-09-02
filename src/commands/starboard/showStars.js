@@ -50,11 +50,11 @@ class ShowStarsCommand extends Command {
 			let content;
 
 			if (msg) {
-				content = msg.content || '\u200B';
+				content = msg.content;
 			} else {
 				const starboard = this.client.starboards.get(message.guild.id);
 				const starboardMsg = await starboard.channel.fetchMessage(topStar.starboardMessageID);
-				content = starboardMsg.embeds[0].fields[2] ? starboardMsg.embeds[0].fields[2].value : '\u200B';
+				content = starboardMsg.embeds[0].fields[2] && starboardMsg.embeds[0].fields[2].value;
 			}
 
 			if (content.length > 1000) {
