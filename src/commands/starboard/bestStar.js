@@ -23,7 +23,7 @@ class BestStarCommand extends Command {
 			let content;
 
 			if (msg) {
-				content = msg.content;
+				content = msg.content || '\u200B';
 			} else {
 				const starboard = this.client.starboards.get(message.guild.id);
 				const starboardMsg = await starboard.channel.fetchMessage(topStar.starboardMessageID);
@@ -40,8 +40,9 @@ class BestStarCommand extends Command {
 			embed.setTitle(`Best of ${message.guild.name} — ${user.tag}`)
 				.setThumbnail(user.displayAvatarURL)
 				.addField('Top Star', `\\${emoji} ${topStar.starCount} (${topStar.messageID})`, true)
-				.addField('Channel', `<#${topStar.channelID}>`, true)
-				.addField(`Message`, content);
+				.addField('Channel', `<#${topStar.channelID}>`, true);
+
+			if (content) embed.addField(`Message`, content);
 		} else {
 			embed.setTitle(`Best of ${message.guild.name}`)
 				.setDescription('*Nothing to show here yet...*');
