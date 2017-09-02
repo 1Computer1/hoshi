@@ -64,7 +64,8 @@ class TopRepsCommand extends Command {
 
 			embed.setDescription(desc);
 		} else {
-			embed.setDescription('*Nothing to show here yet...*');
+			embed.setTitle('Reputation Leaderboard')
+				.setDescription('*Nothing to show here yet...*');
 		}
 
 		return message.util.send({ embed });
