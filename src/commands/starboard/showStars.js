@@ -47,23 +47,25 @@ class ShowStarsCommand extends Command {
 		if (guildStars.length) {
 			const topStar = guildStars.sort((a, b) => b.starCount - a.starCount)[0];
 			const msg = await message.guild.channels.get(topStar.channelID).fetchMessage(topStar.messageID).catch(() => null);
+			let content;
 
 			if (msg) {
-				let content = msg.content.substring(0, 1000);
-				if (msg.content.length > 1000) content += '...';
-
-				const emoji = Starboard.getStarEmoji(topStar.starCount);
-				embed.addField('Top Star', `\\${emoji} ${topStar.starCount} (${msg.id})`, true)
-					.addField('Channel', msg.channel, true)
-					.addField(`Message`, content || '\u200B');
+				content = msg.content;
 			} else {
-				embed.addField('Not Found', [
-					'Unfortunately, this message was deleted.',
-					'The star should now be removed.'
-				]);
-
-				this.client.starboards.get(message.guild.id).delete({ id: topStar.messageID });
+				const starboard = this.client.starboards.get(message.guild.id);
+				const starboardMsg = await starboard.channel.fetchMessage(topStar.starboardMessageID);
+				content = starboardMsg.embeds[0].fields[2] ? starboardMsg.embeds[0].fields[2].value : '\u200B';
 			}
+
+			if (content.length > 1000) {
+				content = content.slice(0, 1000);
+				content += '...';
+			}
+
+			const emoji = Starboard.getStarEmoji(topStar.starCount);
+			embed.addField('Top Star', `\\${emoji} ${topStar.starCount} (${topStar.messageID})`, true)
+				.addField('Channel', `<#${topStar.channelID}>`, true)
+				.addField(`Message`, content);
 		}
 
 		return message.util.send({ embed });

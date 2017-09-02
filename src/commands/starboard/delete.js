@@ -27,11 +27,16 @@ class DeleteStarCommand extends Command {
 					index: 0,
 					type: (word, message, { channel }) => {
 						if (!word) return null;
-						// eslint-disable-next-line prefer-promise-reject-errors
-						return channel.fetchMessage(word).catch(() => Promise.reject());
+						return channel.fetchMessage(word).catch(() => {
+							if (this.client.starboards.get(message.guild.id).stars.has(word)) {
+								return { id: word };
+							}
+
+							return Promise.reject(); // eslint-disable-line prefer-promise-reject-errors
+						});
 					},
 					prompt: {
-						start: msg => `${msg.author} **::** What is the ID of the message you would like to remove from the starboard?`,
+						start: msg => `${msg.author} **::** Could not find a message. What is the ID of the message you would like to remove from the starboard?`,
 						retry: (msg, { channel }) => `${msg.author} **::** Oops! I can't find that message in ${channel}. Remember to use its ID.`
 					}
 				}
@@ -70,7 +75,7 @@ class DeleteStarCommand extends Command {
 			return;
 		}
 
-		await msg.clearReactions();
+		if (msg.reactions && msg.reactions.size) await msg.clearReactions();
 		message.util.reply('The message has been removed from the starboard.');
 	}
 }
