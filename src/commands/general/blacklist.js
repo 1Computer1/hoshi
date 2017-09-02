@@ -3,7 +3,7 @@ const { Command } = require('discord-akairo');
 class BlacklistCommand extends Command {
 	constructor() {
 		super('blacklist', {
-			aliases: ['blacklist'],
+			aliases: ['blacklist', 'unblacklist'],
 			category: 'general',
 			channelRestriction: 'guild',
 			userPermissions: ['MANAGE_GUILD'],
@@ -13,7 +13,7 @@ class BlacklistCommand extends Command {
 					match: 'content',
 					type: 'member',
 					prompt: {
-						start: msg => `${msg.author} **::** Which user do you want to blacklist?`,
+						start: msg => `${msg.author} **::** Which user do you want to blacklist or unblacklist?`,
 						retry: msg => `${msg.author} **::** You did not supply a valid user. Please try again.`
 					}
 				}
