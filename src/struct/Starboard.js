@@ -240,13 +240,15 @@ class Starboard {
 	}
 
 	static getStarEmoji(count) {
-		return count < 3
-			? '⭐'
-			: count < 5
-				? '🌟'
-				: count < 10
-					? '✨'
-					: '🌌';
+		if (count < 5) return '⭐';
+		if (count < 10) return '🌟';
+		if (count < 15) return '✨';
+		if (count < 20) return '💫';
+		if (count < 30) return '🎇';
+		if (count < 50) return '🎆';
+		if (count < 75) return '☄️';
+		if (count < 100) return '🌠';
+		return '🌌';
 	}
 }
 
