@@ -31,6 +31,13 @@ class BestStarCommand extends Command {
 					.addField('Best Star', `\\${emoji} ${topStar.starCount} (${msg.id})`, true)
 					.addField('Channel', msg.channel, true)
 					.addField(`Message`, content || '\u200B');
+			} else {
+				embed.addField('Not Found', [
+					'Unfortunately, this message was deleted.',
+					'The star should now be removed.'
+				]);
+
+				this.client.starboards.get(message.guild.id).delete({ id: topStar.messageID });
 			}
 		} else {
 			embed.setTitle(`Best Star of ${message.guild.name}`)

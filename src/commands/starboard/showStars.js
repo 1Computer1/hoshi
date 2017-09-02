@@ -56,6 +56,13 @@ class ShowStarsCommand extends Command {
 				embed.addField('Top Star', `\\${emoji} ${topStar.starCount} (${msg.id})`, true)
 					.addField('Channel', msg.channel, true)
 					.addField(`Message`, content || '\u200B');
+			} else {
+				embed.addField('Not Found', [
+					'Unfortunately, this message was deleted.',
+					'The star should now be removed.'
+				]);
+
+				this.client.starboards.get(message.guild.id).delete({ id: topStar.messageID });
 			}
 		}
 
