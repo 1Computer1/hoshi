@@ -39,7 +39,7 @@ class StarInfoCommand extends Command {
 		});
 	}
 
-	exec(message, { message: msg }) {
+	async exec(message, { message: msg }) {
 		const starboard = this.client.starboards.get(message.guild.id);
 		if (!starboard.channel) {
 			return message.util.reply('There isn\'t a starboard channel to use.');
@@ -51,11 +51,22 @@ class StarInfoCommand extends Command {
 		}
 
 		const emoji = Starboard.getStarEmoji(star.starredBy.length);
+
+		const starredBy = [];
+		const promises = [];
+		for (const id of star.starredBy) {
+			promises.push(this.client.fetchUser(id).then(user => {
+				starredBy.push(user);
+			}));
+		}
+
+		await Promise.all(promises);
+
 		const embed = this.client.util.embed()
 			.setColor(0xFFAC33)
 			.addField('Author', msg.author, true)
 			.addField('Channel', msg.channel, true)
-			.addField('Starrers', star.starredBy.map(id => this.client.users.get(id)).join(', '))
+			.addField('Starrers', starredBy.join(', '))
 			.setThumbnail(msg.author.displayAvatarURL)
 			.setTimestamp(msg.createdAt)
 			.setFooter(`${emoji} ${star.starredBy.length} | ${msg.id}`);
