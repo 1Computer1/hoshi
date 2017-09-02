@@ -39,7 +39,8 @@ class HelpCommand extends Command {
 				'',
 				`View those who starred a message with \`${prefix}starinfo <messageID>\`.`,
 				`View the star count for a user with \`${prefix}showstars [user]\`.`,
-				`View the leaderboards for stars with \`${prefix}topstars [page]\`.`
+				`View the leaderboards for stars with \`${prefix}topstars [page]\`.`,
+				`View the best star in the server with \`${prefix}beststar\``
 			])
 			.addField('Reputation', [
 				`You can add positive reputation to users with the \`${prefix}addrep <user>\` command.`,
