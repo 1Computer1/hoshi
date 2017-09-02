@@ -57,6 +57,8 @@ class StarInfoCommand extends Command {
 		for (const id of star.starredBy) {
 			promises.push(this.client.fetchUser(id).then(user => {
 				starredBy.push(user);
+			}).catch(() => {
+				starredBy.push(`<@${id}>`);
 			}));
 		}
 

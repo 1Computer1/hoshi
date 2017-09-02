@@ -58,7 +58,8 @@ class ShowRepsCommand extends Command {
 
 		if (guildReputations.length) {
 			const paginated = guildReputations.slice((page - 1) * this.perPage, page * this.perPage);
-			const sources = await Promise.all(paginated.map(rep => this.client.fetchUser(rep.sourceID)));
+			const promises = paginated.map(rep => this.client.fetchUser(rep.sourceID).catch(() => ({ tag: 'Unknown#????' })));
+			const sources = await Promise.all(promises);
 
 			embed.addField(`Reasons — Page ${page} of ${Math.ceil(guildReputations.length / this.perPage)}`, paginated.map((rep, index) => {
 				let text = rep.reason.substring(0, 160);

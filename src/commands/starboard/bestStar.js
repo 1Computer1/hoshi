@@ -20,7 +20,10 @@ class BestStarCommand extends Command {
 		if (stars.length) {
 			const topStar = stars.sort((a, b) => b.starCount - a.starCount)[0];
 			const msg = await message.guild.channels.get(topStar.channelID).fetchMessage(topStar.messageID).catch(() => null);
+
 			let content;
+			let tag;
+			let displayAvatarURL;
 
 			if (msg) {
 				content = msg.content || '\u200B';
@@ -28,6 +31,8 @@ class BestStarCommand extends Command {
 				const starboard = this.client.starboards.get(message.guild.id);
 				const starboardMsg = await starboard.channel.fetchMessage(topStar.starboardMessageID);
 				content = starboardMsg.embeds[0].fields[2] ? starboardMsg.embeds[0].fields[2].value : '\u200B';
+				tag = 'Unknown#????';
+				displayAvatarURL = starboardMsg.embeds[0].thumbnail.url;
 			}
 
 			if (content.length > 1000) {
@@ -35,8 +40,9 @@ class BestStarCommand extends Command {
 				content += '...';
 			}
 
-			const user = await this.client.fetchUser(topStar.authorID);
+			const user = await this.client.fetchUser(topStar.authorID).catch(() => ({ tag, displayAvatarURL }));
 			const emoji = Starboard.getStarEmoji(topStar.starCount);
+
 			embed.setTitle(`Best of ${message.guild.name} — ${user.tag}`)
 				.setThumbnail(user.displayAvatarURL)
 				.addField('Top Star', `\\${emoji} ${topStar.starCount} (${topStar.messageID})`, true)

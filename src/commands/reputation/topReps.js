@@ -47,6 +47,8 @@ class TopRepsCommand extends Command {
 			const id = paginated[i][0];
 			promises.push(this.client.fetchUser(id).then(user => {
 				paginated[i][0] = user;
+			}).catch(() => {
+				paginated[i][0] = { tag: 'Unknown#????' };
 			}));
 		}
 
