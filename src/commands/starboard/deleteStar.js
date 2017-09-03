@@ -2,8 +2,8 @@ const { Command } = require('discord-akairo');
 
 class DeleteStarCommand extends Command {
 	constructor() {
-		super('delete', {
-			aliases: ['delete'],
+		super('deleteStar', {
+			aliases: ['deleteStar', 'delete-star'],
 			category: 'starboard',
 			channelRestriction: 'guild',
 			userPermissions: ['MANAGE_MESSAGES'],
