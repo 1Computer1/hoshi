@@ -180,7 +180,9 @@ class Starboard {
 
 	fix(message) {
 		if (!this.initiated) return 'Starboard has not fully loaded, please wait.';
-		if (this.missingPermissions()) return this.missingPermissions();
+		const missingPerms = this.missingPermissions();
+		if (missingPerms) return this.missingPermissions();
+
 		return this.queue(message, this.fixStar.bind(this, message));
 	}
 
@@ -214,10 +216,12 @@ class Starboard {
 				.map(user => user.id)
 				.filter(user => !star.starredBy.includes(user) && message.author.id !== user)
 				.concat(star.starredBy);
+
 			const embed = this.buildStarboardEmbed(message, newStarredBy.length);
 			const starboardMessage = await this.channel.fetchMessage(star.starboardMessageID)
 				.then(msg => msg.edit({ embed }))
 				.catch(() => this.channel.send({ embed }));
+
 			const newStar = await star.update({
 				starCount: newStarredBy.length,
 				starredBy: newStarredBy,

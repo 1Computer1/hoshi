@@ -43,7 +43,7 @@ class FixStarCommand extends Command {
 		if (error) {
 			return message.util.reply(error);
 		} else {
-			return message.util.reply('Successfully fixes the message!');
+			return message.util.reply('Successfully fixed the stars for the message!');
 		}
 	}
 }
