@@ -40,7 +40,7 @@ class RemoveRepCommand extends Command {
 		});
 
 		if (!previous) {
-			return message.util.reply(`You cannot remove reputation from ${member.user.tag} because you never gave them any.`);
+			return message.util.reply(`You cannot remove reputation from **${member.user.tag}** because you never gave them any.`);
 		}
 
 		await Reputation.destroy({
