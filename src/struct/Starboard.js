@@ -212,7 +212,8 @@ class Starboard {
 
 			this.stars.set(message.id, newStar);
 		} else {
-			const newStarredBy = message.reactions.get('⭐').users
+			const users = await message.reactions.get('⭐').fetchUsers();
+			const newStarredBy = users
 				.map(user => user.id)
 				.filter(user => !star.starredBy.includes(user) && message.author.id !== user)
 				.concat(star.starredBy);
