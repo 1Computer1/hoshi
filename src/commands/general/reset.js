@@ -7,6 +7,8 @@ class ResetCommand extends Command {
 		super('reset', {
 			aliases: ['reset'],
 			category: 'general',
+			channelRestriction: 'guild',
+			userPermissions: ['MANAGE_GUILD'],
 			args: [
 				{
 					id: 'mode',
