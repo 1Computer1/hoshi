@@ -24,7 +24,9 @@ class MessageReactionAddListener extends Listener {
 
 			if (error) {
 				await reaction.remove(user);
-				reaction.message.channel.send(`${user} **::** ${error}`);
+				if (reaction.message.channel.permissionsFor(this.client.user).has('SEND_MESSAGES')) {
+					reaction.message.channel.send(`${user} **::** ${error}`);
+				}
 			}
 		}
 	}
