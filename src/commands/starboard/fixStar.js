@@ -6,6 +6,7 @@ class FixStarCommand extends Command {
 			aliases: ['fixstar'],
 			category: 'starboard',
 			channelRestriction: 'guild',
+			userPermissions: ['MANAGE_MESSAGES'],
 			args: [
 				// Indices are swapped in order to process channel first.
 				{
