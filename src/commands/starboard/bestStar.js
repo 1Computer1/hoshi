@@ -1,6 +1,7 @@
 const { Command } = require('discord-akairo');
-const Starboard = require('../../struct/Starboard');
+const Sequelize = require('sequelize');
 
+const Starboard = require('../../struct/Starboard');
 const Star = require('../../models/stars');
 
 class BestStarCommand extends Command {
@@ -14,12 +15,15 @@ class BestStarCommand extends Command {
 	}
 
 	async exec(message) {
-		const stars = await Star.findAll({ where: { guildID: message.guild.id } });
+		const [bestStar] = await Star.findAll({
+			where: { guildID: message.guild.id },
+			order: Sequelize.literal('"starCount" DESC')
+		})
 		const embed = this.client.util.embed().setColor(0xFFAC33);
 
-		if (stars.length) {
-			const topStar = stars.sort((a, b) => b.starCount - a.starCount)[0];
-			const msg = await message.guild.channels.get(topStar.channelID).fetchMessage(topStar.messageID).catch(() => null);
+		if (bestStar) {
+			const msg = await message.guild.channels.get(bestStar.channelID)
+				.fetchMessage(bestStar.messageID).catch(() => null);
 
 			let content;
 			let tag;
@@ -29,7 +33,7 @@ class BestStarCommand extends Command {
 				content = msg.content;
 			} else {
 				const starboard = this.client.starboards.get(message.guild.id);
-				const starboardMsg = await starboard.channel.fetchMessage(topStar.starboardMessageID);
+				const starboardMsg = await starboard.channel.fetchMessage(bestStar.starboardMessageID);
 				content = starboardMsg.embeds[0].fields[2] && starboardMsg.embeds[0].fields[2].value;
 				tag = 'Unknown#????';
 				displayAvatarURL = starboardMsg.embeds[0].thumbnail.url;
@@ -40,13 +44,13 @@ class BestStarCommand extends Command {
 				content += '...';
 			}
 
-			const user = await this.client.fetchUser(topStar.authorID).catch(() => ({ tag, displayAvatarURL }));
-			const emoji = Starboard.getStarEmoji(topStar.starCount);
+			const user = await this.client.fetchUser(bestStar.authorID).catch(() => ({ tag, displayAvatarURL }));
+			const emoji = Starboard.getStarEmoji(bestStar.starCount);
 
 			embed.setTitle(`Best of ${message.guild.name} — ${user.tag}`)
 				.setThumbnail(user.displayAvatarURL)
-				.addField('Top Star', `\\${emoji} ${topStar.starCount} (${topStar.messageID})`, true)
-				.addField('Channel', `<#${topStar.channelID}>`, true);
+				.addField('Top Star', `\\${emoji} ${bestStar.starCount} (${bestStar.messageID})`, true)
+				.addField('Channel', `<#${bestStar.channelID}>`, true);
 
 			if (content) embed.addField(`Message`, content);
 		} else {
