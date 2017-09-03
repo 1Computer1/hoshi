@@ -34,7 +34,7 @@ class HelpCommand extends Command {
 				'Note that messages sent before the Hoshi went online will not work with reactions.',
 				`You can also use the commands \`${prefix}star <messageID>\` and \`${prefix}unstar <messageID>\`.`,
 				'',
-				`Those with \`Manage Messages\` can use \`${prefix}delete <messageID>\` to delete stars.`,
+				`Those with \`Manage Messages\` can use \`${prefix}deletestar <messageID>\` to delete stars.`,
 				'Deleting or changing the starboard channel itself will reset all stars.',
 				'',
 				`View those who starred a message with \`${prefix}starinfo <messageID>\`.`,
@@ -47,12 +47,19 @@ class HelpCommand extends Command {
 				`You can specify a reason for the rep or replace the previous reason.`,
 				`Use \`${prefix}removerep <user>\` to remove reputation from the user`,
 				'',
+				`Those with \`Manage Messages\` can use \`${prefix}deleterep <source> <target>\` to delete reps.`,
+				'The source user is the one who gave the rep and the target user is the one who received it.',
+				'',
 				`View the reputation count for a user with \`${prefix}showreps [user]\`.`,
 				`View the leaderboards for reputations with \`${prefix}topreps [page]\`.`
 			])
 			.addField('Other', [
 				`Use the \`${prefix}blacklist <user>\` to disallow someone from using the starboard or reputation commands.`,
+				'This command requires the `Manage Guild` permission to be usable.',
 				'You can use it again on the same user to remove them from the blacklist.',
+				'',
+				`To reset stars or reputation, use the \`${prefix}reset <star/rep/all>\` command.`,
+				'This command requires the `Manage Guild` permission to be usable.',
 				'',
 				`Use the \`${prefix}prefix <prefix>\` command to change prefix.`,
 				'This command requires the `Manage Guild` permission to be usable.',
