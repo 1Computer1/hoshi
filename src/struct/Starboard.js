@@ -127,8 +127,8 @@ class Starboard {
 			return undefined;
 		}
 
-		if (message.reactions.has('⭐') || message.reactions.has('%E2%AD%90')) {
-			const reaction = message.reactions.get('⭐') || message.reactions.get('%E2%AD%90');
+		if (message.reactions.has('⭐')) {
+			const reaction = message.reactions.get('⭐');
 			if (reaction.users.has(unstarredBy.id)) {
 				await reaction.remove(unstarredBy);
 			}
