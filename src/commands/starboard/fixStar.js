@@ -2,8 +2,8 @@ const { Command } = require('discord-akairo');
 
 class FixStarCommand extends Command {
 	constructor() {
-		super('fixstar', {
-			aliases: ['fixstar'],
+		super('fixStar', {
+			aliases: ['fixStar', 'fix-star', 'fixStars', 'fix-stars'],
 			category: 'starboard',
 			channelRestriction: 'guild',
 			userPermissions: ['MANAGE_MESSAGES'],
