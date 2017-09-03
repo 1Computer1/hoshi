@@ -178,6 +178,56 @@ class Starboard {
 		return undefined;
 	}
 
+	fix(message) {
+		if (!this.initiated) return 'Starboard has not fully loaded, please wait.';
+		if (this.missingPermissions()) return this.missingPermissions();
+		return this.queue(message, this.fixStar.bind(this, message));
+	}
+
+	async fixStar(message) {
+		let star = this.stars.get(message.id);
+
+		if (!star) {
+			if (!message.reactions.has('⭐')) return;
+
+			const users = await message.reactions.get('⭐').fetchUsers();
+			const starredBy = users
+				.map(user => user.id)
+				.filter(user => message.author.id !== user);
+
+			if (!starredBy.length) return;
+
+			const embed = this.buildStarboardEmbed(message, starredBy.length);
+			const starboardMessage = await this.channel.send({ embed });
+			const newStar = await Star.create({
+				messageID: message.id,
+				authorID: message.author.id,
+				channelID: message.channel.id,
+				guildID: this.guild.id,
+				starboardMessageID: starboardMessage.id,
+				starredBy: starredBy
+			});
+
+			this.stars.set(message.id, newStar);
+		} else {
+			const newStarredBy = message.reactions.get('⭐').users
+				.map(user => user.id)
+				.filter(user => !star.starredBy.includes(user) && message.author.id !== user)
+				.concat(star.starredBy);
+			const embed = this.buildStarboardEmbed(message, newStarredBy.length);
+			const starboardMessage = await this.channel.fetchMessage(star.starboardMessageID)
+				.then(msg => msg.edit({ embed }))
+				.catch(() => this.channel.send({ embed }));
+			const newStar = await star.update({
+				starCount: newStarredBy.length,
+				starredBy: newStarredBy,
+				starboardMessageID: starboardMessage.id
+			});
+
+			this.stars.set(message.id, newStar);
+		}
+	}
+
 	destroy() {
 		return Star.destroy({ where: { guildID: this.guild.id } });
 	}
