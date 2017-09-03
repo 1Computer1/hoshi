@@ -181,7 +181,7 @@ class Starboard {
 	fix(message) {
 		if (!this.initiated) return 'Starboard has not fully loaded, please wait.';
 		const missingPerms = this.missingPermissions();
-		if (missingPerms) return this.missingPermissions();
+		if (missingPerms) return missingPerms;
 
 		return this.queue(message, this.fixStar.bind(this, message));
 	}
