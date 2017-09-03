@@ -1,5 +1,6 @@
 const { Command } = require('discord-akairo');
 
+const { db } = require('../../struct/Database');
 const Reputation = require('../../models/reputations');
 
 class TopRepsCommand extends Command {
@@ -27,40 +28,40 @@ class TopRepsCommand extends Command {
 	}
 
 	async exec(message, { page }) {
-		const reps = await Reputation.findAll({ where: { guildID: message.guild.id } });
-		const grouped = reps.reduce((obj, curr) => {
-			if (!obj[curr.targetID]) obj[curr.targetID] = 0;
-			obj[curr.targetID]++;
-			return obj;
-		}, {});
+		const total = await Reputation.count({ where: { guildID: message.guild.id } });
+		const topReps = await db.query(`
+			SELECT
+				COUNT(*) AS amount,
+				"targetID"
+			FROM reputations
+			GROUP BY "targetID" ORDER BY amount DESC
+			OFFSET :offset
+			LIMIT :limit
+		`, {
+				type: db.Sequelize.QueryTypes.SELECT,
+				replacements: {
+					offset: (page - 1) * this.perPage,
+					limit: this.perPage
+				}
+			}
+		);
 
-		const sorted = Object.entries(grouped).sort((a, b) => b[1] - a[1]);
+		const users = await Promise.all(topReps.map(async row => {
+			const user = await this.client.fetchUser(row.targetID);
 
-		if ((page - 1) * this.perPage > sorted.length) {
-			page = Math.floor(sorted.length / this.perPage) + 1;
-		}
-
-		const paginated = sorted.slice((page - 1) * this.perPage, page * this.perPage);
-
-		const promises = [];
-		for (let i = 0; i < paginated.length; i++) {
-			const id = paginated[i][0];
-			promises.push(this.client.fetchUser(id).then(user => {
-				paginated[i][0] = user;
-			}).catch(() => {
-				paginated[i][0] = { tag: 'Unknown#????' };
-			}));
-		}
-
-		await Promise.all(promises);
+			return {
+				tag: user ? user.tag : 'Unknown#????',
+				amount: row.amount
+			};
+		}));
 
 		const embed = this.client.util.embed()
 			.setColor(0xFFAC33)
-			.setTitle(`Reputation Leaderboard — Page ${page} of ${Math.ceil(sorted.length / this.perPage)}`);
+			.setTitle(`Reputation Leaderboard — Page ${page} of ${Math.ceil(total / this.perPage)}`);
 
-		if (paginated.length) {
-			const desc = paginated
-				.map(([user, amount], index) => `${1 + index + ((page - 1) * this.perPage)}. **${user.tag} ::** ${amount}`);
+		if (users.length) {
+			const desc = users
+				.map(({ tag, amount }, index) => `${1 + index + ((page - 1) * this.perPage)}. **${tag} ::** ${amount}`);
 
 			embed.setDescription(desc);
 		} else {

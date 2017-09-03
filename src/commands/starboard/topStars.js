@@ -1,6 +1,7 @@
 const { Command } = require('discord-akairo');
 const Starboard = require('../../struct/Starboard');
 
+const { db } = require('../../struct/Database');
 const Star = require('../../models/stars');
 
 class TopStarsCommand extends Command {
@@ -28,44 +29,40 @@ class TopStarsCommand extends Command {
 	}
 
 	async exec(message, { page }) {
-		const stars = await Star.findAll({
-			where: { guildID: message.guild.id },
-			attributes: ['authorID', 'starCount']
-		});
+		const total = await Star.count({ where: { guildID: message.guild.id } });
+		const topStars = await db.query(`
+			SELECT
+				SUM("starCount") AS amount,
+				"authorID"
+			FROM stars
+			GROUP BY "authorID" ORDER BY amount DESC
+			OFFSET :offset
+			LIMIT :limit
+		`, {
+				type: db.Sequelize.QueryTypes.SELECT,
+				replacements: {
+					offset: (page - 1) * this.perPage,
+					limit: this.perPage
+				}
+			}
+		);
 
-		const grouped = stars.reduce((obj, curr) => {
-			if (!obj[curr.authorID]) obj[curr.authorID] = 0;
-			obj[curr.authorID] += curr.starCount;
-			return obj;
-		}, {});
+		const users = await Promise.all(topStars.map(async row => {
+			const user = await this.client.fetchUser(row.authorID);
 
-		const sortedUsers = Object.entries(grouped).sort((a, b) => b[1] - a[1]);
-
-		if ((page - 1) * this.perPage > sortedUsers.length) {
-			page = Math.floor(sortedUsers.length / this.perPage) + 1;
-		}
-
-		const paginated = sortedUsers.slice((page - 1) * this.perPage, page * this.perPage);
-
-		const promises = [];
-		for (let i = 0; i < paginated.length; i++) {
-			const id = paginated[i][0];
-			promises.push(this.client.fetchUser(id).then(user => {
-				paginated[i][0] = user;
-			}).catch(() => {
-				paginated[i][0] = { tag: 'Unknown#????' };
-			}));
-		}
-
-		await Promise.all(promises);
+			return {
+				tag: user ? user.tag : 'Unknown#????',
+				amount: row.amount
+			};
+		}));
 
 		const embed = this.client.util.embed()
 			.setColor(0xFFAC33)
-			.setTitle(`Star Leaderboard — Page ${page} of ${Math.ceil(sortedUsers.length / this.perPage)}`);
+			.setTitle(`Star Leaderboard — Page ${page} of ${Math.ceil(total / this.perPage)}`);
 
-		if (paginated.length) {
-			const desc = paginated
-				.map(([user, count], index) => `${1 + index + ((page - 1) * this.perPage)}. **${user.tag} ::** ${count} \\${Starboard.getStarEmoji(count)}`);
+		if (users.length) {
+			const desc = users
+				.map(({ tag, amount }, index) => `${1 + index + ((page - 1) * this.perPage)}. **${tag} ::** ${amount} \\${Starboard.getStarEmoji(amount)}`);
 
 			embed.setDescription(desc);
 		} else {
