@@ -18,7 +18,8 @@ class BestStarCommand extends Command {
 		const [bestStar] = await Star.findAll({
 			where: { guildID: message.guild.id },
 			order: Sequelize.literal('"starCount" DESC')
-		})
+		});
+
 		const embed = this.client.util.embed().setColor(0xFFAC33);
 
 		if (bestStar) {
