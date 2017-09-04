@@ -27,7 +27,7 @@ class DeleteStarCommand extends Command {
 					index: 0,
 					type: (word, message, { channel }) => {
 						if (!word) return null;
-						return channel.fetchMessage(word).catch(() => {
+						return channel.messages.fetch(word).catch(() => {
 							if (this.client.starboards.get(message.guild.id).stars.has(word)) {
 								return { id: word };
 							}
