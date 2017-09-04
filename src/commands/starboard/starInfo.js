@@ -6,7 +6,7 @@ class StarInfoCommand extends Command {
 		super('starInfo', {
 			aliases: ['starInfo', 'star-info'],
 			category: 'starboard',
-			channelRestriction: 'guild',
+			channel: 'guild',
 			clientPermissions: ['EMBED_LINKS'],
 			args: [
 				// Indices are swapped in order to process channel first.
@@ -27,8 +27,7 @@ class StarInfoCommand extends Command {
 					index: 0,
 					type: (word, message, { channel }) => {
 						if (!word) return null;
-						// eslint-disable-next-line prefer-promise-reject-errors
-						return channel.fetchMessage(word).catch(() => Promise.reject());
+						return channel.messages.fetch(word).catch(() => null);
 					},
 					prompt: {
 						start: 'What is the ID of the message you would like to view the info of?',
@@ -55,7 +54,7 @@ class StarInfoCommand extends Command {
 		const starredBy = [];
 		const promises = [];
 		for (const id of star.starredBy) {
-			promises.push(this.client.fetchUser(id).then(user => {
+			promises.push(this.client.users.fetch(id).then(user => {
 				starredBy.push(user);
 			}).catch(() => {
 				starredBy.push(`<@${id}>`);

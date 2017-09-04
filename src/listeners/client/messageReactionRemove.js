@@ -3,7 +3,7 @@ const { Listener } = require('discord-akairo');
 class MessageReactionRemoveListener extends Listener {
 	constructor() {
 		super('messageReactionRemove', {
-			eventName: 'messageReactionRemove',
+			event: 'messageReactionRemove',
 			emitter: 'client',
 			category: 'client'
 		});

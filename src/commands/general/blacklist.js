@@ -5,7 +5,7 @@ class BlacklistCommand extends Command {
 		super('blacklist', {
 			aliases: ['blacklist', 'unblacklist'],
 			category: 'general',
-			channelRestriction: 'guild',
+			channel: 'guild',
 			userPermissions: ['MANAGE_GUILD'],
 			args: [
 				{

@@ -9,7 +9,7 @@ class TopStarsCommand extends Command {
 		super('topStars', {
 			aliases: ['topStars', 'top-stars', 'topStar', 'top-star', 'starsTop', 'star-top', 'starTop', 'stars-top'],
 			category: 'starboard',
-			channelRestriction: 'guild',
+			channel: 'guild',
 			clientPermissions: ['EMBED_LINKS'],
 			args: [
 				{
@@ -48,7 +48,7 @@ class TopStarsCommand extends Command {
 		);
 
 		const users = await Promise.all(topStars.map(async row => {
-			const user = await this.client.fetchUser(row.authorID);
+			const user = await this.client.users.fetch(row.authorID);
 
 			return {
 				tag: user ? user.tag : 'Unknown#????',

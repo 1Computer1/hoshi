@@ -9,7 +9,7 @@ class BestStarCommand extends Command {
 		super('bestStar', {
 			aliases: ['bestStar', 'best-star', 'starBest', 'star-best'],
 			category: 'starboard',
-			channelRestriction: 'guild',
+			channel: 'guild',
 			clientPermissions: ['EMBED_LINKS']
 		});
 	}
@@ -18,12 +18,13 @@ class BestStarCommand extends Command {
 		const [bestStar] = await Star.findAll({
 			where: { guildID: message.guild.id },
 			order: Sequelize.literal('"starCount" DESC')
-		})
+		});
+
 		const embed = this.client.util.embed().setColor(0xFFAC33);
 
 		if (bestStar) {
 			const msg = await message.guild.channels.get(bestStar.channelID)
-				.fetchMessage(bestStar.messageID).catch(() => null);
+				.messages.fetch(bestStar.messageID).catch(() => null);
 
 			let content;
 			let tag;
@@ -33,7 +34,7 @@ class BestStarCommand extends Command {
 				content = msg.content;
 			} else {
 				const starboard = this.client.starboards.get(message.guild.id);
-				const starboardMsg = await starboard.channel.fetchMessage(bestStar.starboardMessageID);
+				const starboardMsg = await starboard.channel.messages.fetch(bestStar.starboardMessageID);
 				content = starboardMsg.embeds[0].fields[2] && starboardMsg.embeds[0].fields[2].value;
 				tag = 'Unknown#????';
 				displayAvatarURL = starboardMsg.embeds[0].thumbnail.url;
@@ -44,7 +45,7 @@ class BestStarCommand extends Command {
 				content += '...';
 			}
 
-			const user = await this.client.fetchUser(bestStar.authorID).catch(() => ({ tag, displayAvatarURL }));
+			const user = await this.client.users.fetch(bestStar.authorID).catch(() => ({ tag, displayAvatarURL }));
 			const emoji = Starboard.getStarEmoji(bestStar.starCount);
 
 			embed.setTitle(`Best of ${message.guild.name} — ${user.tag}`)

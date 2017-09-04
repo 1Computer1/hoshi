@@ -4,7 +4,7 @@ const Logger = require('../../util/Logger');
 class CommandBlockedListener extends Listener {
 	constructor() {
 		super('commandBlocked', {
-			eventName: 'commandBlocked',
+			event: 'commandBlocked',
 			emitter: 'commandHandler',
 			category: 'commandHandler'
 		});

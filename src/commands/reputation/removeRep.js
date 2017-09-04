@@ -6,7 +6,7 @@ class RemoveRepCommand extends Command {
 		super('removeRep', {
 			aliases: ['removeRep', 'remove-rep', 'unrep', '--'],
 			category: 'reputation',
-			channelRestriction: 'guild',
+			channel: 'guild',
 			args: [
 				{
 					id: 'member',

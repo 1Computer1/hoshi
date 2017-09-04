@@ -5,7 +5,7 @@ const Starboard = require('../../struct/Starboard');
 class ReadyListener extends Listener {
 	constructor() {
 		super('ready', {
-			eventName: 'ready',
+			event: 'ready',
 			emitter: 'client',
 			category: 'client'
 		});
@@ -13,7 +13,7 @@ class ReadyListener extends Listener {
 
 	exec() {
 		Logger.info(`${this.client.user.tag} is ready to serve!`);
-		this.client.user.setGame('@Hoshi help');
+		this.client.user.setActivity('@Hoshi help');
 
 		for (const guild of this.client.guilds.values()) {
 			const starboard = new Starboard(guild);

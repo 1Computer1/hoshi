@@ -3,7 +3,7 @@ const { Listener } = require('discord-akairo');
 class GuildDeleteListener extends Listener {
 	constructor() {
 		super('guildDelete', {
-			eventName: 'guildDelete',
+			event: 'guildDelete',
 			emitter: 'client',
 			category: 'client'
 		});

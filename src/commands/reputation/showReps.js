@@ -7,7 +7,7 @@ class ShowRepsCommand extends Command {
 		super('showReps', {
 			aliases: ['showReps', 'show-reps', 'showRep', 'show-rep'],
 			category: 'reputation',
-			channelRestriction: 'guild',
+			channel: 'guild',
 			clientPermissions: ['EMBED_LINKS'],
 			split: 'quoted',
 			args: [
@@ -58,7 +58,7 @@ class ShowRepsCommand extends Command {
 
 		if (guildReputations.length) {
 			const paginated = guildReputations.slice((page - 1) * this.perPage, page * this.perPage);
-			const promises = paginated.map(rep => this.client.fetchUser(rep.sourceID).catch(() => ({ tag: 'Unknown#????' })));
+			const promises = paginated.map(rep => this.client.users.fetch(rep.sourceID).catch(() => ({ tag: 'Unknown#????' })));
 			const sources = await Promise.all(promises);
 
 			embed.addField(`Reasons — Page ${page} of ${Math.ceil(guildReputations.length / this.perPage)}`, paginated.map((rep, index) => {

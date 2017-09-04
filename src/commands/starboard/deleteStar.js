@@ -5,7 +5,7 @@ class DeleteStarCommand extends Command {
 		super('deleteStar', {
 			aliases: ['deleteStar', 'delete-star'],
 			category: 'starboard',
-			channelRestriction: 'guild',
+			channel: 'guild',
 			userPermissions: ['MANAGE_MESSAGES'],
 			clientPermissions: ['MANAGE_MESSAGES'],
 			args: [
@@ -32,7 +32,7 @@ class DeleteStarCommand extends Command {
 								return { id: word };
 							}
 
-							return Promise.reject(); // eslint-disable-line prefer-promise-reject-errors
+							return null;
 						});
 					},
 					prompt: {

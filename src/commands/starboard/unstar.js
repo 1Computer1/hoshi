@@ -5,7 +5,7 @@ class UnstarCommand extends Command {
 		super('unstar', {
 			aliases: ['unstar'],
 			category: 'starboard',
-			channelRestriction: 'guild',
+			channel: 'guild',
 			clientPermissions: ['MANAGE_MESSAGES'],
 			args: [
 				// Indices are swapped in order to process channel first.
@@ -26,8 +26,7 @@ class UnstarCommand extends Command {
 					index: 0,
 					type: (word, message, { channel }) => {
 						if (!word) return null;
-						// eslint-disable-next-line prefer-promise-reject-errors
-						return channel.fetchMessage(word).catch(() => Promise.reject());
+						return channel.messages.fetch(word).catch(() => null);
 					},
 					prompt: {
 						start: msg => `${msg.author} **::** Could not find a message. What is the ID of the message you would like to remove a star from?`,

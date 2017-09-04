@@ -6,7 +6,7 @@ class DeleteRepCommand extends Command {
 		super('deleteRep', {
 			aliases: ['deleteRep', 'delete-rep'],
 			category: 'reputation',
-			channelRestriction: 'guild',
+			channel: 'guild',
 			userPermissions: ['MANAGE_MESSAGES'],
 			clientPermissions: ['MANAGE_MESSAGES'],
 			split: 'quoted',

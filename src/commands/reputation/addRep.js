@@ -6,7 +6,7 @@ class AddRepCommand extends Command {
 		super('addRep', {
 			aliases: ['addRep', 'add-rep', 'rep', '++'],
 			category: 'reputation',
-			channelRestriction: 'guild',
+			channel: 'guild',
 			split: 'quoted',
 			args: [
 				{

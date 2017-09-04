@@ -5,7 +5,7 @@ class PrefixCommand extends Command {
 		super('prefix', {
 			aliases: ['prefix'],
 			category: 'general',
-			channelRestriction: 'guild',
+			channel: 'guild',
 			userPermissions: ['MANAGE_GUILD'],
 			args: [
 				{

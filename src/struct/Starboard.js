@@ -94,7 +94,7 @@ class Starboard {
 		const newStarredBy = star.starredBy.concat([starredBy.id]);
 
 		const embed = this.buildStarboardEmbed(message, newStarredBy.length);
-		const starboardMessage = await this.channel.fetchMessage(star.starboardMessageID)
+		const starboardMessage = await this.channel.messages.fetch(star.starboardMessageID)
 			.then(msg => msg.edit({ embed }))
 			.catch(() => this.channel.send({ embed }));
 
@@ -138,7 +138,7 @@ class Starboard {
 
 		if (newStarredBy.length) {
 			const embed = this.buildStarboardEmbed(message, newStarredBy.length);
-			const starboardMessage = await this.channel.fetchMessage(star.starboardMessageID)
+			const starboardMessage = await this.channel.messages.fetch(star.starboardMessageID)
 				.then(msg => msg.edit({ embed }))
 				.catch(() => this.channel.send({ embed }));
 
@@ -152,7 +152,7 @@ class Starboard {
 			return undefined;
 		}
 
-		await this.channel.fetchMessage(star.starboardMessageID).then(msg => msg.delete()).catch(() => null);
+		await this.channel.messages.fetch(star.starboardMessageID).then(msg => msg.delete()).catch(() => null);
 		await star.destroy();
 		this.stars.delete(message.id);
 		return undefined;
@@ -168,7 +168,7 @@ class Starboard {
 		const star = this.stars.get(message.id);
 		if (!star) return undefined;
 
-		const starboardMessage = await this.channel.fetchMessage(star.starboardMessageID).catch(() => null);
+		const starboardMessage = await this.channel.messages.fetch(star.starboardMessageID).catch(() => null);
 		if (starboardMessage) {
 			await starboardMessage.delete();
 		}
@@ -192,7 +192,7 @@ class Starboard {
 		if (!star) {
 			if (!message.reactions.has('⭐')) return;
 
-			const users = await message.reactions.get('⭐').fetchUsers();
+			const users = await message.reactions.get('⭐').users.fetchs();
 			const starredBy = users
 				.map(user => user.id)
 				.filter(user => message.author.id !== user);
@@ -212,14 +212,14 @@ class Starboard {
 
 			this.stars.set(message.id, newStar);
 		} else {
-			const users = await message.reactions.get('⭐').fetchUsers();
+			const users = await message.reactions.get('⭐').users.fetchs();
 			const newStarredBy = users
 				.map(user => user.id)
 				.filter(user => !star.starredBy.includes(user) && message.author.id !== user)
 				.concat(star.starredBy);
 
 			const embed = this.buildStarboardEmbed(message, newStarredBy.length);
-			const starboardMessage = await this.channel.fetchMessage(star.starboardMessageID)
+			const starboardMessage = await this.channel.messages.fetch(star.starboardMessageID)
 				.then(msg => msg.edit({ embed }))
 				.catch(() => this.channel.send({ embed }));
 
@@ -240,7 +240,7 @@ class Starboard {
 	missingPermissions() {
 		const missingPermissions = this.client.listenerHandler.modules.get('commandBlocked').missingPermissions;
 		const str = missingPermissions(this.channel, this.client.user, [
-			'READ_MESSAGES',
+			'VIEW_CHANNEL',
 			'MANAGE_MESSAGES',
 			'READ_MESSAGE_HISTORY',
 			'SEND_MESSAGES',

@@ -8,7 +8,7 @@ class TopRepsCommand extends Command {
 		super('topReps', {
 			aliases: ['topReps', 'top-reps', 'topRep', 'top-rep', 'repsTop', 'reps-top', 'repTop', 'rep-top'],
 			category: 'reputation',
-			channelRestriction: 'guild',
+			channel: 'guild',
 			clientPermissions: ['EMBED_LINKS'],
 			args: [
 				{
@@ -47,7 +47,7 @@ class TopRepsCommand extends Command {
 		);
 
 		const users = await Promise.all(topReps.map(async row => {
-			const user = await this.client.fetchUser(row.targetID);
+			const user = await this.client.users.fetch(row.targetID);
 
 			return {
 				tag: user ? user.tag : 'Unknown#????',
