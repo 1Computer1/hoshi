@@ -17,6 +17,9 @@
           "ignoreStrings": true,
           "ignoreTemplateLiterals": true
         }
+      ],
+      "prefer-destructuring": [
+        "off"
       ]
     }
   },

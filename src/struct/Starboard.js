@@ -221,12 +221,12 @@ class Starboard {
 			const embed = this.buildStarboardEmbed(message, starredBy.length);
 			const starboardMessage = await this.channel.send({ embed });
 			const newStar = await Star.create({
+				starredBy,
 				messageID: message.id,
 				authorID: message.author.id,
 				channelID: message.channel.id,
 				guildID: this.guild.id,
-				starboardMessageID: starboardMessage.id,
-				starredBy: starredBy
+				starboardMessageID: starboardMessage.id
 			});
 
 			this.stars.set(message.id, newStar);
@@ -260,7 +260,7 @@ class Starboard {
 	}
 
 	missingPermissions() {
-		const missingPermissions = this.client.listenerHandler.modules.get('commandBlocked').missingPermissions;
+		const { missingPermissions } = this.client.listenerHandler.modules.get('commandBlocked');
 		const str = missingPermissions(this.channel, this.client.user, [
 			'VIEW_CHANNEL',
 			'MANAGE_MESSAGES',
