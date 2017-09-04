@@ -189,10 +189,29 @@ class Starboard {
 	async fixStar(message) {
 		let star = this.stars.get(message.id);
 
+		const fetchUsers = reaction => {
+			const users = this.client.util.collection();
+			let prevAmount = 0;
+
+			const fetch = async after => {
+				const fetched = await reaction.fetchUsers({ after });
+				if (fetched.size === prevAmount) return users;
+
+				for (const [k, v] of fetched) {
+					users.set(k, v);
+				}
+
+				prevAmount = fetched.size;
+				return fetch(fetched.last().id);
+			};
+
+			return fetch();
+		};
+
 		if (!star) {
 			if (!message.reactions.has('⭐')) return;
 
-			const users = await message.reactions.get('⭐').users.fetchs();
+			const users = await fetchUsers(message.reactions.get('⭐'));
 			const starredBy = users
 				.map(user => user.id)
 				.filter(user => message.author.id !== user);
@@ -212,7 +231,7 @@ class Starboard {
 
 			this.stars.set(message.id, newStar);
 		} else {
-			const users = await message.reactions.get('⭐').users.fetchs();
+			const users = await fetchUsers(message.reactions.get('⭐'));
 			const newStarredBy = users
 				.map(user => user.id)
 				.filter(user => !star.starredBy.includes(user) && message.author.id !== user)
