@@ -30,11 +30,11 @@
     "eslint-config-aqua": "^1.4.1"
   },
   "dependencies": {
-    "chalk": "^1.1.3",
+    "chalk": "^2.1.0",
     "discord-akairo": "github:1computer1/discord-akairo",
     "discord.js": "github:hydrabolt/discord.js",
     "moment": "^2.18.1",
     "pg": "^6.4.2",
-    "sequelize": "^4.4.7"
+    "sequelize": "^4.8.0"
   }
 }
