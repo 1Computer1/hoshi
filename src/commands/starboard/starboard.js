@@ -33,8 +33,8 @@ class StarCommand extends Command {
 						return 'first';
 					},
 					prompt: {
-						start: msg => `${msg.author} **::** Are you sure you want to delete the previous starboard? (y/N)`,
-						retry: () => ''
+						start: (msg, { channel }) => `${msg.author} **::** Are you sure you want to delete the previous starboard of ${channel}? (y/N)`,
+						retry: ''
 					}
 				}
 			]

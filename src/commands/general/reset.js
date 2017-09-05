@@ -38,7 +38,7 @@ class ResetCommand extends Command {
 							rep: 'Are you sure you want to reset all reputation points on this server? (y/N)',
 							all: 'Are you sure you want to reset all stars and reputation points on this server? (y/N)'
 						}[mode]}`,
-						retry: () => ''
+						retry: ''
 					}
 				}
 			]

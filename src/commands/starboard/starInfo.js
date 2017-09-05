@@ -30,7 +30,7 @@ class StarInfoCommand extends Command {
 						return channel.messages.fetch(word).catch(() => null);
 					},
 					prompt: {
-						start: 'What is the ID of the message you would like to view the info of?',
+						start: msg => `${msg.author} **::** What is the ID of the message you would like to view the info of?`,
 						retry: (message, { channel }) => `Oops! I can't find that message in ${channel}. Remember to use its ID.`
 					}
 				}
