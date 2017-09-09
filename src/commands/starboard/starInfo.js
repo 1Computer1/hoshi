@@ -17,8 +17,8 @@ class StarInfoCommand extends Command {
 					type: 'textChannel',
 					default: message => message.channel,
 					prompt: {
-						start: msg => `${msg.author} **::** That channel could not be found. What channel is the message you are trying to view the info of in?`,
-						retry: msg => `${msg.author} **::** Please provide a valid text channel.`,
+						start: 'That channel could not be found. What channel is the message you are trying to view the info of in?',
+						retry: 'Please provide a valid text channel.',
 						optional: true
 					}
 				},
@@ -30,8 +30,8 @@ class StarInfoCommand extends Command {
 						return channel.messages.fetch(word).catch(() => null);
 					},
 					prompt: {
-						start: msg => `${msg.author} **::** What is the ID of the message you would like to view the info of?`,
-						retry: (message, { channel }) => `Oops! I can't find that message in ${channel}. Remember to use its ID.`
+						start: 'What is the ID of the message you would like to view the info of?',
+						retry: (message, { channel }) => `I can't find that message in ${channel}. Remember to use its ID.`
 					}
 				}
 			]

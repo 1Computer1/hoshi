@@ -15,9 +15,9 @@ class ResetCommand extends Command {
 					match: 'content',
 					type: ['stars', 'rep', 'all'],
 					prompt: {
-						start: msg => `${msg.author} **::** Please choose a mode for the reset (stars/rep/all)`,
-						retry: msg => [
-							`${msg.author} **::** You did not choose a valid reset mode.`,
+						start: 'Please choose a mode for the reset (stars/rep/all)',
+						retry: [
+							'You did not choose a valid reset mode.',
 							'Choose one of `stars`, `rep` or `all`'
 						]
 					}
@@ -33,7 +33,7 @@ class ResetCommand extends Command {
 						return 'no';
 					},
 					prompt: {
-						start: (msg, { mode }) => `${msg.author} **::** ${{
+						start: (msg, { mode }) => `${{
 							stars: 'Are you sure you want to reset all stars on this server? (y/N)',
 							rep: 'Are you sure you want to reset all reputation points on this server? (y/N)',
 							all: 'Are you sure you want to reset all stars and reputation points on this server? (y/N)'

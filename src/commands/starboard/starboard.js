@@ -13,8 +13,8 @@ class StarCommand extends Command {
 					match: 'content',
 					type: 'textChannel',
 					prompt: {
-						start: msg => `${msg.author} **::** What channel would you like to use as the starboard?`,
-						retry: msg => `${msg.author} **::** Please provide a valid text channel.`
+						start: 'What channel would you like to use as the starboard?',
+						retry: 'Please provide a valid text channel.'
 					}
 				},
 				{
@@ -33,7 +33,7 @@ class StarCommand extends Command {
 						return 'first';
 					},
 					prompt: {
-						start: (msg, { channel }) => `${msg.author} **::** Are you sure you want to delete the previous starboard of ${channel}? (y/N)`,
+						start: (msg, { channel }) => `Are you sure you want to delete the previous starboard of ${channel}? (y/N)`,
 						retry: ''
 					}
 				}

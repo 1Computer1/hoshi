@@ -16,8 +16,8 @@ class PrefixCommand extends Command {
 						return word;
 					},
 					prompt: {
-						start: msg => `${msg.author} **::** What would you like to set the prefix to?`,
-						retry: msg => `${msg.author} **::** Please provide a prefix without spaces and less than 10 characters.`
+						start: 'What would you like to set the prefix to?',
+						retry: 'Please provide a prefix without spaces and less than 10 characters.'
 					}
 				}
 			]

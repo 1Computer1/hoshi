@@ -13,8 +13,8 @@ class RemoveRepCommand extends Command {
 					match: 'content',
 					type: 'member',
 					prompt: {
-						start: msg => `${msg.author} **::** Which user do you want to remove reputation from?`,
-						retry: msg => `${msg.author} **::** You did not supply a valid user. Please try again.`
+						start: 'Which user do you want to remove reputation from?',
+						retry: 'You did not supply a valid user. Please try again.'
 					}
 				}
 			]

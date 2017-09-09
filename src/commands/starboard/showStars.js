@@ -17,8 +17,8 @@ class ShowStarsCommand extends Command {
 					type: 'member',
 					default: message => message.member,
 					prompt: {
-						start: msg => `${msg.author} **::** That user could not be found. Whose reputation would you like to view?`,
-						retry: msg => `${msg.author} **::** Please provide a valid member.`,
+						start: 'That user could not be found. Whose reputation would you like to view?',
+						retry: 'Please provide a valid member.',
 						optional: true
 					}
 				}
@@ -68,7 +68,7 @@ class ShowStarsCommand extends Command {
 			embed.addField('Top Star', `\\${emoji} ${topStar.starCount} (${topStar.messageID})`, true)
 				.addField('Channel', `<#${topStar.channelID}>`, true);
 
-			if (content) embed.addField(`Message`, content);
+			if (content) embed.addField('Message', content);
 		}
 
 		return message.util.send({ embed });

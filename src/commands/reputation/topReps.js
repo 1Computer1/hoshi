@@ -16,8 +16,8 @@ class TopRepsCommand extends Command {
 					type: 'integer',
 					default: 1,
 					prompt: {
-						start: msg => `${msg.author} **::** Invalid page. Which page would you like to view?`,
-						retry: msg => `${msg.author} **::** Please provide a valid page number.`,
+						start: 'Invalid page. Which page would you like to view?',
+						retry: 'Please provide a valid page number.',
 						optional: true
 					}
 				}

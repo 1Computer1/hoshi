@@ -13,8 +13,8 @@ class BlacklistCommand extends Command {
 					match: 'content',
 					type: 'member',
 					prompt: {
-						start: msg => `${msg.author} **::** Which user do you want to blacklist or unblacklist?`,
-						retry: msg => `${msg.author} **::** You did not supply a valid user. Please try again.`
+						start: 'Which user do you want to blacklist or unblacklist?',
+						retry: 'You did not supply a valid user. Please try again.'
 					}
 				}
 			]

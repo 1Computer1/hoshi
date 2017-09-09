@@ -16,8 +16,8 @@ class UnstarCommand extends Command {
 					type: 'textChannel',
 					default: message => message.channel,
 					prompt: {
-						start: msg => `${msg.author} **::** That channel could not be found. What channel is the message you are trying to remove a star from in?`,
-						retry: msg => `${msg.author} **::** Please provide a valid text channel.`,
+						start: 'That channel could not be found. What channel is the message you are trying to remove a star from in?',
+						retry: 'Please provide a valid text channel.',
 						optional: true
 					}
 				},
@@ -29,8 +29,8 @@ class UnstarCommand extends Command {
 						return channel.messages.fetch(word).catch(() => null);
 					},
 					prompt: {
-						start: msg => `${msg.author} **::** Could not find a message. What is the ID of the message you would like to remove a star from?`,
-						retry: (msg, { channel }) => `${msg.author} **::** Oops! I can't find that message in ${channel}. Remember to use its ID.`
+						start: 'What is the ID of the message you would like to remove a star from?',
+						retry: (msg, { channel }) => `I can't find that message in ${channel}. Remember to use its ID.`
 					}
 				}
 			]
