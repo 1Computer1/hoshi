@@ -47,7 +47,7 @@ class HelpCommand extends Command {
 			])
 			.addField('Reputation', [
 				`You can add positive reputation to users with the \`${prefix}addrep <user>\` command.`,
-				`You can specify a reason for the rep or replace the previous reason.`,
+				'You can specify a reason for the rep or replace the previous reason.',
 				`Use \`${prefix}removerep <user>\` to remove reputation from the user`,
 				'',
 				`Those with \`Manage Messages\` can use \`${prefix}deleterep <source> <target>\` to delete reps.`,
