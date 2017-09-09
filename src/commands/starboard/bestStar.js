@@ -37,7 +37,7 @@ class BestStarCommand extends Command {
 				const starboardMsg = await starboard.channel.messages.fetch(bestStar.starboardMessageID);
 				content = starboardMsg.embeds[0].fields[2] && starboardMsg.embeds[0].fields[2].value;
 				tag = 'Unknown#????';
-				displayAvatarURL = starboardMsg.embeds[0].thumbnail.url;
+				displayAvatarURL = () => starboardMsg.embeds[0].thumbnail.url;
 			}
 
 			if (content.length > 1000) {
@@ -49,7 +49,7 @@ class BestStarCommand extends Command {
 			const emoji = Starboard.getStarEmoji(bestStar.starCount);
 
 			embed.setTitle(`Best of ${message.guild.name} — ${user.tag}`)
-				.setThumbnail(user.displayAvatarURL)
+				.setThumbnail(user.displayAvatarURL())
 				.addField('Top Star', `\\${emoji} ${bestStar.starCount} (${bestStar.messageID})`, true)
 				.addField('Channel', `<#${bestStar.channelID}>`, true);
 
