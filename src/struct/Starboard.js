@@ -188,6 +188,7 @@ class Starboard {
 
 	async fixStar(message) {
 		let star = this.stars.get(message.id);
+		const blacklist = this.client.settings.get(message.guild, 'blacklist', []);
 
 		if (!star) {
 			if (!message.reactions.has('⭐')) return;
@@ -195,7 +196,7 @@ class Starboard {
 			const users = await message.reactions.get('⭐').fetchUsers();
 			const starredBy = users
 				.map(user => user.id)
-				.filter(user => message.author.id !== user);
+				.filter(user => message.author.id !== user && !blacklist.includes(user));
 
 			if (!starredBy.length) return;
 
@@ -215,7 +216,7 @@ class Starboard {
 			const users = await message.reactions.get('⭐').fetchUsers();
 			const newStarredBy = users
 				.map(user => user.id)
-				.filter(user => !star.starredBy.includes(user) && message.author.id !== user)
+				.filter(user => !star.starredBy.includes(user) && message.author.id !== user && !blacklist.includes(user))
 				.concat(star.starredBy);
 
 			const embed = this.buildStarboardEmbed(message, newStarredBy.length);
