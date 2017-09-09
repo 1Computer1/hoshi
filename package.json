@@ -17,6 +17,13 @@
           "ignoreStrings": true,
           "ignoreTemplateLiterals": true
         }
+      ],
+      "prefer-destructuring": [
+        "off"
+      ],
+      "quotes": [
+        "error",
+        "single"
       ]
     }
   },

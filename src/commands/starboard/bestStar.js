@@ -53,7 +53,7 @@ class BestStarCommand extends Command {
 				.addField('Top Star', `\\${emoji} ${bestStar.starCount} (${bestStar.messageID})`, true)
 				.addField('Channel', `<#${bestStar.channelID}>`, true);
 
-			if (content) embed.addField(`Message`, content);
+			if (content) embed.addField('Message', content);
 		} else {
 			embed.setTitle(`Best of ${message.guild.name}`)
 				.setDescription('*Nothing to show here yet...*');
