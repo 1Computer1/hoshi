@@ -19,7 +19,7 @@ class MessageReactionAddListener extends Listener {
 
 			if (error) {
 				if (reaction.message.channel.permissionsFor(this.client.user).has('MANAGE_MESSAGES')) {
-					await reaction.remove(user);
+					await reaction.remove(user).catch(() => null);
 				}
 
 				if (reaction.message.channel.permissionsFor(this.client.user).has('SEND_MESSAGES')) {
