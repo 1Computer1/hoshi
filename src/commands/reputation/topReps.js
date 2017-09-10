@@ -1,7 +1,5 @@
 const { Command } = require('discord-akairo');
-
 const { db } = require('../../struct/Database');
-const Reputation = require('../../models/reputations');
 
 class TopRepsCommand extends Command {
 	constructor() {
@@ -28,7 +26,16 @@ class TopRepsCommand extends Command {
 	}
 
 	async exec(message, { page }) {
-		const total = await Reputation.count({ where: { guildID: message.guild.id } });
+		const total = Number((await db.query(`
+			SELECT 
+				COUNT(DISTINCT "targetID") 
+			FROM reputations WHERE "guildID" = :guildID
+		`, {
+				type: db.Sequelize.QueryTypes.SELECT,
+				replacements: { guildID: message.guild.id }
+			}
+		))[0].count);
+
 		const topReps = await db.query(`
 			SELECT
 				COUNT(*) AS amount,
@@ -48,7 +55,7 @@ class TopRepsCommand extends Command {
 		);
 
 		const users = await Promise.all(topReps.map(async row => {
-			const user = await this.client.users.fetch(row.authorID).catch(() => ({ tag: 'Unknown#????' }));
+			const user = await this.client.users.fetch(row.targetID).catch(() => ({ tag: 'Unknown#????' }));
 
 			return {
 				tag: user.tag,
