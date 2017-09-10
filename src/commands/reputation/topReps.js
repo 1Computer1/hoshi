@@ -33,13 +33,14 @@ class TopRepsCommand extends Command {
 			SELECT
 				COUNT(*) AS amount,
 				"targetID"
-			FROM reputations
+			FROM reputations WHERE "guildID" = :guildID
 			GROUP BY "targetID" ORDER BY amount DESC
 			OFFSET :offset
 			LIMIT :limit
 		`, {
 				type: db.Sequelize.QueryTypes.SELECT,
 				replacements: {
+					guildID: message.guild.id,
 					offset: (page - 1) * this.perPage,
 					limit: this.perPage
 				}
