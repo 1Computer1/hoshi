@@ -130,7 +130,7 @@ class Starboard {
 		if (message.reactions.has('⭐')) {
 			const reaction = message.reactions.get('⭐');
 			if (reaction.users.has(unstarredBy.id)) {
-				await reaction.remove(unstarredBy);
+				await reaction.remove(unstarredBy).catch(() => null);
 			}
 		}
 
