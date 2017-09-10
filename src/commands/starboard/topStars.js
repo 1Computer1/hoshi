@@ -57,10 +57,10 @@ class TopStarsCommand extends Command {
 		);
 
 		const users = await Promise.all(topStars.map(async row => {
-			const user = await this.client.fetchUser(row.authorID);
+			const user = await this.client.fetchUser(row.authorID).catch(() => ({ tag: 'Unknown#????' }));
 
 			return {
-				tag: user ? user.tag : 'Unknown#????',
+				tag: user.tag,
 				amount: row.amount
 			};
 		}));
