@@ -48,10 +48,10 @@ class TopRepsCommand extends Command {
 		);
 
 		const users = await Promise.all(topReps.map(async row => {
-			const user = await this.client.users.fetch(row.targetID);
+			const user = await this.client.users.fetch(row.authorID).catch(() => ({ tag: 'Unknown#????' }));
 
 			return {
-				tag: user ? user.tag : 'Unknown#????',
+				tag: user.tag,
 				amount: row.amount
 			};
 		}));
