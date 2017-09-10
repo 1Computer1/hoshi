@@ -2,7 +2,6 @@ const { Command } = require('discord-akairo');
 const Starboard = require('../../struct/Starboard');
 
 const { db } = require('../../struct/Database');
-const Star = require('../../models/stars');
 
 class TopStarsCommand extends Command {
 	constructor() {
@@ -29,18 +28,28 @@ class TopStarsCommand extends Command {
 	}
 
 	async exec(message, { page }) {
-		const total = await Star.count({ where: { guildID: message.guild.id } });
+		const total = Number((await db.query(`
+			SELECT 
+				COUNT(DISTINCT "authorID") 
+			FROM stars WHERE "guildID" = :guildID
+		`, {
+				type: db.Sequelize.QueryTypes.SELECT,
+				replacements: { guildID: message.guild.id }
+			}
+		))[0].count);
+
 		const topStars = await db.query(`
 			SELECT
 				SUM("starCount") AS amount,
 				"authorID"
-			FROM stars
+			FROM stars WHERE "guildID" = :guildID
 			GROUP BY "authorID" ORDER BY amount DESC
 			OFFSET :offset
 			LIMIT :limit
 		`, {
 				type: db.Sequelize.QueryTypes.SELECT,
 				replacements: {
+					guildID: message.guild.id,
 					offset: (page - 1) * this.perPage,
 					limit: this.perPage
 				}
