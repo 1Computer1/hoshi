@@ -66,7 +66,7 @@ class ShowStarsCommand extends Command {
 			embed.addField('Top Star', `\\${emoji} ${topStar.starCount} (${topStar.messageID})`, true)
 				.addField('Channel', `<#${topStar.channelID}>`, true);
 
-			if (content) embed.addField(`Message`, content);
+			if (content) embed.addField('Message', content);
 		}
 
 		return message.util.send({ embed });
