@@ -57,11 +57,7 @@ class TopStarsCommand extends Command {
 		);
 
 		const users = await Promise.all(topStars.map(async row => {
-<<<<<<< HEAD
-			const user = await this.client.users.fetch(row.authorID);
-=======
 			const user = await this.client.users.fetch(row.authorID).catch(() => ({ tag: 'Unknown#????' }));
->>>>>>> c9774c4... Fix user fetching for deleted users
 
 			return {
 				tag: user.tag,
