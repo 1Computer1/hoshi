@@ -160,6 +160,7 @@ class Starboard {
 
 	delete(message) {
 		if (!this.initiated) return undefined;
+		if (!this.channel) return undefined;
 		if (this.missingPermissions()) return undefined;
 		return this.queue(message, this.deleteStar.bind(this, message));
 	}
