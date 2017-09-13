@@ -19,6 +19,6 @@ const Reputation = db.define('reputations', {
 		type: Sequelize.STRING,
 		defaultValue: ''
 	}
-});
+}, { paranoid: true });
 
 module.exports = Reputation;

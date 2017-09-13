@@ -27,8 +27,8 @@ class TopRepsCommand extends Command {
 
 	async exec(message, { page }) {
 		const total = Number((await db.query(`
-			SELECT 
-				COUNT(DISTINCT "targetID") 
+			SELECT
+				COUNT(DISTINCT "targetID")
 			FROM reputations WHERE "guildID" = :guildID
 		`, {
 				type: db.Sequelize.QueryTypes.SELECT,
@@ -40,7 +40,8 @@ class TopRepsCommand extends Command {
 			SELECT
 				COUNT(*) AS amount,
 				"targetID"
-			FROM reputations WHERE "guildID" = :guildID
+			FROM reputations
+			WHERE "guildID" = :guildID AND "deletedAt" IS NULL
 			GROUP BY "targetID" ORDER BY amount DESC
 			OFFSET :offset
 			LIMIT :limit

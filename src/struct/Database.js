@@ -31,7 +31,7 @@ class Database {
 		for (const file of files) {
 			const filePath = path.join(modelsPath, file);
 			if (!filePath.endsWith('.js')) continue;
-			await require(filePath).sync(); // eslint-disable-line no-await-in-loop
+			await require(filePath).sync({ alter: true }); // eslint-disable-line no-await-in-loop
 		}
 	}
 }
