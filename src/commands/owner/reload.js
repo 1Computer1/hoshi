@@ -12,7 +12,7 @@ class ReloadCommand extends Command {
 				{
 					id: 'type',
 					match: 'prefix',
-					prefix: ['--type=', '-T='],
+					prefix: ['type:'],
 					type: [['command', 'c'], ['inhibitor', 'i'], ['listener', 'l']],
 					default: 'command'
 				},
