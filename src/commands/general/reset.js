@@ -29,13 +29,13 @@ class ResetCommand extends Command {
 						if (!word) return null;
 
 						// Yes, yea, ye, or y.
-						if (/^y(?:e(?:a|s)?)?$/i.test(word)) return 'yes';
-						return 'no';
+						if (/^y(?:e(?:a|s)?)?$/i.test(word)) return true;
+						return false;
 					},
 					prompt: {
 						start: (msg, { mode }) => `${{
 							stars: 'Are you sure you want to reset all stars on this server? (y/N)',
-							rep: 'Are you sure you want to reset all reputation points on this server? (y/N)',
+							reps: 'Are you sure you want to reset all reputation points on this server? (y/N)',
 							all: 'Are you sure you want to reset all stars and reputation points on this server? (y/N)'
 						}[mode]}`,
 						retry: ''
@@ -46,7 +46,7 @@ class ResetCommand extends Command {
 	}
 
 	async exec(message, { mode, confirm }) {
-		if (confirm === 'no') {
+		if (!confirm) {
 			return message.util.send('Reset has been cancelled.');
 		}
 
@@ -55,7 +55,7 @@ class ResetCommand extends Command {
 
 		return message.util.send(`${message.author} **::** ${{
 			stars: 'Successfully removed all starred messages on this server.',
-			rep: 'Successfully removed all reputation points on this server.',
+			reps: 'Successfully removed all reputation points on this server.',
 			all: 'Successfully removed all starred messages and reputation points on this server.'
 		}[mode]}`);
 	}
