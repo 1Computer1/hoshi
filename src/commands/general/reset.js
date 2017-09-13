@@ -35,7 +35,7 @@ class ResetCommand extends Command {
 					prompt: {
 						start: (msg, { mode }) => `${msg.author} **::** ${{
 							stars: 'Are you sure you want to reset all stars on this server? (y/N)',
-							rep: 'Are you sure you want to reset all reputation points on this server? (y/N)',
+							reps: 'Are you sure you want to reset all reputation points on this server? (y/N)',
 							all: 'Are you sure you want to reset all stars and reputation points on this server? (y/N)'
 						}[mode]}`,
 						retry: () => ''
@@ -55,7 +55,7 @@ class ResetCommand extends Command {
 
 		return message.util.send(`${message.author} **::** ${{
 			stars: 'Successfully removed all starred messages on this server.',
-			rep: 'Successfully removed all reputation points on this server.',
+			reps: 'Successfully removed all reputation points on this server.',
 			all: 'Successfully removed all starred messages and reputation points on this server.'
 		}[mode]}`);
 	}
