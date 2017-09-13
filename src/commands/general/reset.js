@@ -13,12 +13,12 @@ class ResetCommand extends Command {
 				{
 					id: 'mode',
 					match: 'content',
-					type: ['stars', 'rep', 'all'],
+					type: [['stars', 'star'], ['reps', 'rep'], 'all'],
 					prompt: {
-						start: msg => `${msg.author} **::** Please choose a mode for the reset (stars/rep/all)`,
+						start: msg => `${msg.author} **::** Please choose a mode for the reset (stars/reps/all)`,
 						retry: msg => [
 							`${msg.author} **::** You did not choose a valid reset mode.`,
-							'Choose one of `stars`, `rep` or `all`'
+							'Choose one of `stars`, `reps` or `all`'
 						]
 					}
 				},
@@ -51,7 +51,7 @@ class ResetCommand extends Command {
 		}
 
 		if (mode === 'stars' || mode === 'all') await this.client.starboards.get(message.guild.id).destroy();
-		if (mode === 'rep' || mode === 'all') await Reps.destroy({ where: { guildID: message.guild.id } });
+		if (mode === 'reps' || mode === 'all') await Reps.destroy({ where: { guildID: message.guild.id } });
 
 		return message.util.send(`${message.author} **::** ${{
 			stars: 'Successfully removed all starred messages on this server.',
