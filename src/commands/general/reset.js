@@ -15,10 +15,10 @@ class ResetCommand extends Command {
 					match: 'content',
 					type: [['stars', 'star'], ['reps', 'rep'], 'all'],
 					prompt: {
-						start: msg => `${msg.author} **::** Please choose a mode for the reset (stars/reps/all)`,
+						start: msg => `${msg.author} **::** Please choose a mode for reset: \`stars\`, \`reps\`, \`all\`.`,
 						retry: msg => [
 							`${msg.author} **::** You did not choose a valid reset mode.`,
-							'Choose one of `stars`, `reps` or `all`'
+							'Choose one of `stars`, `reps` or `all`.'
 						]
 					}
 				},
