@@ -29,8 +29,8 @@ class TopStarsCommand extends Command {
 
 	async exec(message, { page }) {
 		const total = Number((await db.query(`
-			SELECT 
-				COUNT(DISTINCT "authorID") 
+			SELECT
+				COUNT(DISTINCT "authorID")
 			FROM stars WHERE "guildID" = :guildID
 		`, {
 				type: db.Sequelize.QueryTypes.SELECT,
@@ -42,7 +42,8 @@ class TopStarsCommand extends Command {
 			SELECT
 				SUM("starCount") AS amount,
 				"authorID"
-			FROM stars WHERE "guildID" = :guildID
+			FROM stars
+			WHERE "guildID" = :guildID AND "deletedAt" IS NULL
 			GROUP BY "authorID" ORDER BY amount DESC
 			OFFSET :offset
 			LIMIT :limit
