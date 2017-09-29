@@ -15,6 +15,11 @@ class MessageReactionRemoveListener extends Listener {
 
 		if (reaction.emoji.name === '⭐') {
 			const starboard = this.client.starboards.get(reaction.message.guild.id);
+			if (starboard.reactionsRemoved.has(reaction.message.id)) {
+				starboard.reactionsRemoved.delete(reaction.message.id);
+				return;
+			}
+
 			const error = await starboard.remove(reaction.message, user);
 
 			if (error) {

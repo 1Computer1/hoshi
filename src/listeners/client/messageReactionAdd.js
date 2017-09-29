@@ -19,7 +19,9 @@ class MessageReactionAddListener extends Listener {
 
 			if (error) {
 				if (reaction.message.channel.permissionsFor(this.client.user).has('MANAGE_MESSAGES')) {
-					await reaction.remove(user).catch(() => null);
+					await reaction.remove(user).then(() => {
+						starboard.reactionsRemoved.add(reaction.message.id);
+					}).catch(() => null);
 				}
 
 				if (reaction.message.channel.permissionsFor(this.client.user).has('SEND_MESSAGES')) {

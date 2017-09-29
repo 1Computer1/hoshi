@@ -12,6 +12,12 @@ class MessageReactionRemoveAllListener extends Listener {
 	exec(message) {
 		if (!message.guild) return;
 		const starboard = this.client.starboards.get(message.guild.id);
+
+		if (starboard.reactionsRemoved.has(message.id)) {
+			starboard.reactionsRemoved.delete(message.id);
+			return;
+		}
+
 		starboard.delete(message);
 	}
 }

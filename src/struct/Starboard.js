@@ -8,6 +8,7 @@ class Starboard {
 		this.guild = guild;
 		this.stars = new Map();
 		this.queues = new Map();
+		this.reactionsRemoved = new Set();
 		this.initiated = false;
 
 		Star.findAll({ where: { guildID: this.guild.id } }).then(stars => {
@@ -130,7 +131,9 @@ class Starboard {
 		if (message.reactions.has('⭐')) {
 			const reaction = message.reactions.get('⭐');
 			if (reaction.users.has(unstarredBy.id)) {
-				await reaction.remove(unstarredBy).catch(() => null);
+				await reaction.remove(unstarredBy).then(() => {
+					this.reactionsRemoved.add(reaction.message.id);
+				}).catch(() => null);
 			}
 		}
 
