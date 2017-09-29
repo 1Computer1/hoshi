@@ -5,7 +5,7 @@ class FixStarCommand extends Command {
 		super('fixStar', {
 			aliases: ['fixStar', 'fix-star', 'fixStars', 'fix-stars'],
 			category: 'starboard',
-			channelRestriction: 'guild',
+			channel: 'guild',
 			userPermissions: ['MANAGE_MESSAGES'],
 			args: [
 				// Indices are swapped in order to process channel first.
@@ -16,8 +16,8 @@ class FixStarCommand extends Command {
 					type: 'textChannel',
 					default: message => message.channel,
 					prompt: {
-						start: msg => `${msg.author} **::** That channel could not be found. What channel is the message you are trying to fix the stars of in?`,
-						retry: msg => `${msg.author} **::** Please provide a valid text channel.`,
+						start: 'That channel could not be found. What channel is the message you are trying to fix the stars of in?',
+						retry: 'Please provide a valid text channel.',
 						optional: true
 					}
 				},
@@ -26,12 +26,11 @@ class FixStarCommand extends Command {
 					index: 0,
 					type: (word, message, { channel }) => {
 						if (!word) return null;
-						// eslint-disable-next-line prefer-promise-reject-errors
-						return channel.fetchMessage(word).catch(() => Promise.reject());
+						return channel.messages.fetch(word).catch(() => null);
 					},
 					prompt: {
-						start: msg => `${msg.author} **::** Could not find a message. What is the ID of the message you would like to fix the stars of?`,
-						retry: (msg, { channel }) => `${msg.author} **::** Oops! I can't find that message in ${channel}. Remember to use its ID.`
+						start: 'What is the ID of the message you would like to fix the stars of?',
+						retry: (msg, { channel }) => `I can't find that message in ${channel}. Remember to use its ID.`
 					}
 				}
 			]

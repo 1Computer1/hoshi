@@ -7,7 +7,7 @@ class ResetCommand extends Command {
 		super('reset', {
 			aliases: ['reset'],
 			category: 'general',
-			channelRestriction: 'guild',
+			channel: 'guild',
 			userPermissions: ['MANAGE_GUILD'],
 			args: [
 				{
@@ -15,9 +15,9 @@ class ResetCommand extends Command {
 					match: 'content',
 					type: [['stars', 'star'], ['reps', 'rep'], 'all'],
 					prompt: {
-						start: msg => `${msg.author} **::** Please choose a mode for reset: \`stars\`, \`reps\`, \`all\`.`,
-						retry: msg => [
-							`${msg.author} **::** You did not choose a valid reset mode.`,
+						start: 'Please choose a mode to reset: `stars`, `reps`, `all`.',
+						retry: [
+							'You did not choose a valid reset mode.',
 							'Choose one of `stars`, `reps` or `all`.'
 						]
 					}
@@ -29,16 +29,16 @@ class ResetCommand extends Command {
 						if (!word) return null;
 
 						// Yes, yea, ye, or y.
-						if (/^y(?:e(?:a|s)?)?$/i.test(word)) return 'yes';
-						return 'no';
+						if (/^y(?:e(?:a|s)?)?$/i.test(word)) return true;
+						return false;
 					},
 					prompt: {
-						start: (msg, { mode }) => `${msg.author} **::** ${{
+						start: (msg, { mode }) => `${{
 							stars: 'Are you sure you want to reset all stars on this server? (y/N)',
 							reps: 'Are you sure you want to reset all reputation points on this server? (y/N)',
 							all: 'Are you sure you want to reset all stars and reputation points on this server? (y/N)'
 						}[mode]}`,
-						retry: () => ''
+						retry: ''
 					}
 				}
 			]
@@ -46,7 +46,7 @@ class ResetCommand extends Command {
 	}
 
 	async exec(message, { mode, confirm }) {
-		if (confirm === 'no') {
+		if (!confirm) {
 			return message.util.send('Reset has been cancelled.');
 		}
 

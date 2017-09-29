@@ -6,15 +6,15 @@ class AddRepCommand extends Command {
 		super('addRep', {
 			aliases: ['addRep', 'add-rep', 'rep', '++'],
 			category: 'reputation',
-			channelRestriction: 'guild',
+			channel: 'guild',
 			split: 'quoted',
 			args: [
 				{
 					id: 'member',
 					type: 'member',
 					prompt: {
-						start: msg => `${msg.author} **::** Which user do you want to add reputation to?`,
-						retry: msg => `${msg.author} **::** You did not supply a valid user. Please try again.`
+						start: 'Which user do you want to add reputation to?',
+						retry: 'You did not supply a valid user. Please try again.'
 					}
 				},
 				{

@@ -5,7 +5,7 @@ class DeleteStarCommand extends Command {
 		super('deleteStar', {
 			aliases: ['deleteStar', 'delete-star'],
 			category: 'starboard',
-			channelRestriction: 'guild',
+			channel: 'guild',
 			userPermissions: ['MANAGE_MESSAGES'],
 			clientPermissions: ['MANAGE_MESSAGES'],
 			args: [
@@ -17,8 +17,8 @@ class DeleteStarCommand extends Command {
 					type: 'textChannel',
 					default: message => message.channel,
 					prompt: {
-						start: msg => `${msg.author} **::** That channel could not be found. What channel is the message you are trying to remove from the starboard in?`,
-						retry: msg => `${msg.author} **::** Please provide a valid text channel.`,
+						start: 'That channel could not be found. What channel is the message you are trying to remove from the starboard in?',
+						retry: 'Please provide a valid text channel.',
 						optional: true
 					}
 				},
@@ -27,17 +27,17 @@ class DeleteStarCommand extends Command {
 					index: 0,
 					type: (word, message, { channel }) => {
 						if (!word) return null;
-						return channel.fetchMessage(word).catch(() => {
+						return channel.messages.fetch(word).catch(() => {
 							if (this.client.starboards.get(message.guild.id).stars.has(word)) {
 								return { id: word };
 							}
 
-							return Promise.reject(); // eslint-disable-line prefer-promise-reject-errors
+							return null;
 						});
 					},
 					prompt: {
-						start: msg => `${msg.author} **::** Could not find a message. What is the ID of the message you would like to remove from the starboard?`,
-						retry: (msg, { channel }) => `${msg.author} **::** Oops! I can't find that message in ${channel}. Remember to use its ID.`
+						start: 'What is the ID of the message you would like to remove from the starboard?',
+						retry: (msg, { channel }) => `I can't find that message in ${channel}. Remember to use its ID.`
 					}
 				}
 			]

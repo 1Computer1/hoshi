@@ -8,7 +8,7 @@ class TopStarsCommand extends Command {
 		super('topStars', {
 			aliases: ['topStars', 'top-stars', 'topStar', 'top-star', 'starsTop', 'star-top', 'starTop', 'stars-top'],
 			category: 'starboard',
-			channelRestriction: 'guild',
+			channel: 'guild',
 			clientPermissions: ['EMBED_LINKS'],
 			args: [
 				{
@@ -16,8 +16,8 @@ class TopStarsCommand extends Command {
 					type: 'integer',
 					default: 1,
 					prompt: {
-						start: msg => `${msg.author} **::** Invalid page. Which page would you like to view?`,
-						retry: msg => `${msg.author} **::** Please provide a valid page number.`,
+						start: 'Invalid page. Which page would you like to view?',
+						retry: 'Please provide a valid page number.',
 						optional: true
 					}
 				}
@@ -58,7 +58,7 @@ class TopStarsCommand extends Command {
 		);
 
 		const users = await Promise.all(topStars.map(async row => {
-			const user = await this.client.fetchUser(row.authorID).catch(() => ({ tag: 'Unknown#????' }));
+			const user = await this.client.users.fetch(row.authorID).catch(() => ({ tag: 'Unknown#????' }));
 
 			return {
 				tag: user.tag,

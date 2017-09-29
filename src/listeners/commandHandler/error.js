@@ -4,7 +4,7 @@ const Logger = require('../../util/Logger');
 class ErrorListener extends Listener {
 	constructor() {
 		super('error', {
-			eventName: 'error',
+			event: 'error',
 			emitter: 'commandHandler',
 			category: 'commandHandler'
 		});

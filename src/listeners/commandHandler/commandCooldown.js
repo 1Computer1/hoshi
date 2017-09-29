@@ -4,7 +4,7 @@ const Logger = require('../../util/Logger');
 class CommandCooldownListener extends Listener {
 	constructor() {
 		super('commandCooldown', {
-			eventName: 'commandCooldown',
+			event: 'commandCooldown',
 			emitter: 'commandHandler',
 			category: 'commandHandler'
 		});

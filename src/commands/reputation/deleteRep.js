@@ -6,7 +6,7 @@ class DeleteRepCommand extends Command {
 		super('deleteRep', {
 			aliases: ['deleteRep', 'delete-rep'],
 			category: 'reputation',
-			channelRestriction: 'guild',
+			channel: 'guild',
 			userPermissions: ['MANAGE_MESSAGES'],
 			clientPermissions: ['MANAGE_MESSAGES'],
 			split: 'quoted',
@@ -15,16 +15,16 @@ class DeleteRepCommand extends Command {
 					id: 'source',
 					type: 'member',
 					prompt: {
-						start: msg => `${msg.author} **::** Which user gave the reputation you would like to delete?`,
-						retry: msg => `${msg.author} **::** You did not supply a valid user. Please try again.`
+						start: 'Which user gave the reputation you would like to delete?',
+						retry: 'You did not supply a valid user. Please try again.'
 					}
 				},
 				{
 					id: 'target',
 					type: 'member',
 					prompt: {
-						start: (msg, { source }) => `${msg.author} **::** Which user's rep by **${source.user.tag}** would you like to delete?`,
-						retry: msg => `${msg.author} **::** You did not supply a valid user. Please try again.`
+						start: (msg, { source }) => `Which user's rep by **${source.user.tag}** would you like to delete?`,
+						retry: 'You did not supply a valid user. Please try again.'
 					}
 				}
 			]

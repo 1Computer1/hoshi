@@ -4,7 +4,7 @@ const Starboard = require('../../struct/Starboard');
 class GuildCreateListener extends Listener {
 	constructor() {
 		super('guildCreate', {
-			eventName: 'guildCreate',
+			event: 'guildCreate',
 			emitter: 'client',
 			category: 'client'
 		});

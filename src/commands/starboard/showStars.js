@@ -8,7 +8,7 @@ class ShowStarsCommand extends Command {
 		super('showStars', {
 			aliases: ['showStars', 'show-stars', 'showStar', 'show-star', 'stars'],
 			category: 'starboard',
-			channelRestriction: 'guild',
+			channel: 'guild',
 			clientPermissions: ['EMBED_LINKS'],
 			args: [
 				{
@@ -17,8 +17,8 @@ class ShowStarsCommand extends Command {
 					type: 'member',
 					default: message => message.member,
 					prompt: {
-						start: msg => `${msg.author} **::** That user could not be found. Whose reputation would you like to view?`,
-						retry: msg => `${msg.author} **::** Please provide a valid member.`,
+						start: 'That user could not be found. Whose reputation would you like to view?',
+						retry: 'Please provide a valid member.',
 						optional: true
 					}
 				}
@@ -37,7 +37,7 @@ class ShowStarsCommand extends Command {
 
 		const embed = this.client.util.embed()
 			.setColor(0xFFAC33)
-			.setThumbnail(member.user.displayAvatarURL)
+			.setThumbnail(member.user.displayAvatarURL())
 			.setTitle(`User Information for ${member.user.tag}`)
 			.addField('Star Count', [
 				`**Local**: ${plural(guildStars.length, 'message')} — ${totalGuildStars} \\${Starboard.getStarEmoji(totalGuildStars)}`,
@@ -46,14 +46,16 @@ class ShowStarsCommand extends Command {
 
 		if (guildStars.length) {
 			const topStar = guildStars.sort((a, b) => b.starCount - a.starCount)[0];
-			const msg = await message.guild.channels.get(topStar.channelID).fetchMessage(topStar.messageID).catch(() => null);
+			const msg = await message.guild.channels.get(topStar.channelID).messages.fetch(topStar.messageID)
+				.catch(() => null);
+
 			let content;
 
 			if (msg) {
 				content = msg.content;
 			} else {
 				const starboard = this.client.starboards.get(message.guild.id);
-				const starboardMsg = await starboard.channel.fetchMessage(topStar.starboardMessageID);
+				const starboardMsg = await starboard.channel.messages.fetch(topStar.starboardMessageID);
 				content = starboardMsg.embeds[0].fields[2] && starboardMsg.embeds[0].fields[2].value;
 			}
 

@@ -3,7 +3,7 @@ const { Listener } = require('discord-akairo');
 class ChannelDeleteListener extends Listener {
 	constructor() {
 		super('channelDelete', {
-			eventName: 'channelDelete',
+			event: 'channelDelete',
 			emitter: 'client',
 			category: 'client'
 		});

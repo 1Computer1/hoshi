@@ -5,7 +5,7 @@ class StarCommand extends Command {
 		super('starboard', {
 			aliases: ['starboard'],
 			category: 'starboard',
-			channelRestriction: 'guild',
+			channel: 'guild',
 			userPermissions: ['ADMINISTRATOR'],
 			args: [
 				{
@@ -13,8 +13,8 @@ class StarCommand extends Command {
 					match: 'content',
 					type: 'textChannel',
 					prompt: {
-						start: msg => `${msg.author} **::** What channel would you like to use as the starboard?`,
-						retry: msg => `${msg.author} **::** Please provide a valid text channel.`
+						start: 'What channel would you like to use as the starboard?',
+						retry: 'Please provide a valid text channel.'
 					}
 				},
 				{
@@ -26,15 +26,15 @@ class StarCommand extends Command {
 							if (!word) return null;
 
 							// Yes, yea, ye, or y.
-							if (/^y(?:e(?:a|s)?)?$/i.test(word)) return 'yes';
-							return 'no';
+							if (/^y(?:e(?:a|s)?)?$/i.test(word)) return true;
+							return false;
 						}
 
-						return 'first';
+						return true;
 					},
 					prompt: {
-						start: msg => `${msg.author} **::** Are you sure you want to delete the previous starboard? (y/N)`,
-						retry: () => ''
+						start: (msg, { channel }) => `Are you sure you want to delete the previous starboard of ${channel}? (y/N)`,
+						retry: ''
 					}
 				}
 			]
@@ -42,7 +42,7 @@ class StarCommand extends Command {
 	}
 
 	async exec(message, { channel, confirm }) {
-		if (confirm === 'no') {
+		if (!confirm) {
 			return message.util.reply('Starboard change has been cancelled.');
 		}
 

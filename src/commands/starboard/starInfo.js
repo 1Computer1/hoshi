@@ -6,7 +6,7 @@ class StarInfoCommand extends Command {
 		super('starInfo', {
 			aliases: ['starInfo', 'star-info'],
 			category: 'starboard',
-			channelRestriction: 'guild',
+			channel: 'guild',
 			clientPermissions: ['EMBED_LINKS'],
 			args: [
 				// Indices are swapped in order to process channel first.
@@ -17,8 +17,8 @@ class StarInfoCommand extends Command {
 					type: 'textChannel',
 					default: message => message.channel,
 					prompt: {
-						start: msg => `${msg.author} **::** That channel could not be found. What channel is the message you are trying to view the info of in?`,
-						retry: msg => `${msg.author} **::** Please provide a valid text channel.`,
+						start: 'That channel could not be found. What channel is the message you are trying to view the info of in?',
+						retry: 'Please provide a valid text channel.',
 						optional: true
 					}
 				},
@@ -27,12 +27,11 @@ class StarInfoCommand extends Command {
 					index: 0,
 					type: (word, message, { channel }) => {
 						if (!word) return null;
-						// eslint-disable-next-line prefer-promise-reject-errors
-						return channel.fetchMessage(word).catch(() => Promise.reject());
+						return channel.messages.fetch(word).catch(() => null);
 					},
 					prompt: {
 						start: 'What is the ID of the message you would like to view the info of?',
-						retry: (message, { channel }) => `Oops! I can't find that message in ${channel}. Remember to use its ID.`
+						retry: (message, { channel }) => `I can't find that message in ${channel}. Remember to use its ID.`
 					}
 				}
 			]
@@ -55,7 +54,7 @@ class StarInfoCommand extends Command {
 		const starredBy = [];
 		const promises = [];
 		for (const id of star.starredBy) {
-			promises.push(this.client.fetchUser(id).then(user => {
+			promises.push(this.client.users.fetch(id).then(user => {
 				starredBy.push(user);
 			}).catch(() => {
 				starredBy.push(`<@${id}>`);
@@ -69,7 +68,7 @@ class StarInfoCommand extends Command {
 			.addField('Author', msg.author, true)
 			.addField('Channel', msg.channel, true)
 			.addField('Starrers', starredBy.join(', '))
-			.setThumbnail(msg.author.displayAvatarURL)
+			.setThumbnail(msg.author.displayAvatarURL())
 			.setTimestamp(msg.createdAt)
 			.setFooter(`${emoji} ${star.starredBy.length} | ${msg.id}`);
 

@@ -94,7 +94,7 @@ class Starboard {
 		const newStarredBy = star.starredBy.concat([starredBy.id]);
 
 		const embed = this.buildStarboardEmbed(message, newStarredBy.length);
-		const starboardMessage = await this.channel.fetchMessage(star.starboardMessageID)
+		const starboardMessage = await this.channel.messages.fetch(star.starboardMessageID)
 			.then(msg => msg.edit({ embed }))
 			.catch(() => this.channel.send({ embed }));
 
@@ -138,7 +138,7 @@ class Starboard {
 
 		if (newStarredBy.length) {
 			const embed = this.buildStarboardEmbed(message, newStarredBy.length);
-			const starboardMessage = await this.channel.fetchMessage(star.starboardMessageID)
+			const starboardMessage = await this.channel.messages.fetch(star.starboardMessageID)
 				.then(msg => msg.edit({ embed }))
 				.catch(() => this.channel.send({ embed }));
 
@@ -152,7 +152,7 @@ class Starboard {
 			return undefined;
 		}
 
-		await this.channel.fetchMessage(star.starboardMessageID).then(msg => msg.delete()).catch(() => null);
+		await this.channel.messages.fetch(star.starboardMessageID).then(msg => msg.delete()).catch(() => null);
 		await star.destroy();
 		this.stars.delete(message.id);
 		return undefined;
@@ -169,7 +169,7 @@ class Starboard {
 		const star = this.stars.get(message.id);
 		if (!star) return undefined;
 
-		const starboardMessage = await this.channel.fetchMessage(star.starboardMessageID).catch(() => null);
+		const starboardMessage = await this.channel.messages.fetch(star.starboardMessageID).catch(() => null);
 		if (starboardMessage) {
 			await starboardMessage.delete();
 		}
@@ -191,10 +191,29 @@ class Starboard {
 		let star = this.stars.get(message.id);
 		const blacklist = this.client.settings.get(message.guild, 'blacklist', []);
 
+		const fetchUsers = reaction => {
+			const users = this.client.util.collection();
+			let prevAmount = 0;
+
+			const fetch = async after => {
+				const fetched = await reaction.fetchUsers({ after });
+				if (fetched.size === prevAmount) return users;
+
+				for (const [k, v] of fetched) {
+					users.set(k, v);
+				}
+
+				prevAmount = fetched.size;
+				return fetch(fetched.last().id);
+			};
+
+			return fetch();
+		};
+
 		if (!star) {
 			if (!message.reactions.has('⭐')) return;
 
-			const users = await message.reactions.get('⭐').fetchUsers();
+			const users = await fetchUsers(message.reactions.get('⭐'));
 			const starredBy = users
 				.map(user => user.id)
 				.filter(user => message.author.id !== user && !blacklist.includes(user));
@@ -214,14 +233,17 @@ class Starboard {
 
 			this.stars.set(message.id, newStar);
 		} else {
-			const users = await message.reactions.get('⭐').fetchUsers();
+			const users = message.reactions.has('⭐')
+				? await fetchUsers(message.reactions.get('⭐'))
+				: this.client.util.collection();
+
 			const newStarredBy = users
 				.map(user => user.id)
 				.filter(user => !star.starredBy.includes(user) && message.author.id !== user && !blacklist.includes(user))
 				.concat(star.starredBy);
 
 			const embed = this.buildStarboardEmbed(message, newStarredBy.length);
-			const starboardMessage = await this.channel.fetchMessage(star.starboardMessageID)
+			const starboardMessage = await this.channel.messages.fetch(star.starboardMessageID)
 				.then(msg => msg.edit({ embed }))
 				.catch(() => this.channel.send({ embed }));
 
@@ -240,9 +262,9 @@ class Starboard {
 	}
 
 	missingPermissions() {
-		const { missingPermissions } = this.client.listenerHandler.modules.get('commandBlocked');
+		const { missingPermissions } = this.client.listenerHandler.modules.get('missingPermissions');
 		const str = missingPermissions(this.channel, this.client.user, [
-			'READ_MESSAGES',
+			'VIEW_CHANNEL',
 			'MANAGE_MESSAGES',
 			'READ_MESSAGE_HISTORY',
 			'SEND_MESSAGES',
@@ -259,7 +281,7 @@ class Starboard {
 			.setColor(0xFFAC33)
 			.addField('Author', message.author, true)
 			.addField('Channel', message.channel, true)
-			.setThumbnail(message.author.displayAvatarURL)
+			.setThumbnail(message.author.displayAvatarURL())
 			.setTimestamp(message.createdAt)
 			.setFooter(`${star} ${starCount} | ${message.id}`);
 
