@@ -78,14 +78,29 @@ class Starboard {
 		if (!this.stars.has(message.id)) {
 			const starboardMessage = await this.channel.send({ embed: this.buildStarboardEmbed(message) });
 
-			const star = await Star.create({
-				messageID: message.id,
-				authorID: message.author.id,
-				channelID: message.channel.id,
-				guildID: this.guild.id,
-				starboardMessageID: starboardMessage.id,
-				starredBy: [starredBy.id]
+			let star;
+			const existing = await Star.findOne({
+				where: { messageID: message.id },
+				paranoid: false
 			});
+
+			if (existing && existing.deletedAt !== null) {
+				await Star.restore({ where: { messageID: message.id } });
+				await Star.update({
+					starboardMessageID: starboardMessage.id,
+					starredBy: [starredBy.id]
+				}, { where: { messageID: message.id } });
+				star = await Star.findOne({ where: { messageID: message.id } });
+			} else {
+				star = await Star.create({
+					messageID: message.id,
+					authorID: message.author.id,
+					channelID: message.channel.id,
+					guildID: this.guild.id,
+					starboardMessageID: starboardMessage.id,
+					starredBy: [starredBy.id]
+				});
+			}
 
 			this.stars.set(message.id, star);
 			return undefined;
@@ -225,14 +240,31 @@ class Starboard {
 
 			const embed = this.buildStarboardEmbed(message, starredBy.length);
 			const starboardMessage = await this.channel.send({ embed });
-			const newStar = await Star.create({
-				starredBy,
-				messageID: message.id,
-				authorID: message.author.id,
-				channelID: message.channel.id,
-				guildID: this.guild.id,
-				starboardMessageID: starboardMessage.id
+
+			let newStar;
+			const existing = await Star.findOne({
+				where: { messageID: message.id },
+				paranoid: false
 			});
+
+			if (existing && existing.deletedAt !== null) {
+				await Star.restore({ where: { messageID: message.id } });
+				newStar = await Star.update({
+					starredBy,
+					starboardMessageID: starboardMessage.id
+				}, { where: { messageID: message.id } });
+			} else {
+				await Star.create({
+					starredBy,
+					messageID: message.id,
+					authorID: message.author.id,
+					channelID: message.channel.id,
+					guildID: this.guild.id,
+					starboardMessageID: starboardMessage.id
+				});
+
+				newStar = await Star.findOne({ where: { messageID: message.id } });
+			}
 
 			this.stars.set(message.id, newStar);
 		} else {
