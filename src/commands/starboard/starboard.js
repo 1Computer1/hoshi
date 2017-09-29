@@ -33,7 +33,7 @@ class StarCommand extends Command {
 						return true;
 					},
 					prompt: {
-						start: (msg, { channel }) => `Are you sure you want to delete the previous starboard of ${channel}? (y/N)`,
+						start: msg => `Are you sure you want to delete the previous starboard of ${this.client.starboards.get(msg.guild.id).channel}? (y/N)`,
 						retry: ''
 					}
 				}
