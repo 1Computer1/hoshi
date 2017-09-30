@@ -1,6 +1,6 @@
 const { Command } = require('discord-akairo');
 
-const Reps = require('../../models/reputations');
+const Reputation = require('../../models/reputations');
 
 class ResetCommand extends Command {
 	constructor() {
@@ -51,7 +51,7 @@ class ResetCommand extends Command {
 		}
 
 		if (mode === 'stars' || mode === 'all') await this.client.starboards.get(message.guild.id).destroy();
-		if (mode === 'reps' || mode === 'all') await Reps.destroy({ where: { guildID: message.guild.id } });
+		if (mode === 'reps' || mode === 'all') await Reputation.destroy({ where: { guildID: message.guild.id } });
 
 		return message.util.send(`${message.author} **::** ${{
 			stars: 'Successfully removed all starred messages on this server.',
