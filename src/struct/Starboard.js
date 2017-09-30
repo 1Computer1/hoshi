@@ -90,6 +90,7 @@ class Starboard {
 					starboardMessageID: starboardMessage.id,
 					starredBy: [starredBy.id]
 				}, { where: { messageID: message.id } });
+
 				star = await Star.findOne({ where: { messageID: message.id } });
 			} else {
 				star = await Star.create({
@@ -249,12 +250,14 @@ class Starboard {
 
 			if (existing && existing.deletedAt !== null) {
 				await Star.restore({ where: { messageID: message.id } });
-				newStar = await Star.update({
+				await Star.update({
 					starredBy,
 					starboardMessageID: starboardMessage.id
 				}, { where: { messageID: message.id } });
+
+				newStar = await Star.findOne({ where: { messageID: message.id } });
 			} else {
-				await Star.create({
+				newStar = await Star.create({
 					starredBy,
 					messageID: message.id,
 					authorID: message.author.id,
@@ -262,8 +265,6 @@ class Starboard {
 					guildID: this.guild.id,
 					starboardMessageID: starboardMessage.id
 				});
-
-				newStar = await Star.findOne({ where: { messageID: message.id } });
 			}
 
 			this.stars.set(message.id, newStar);
