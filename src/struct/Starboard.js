@@ -1,4 +1,5 @@
 const path = require('path');
+const { Collection } = require('discord.js');
 const Star = require('../models/stars');
 const Queue = require('./Queue');
 
@@ -6,8 +7,8 @@ class Starboard {
 	constructor(guild) {
 		this.client = guild.client;
 		this.guild = guild;
-		this.stars = new Map();
-		this.queues = new Map();
+		this.stars = new Collection();
+		this.queues = new Collection();
 		this.reactionsRemoved = new Set();
 		this.initiated = false;
 
