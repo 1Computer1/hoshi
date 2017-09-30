@@ -65,7 +65,7 @@ class Starboard {
 			return 'You can\'t star your own messages.';
 		}
 
-		return this.queue(message, this.addStar.bind(this, message, starredBy));
+		return this.queue(message, () => this.addStar(message, starredBy));
 	}
 
 	async addStar(message, starredBy) {
@@ -138,7 +138,7 @@ class Starboard {
 		if (!this.channel) return undefined;
 		if (this.missingPermissions()) return undefined;
 
-		return this.queue(message, this.removeStar.bind(this, message, unstarredBy));
+		return this.queue(message, () => this.removeStar(message, unstarredBy));
 	}
 
 	async removeStar(message, unstarredBy) {
@@ -184,7 +184,7 @@ class Starboard {
 		if (!this.initiated) return undefined;
 		if (!this.channel) return undefined;
 		if (this.missingPermissions()) return undefined;
-		return this.queue(message, this.deleteStar.bind(this, message));
+		return this.queue(message, () => this.deleteStar(message));
 	}
 
 	async deleteStar(message) {
@@ -206,7 +206,7 @@ class Starboard {
 		const missingPerms = this.missingPermissions();
 		if (missingPerms) return missingPerms;
 
-		return this.queue(message, this.fixStar.bind(this, message));
+		return this.queue(message, () => this.fixStar(message));
 	}
 
 	async fixStar(message) {
