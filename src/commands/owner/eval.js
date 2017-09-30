@@ -2,6 +2,11 @@ const { Command } = require('discord-akairo');
 const Logger = require('../../util/Logger');
 const util = require('util');
 
+/* eslint-disable no-unused-vars */
+const Reputation = require('../../models/reputations');
+const Star = require('../../models/stars');
+/* eslint-enable no-unused-vars */
+
 class EvalCommand extends Command {
 	constructor() {
 		super('eval', {
