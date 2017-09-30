@@ -88,7 +88,8 @@ class Starboard {
 				await Star.restore({ where: { messageID: message.id } });
 				await Star.update({
 					starboardMessageID: starboardMessage.id,
-					starredBy: [starredBy.id]
+					starredBy: [starredBy.id],
+					starCount: 1
 				}, { where: { messageID: message.id } });
 
 				star = await Star.findOne({ where: { messageID: message.id } });
@@ -99,7 +100,8 @@ class Starboard {
 					channelID: message.channel.id,
 					guildID: this.guild.id,
 					starboardMessageID: starboardMessage.id,
-					starredBy: [starredBy.id]
+					starredBy: [starredBy.id],
+					starCount: 1
 				});
 			}
 
@@ -252,7 +254,8 @@ class Starboard {
 				await Star.restore({ where: { messageID: message.id } });
 				await Star.update({
 					starredBy,
-					starboardMessageID: starboardMessage.id
+					starboardMessageID: starboardMessage.id,
+					starCount: starredBy.length
 				}, { where: { messageID: message.id } });
 
 				newStar = await Star.findOne({ where: { messageID: message.id } });
@@ -263,7 +266,8 @@ class Starboard {
 					authorID: message.author.id,
 					channelID: message.channel.id,
 					guildID: this.guild.id,
-					starboardMessageID: starboardMessage.id
+					starboardMessageID: starboardMessage.id,
+					starCount: starredBy.length
 				});
 			}
 
