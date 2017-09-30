@@ -33,6 +33,8 @@ class MissingPermissionsListener extends Listener {
 		const missingPerms = channel.permissionsFor(user).missing(permissions)
 			.map(str => {
 				if (str === 'VIEW_CHANNEL') return '`Read Messages`';
+				if (str === 'SEND_TTS_MESSAGES') return '`Send TTS Messages`';
+				if (str === 'USE_VAD') return '`Use VAD`';
 				return `\`${str.replace(/_/g, ' ').toLowerCase().replace(/\b(\w)/g, char => char.toUpperCase())}\``;
 			});
 
