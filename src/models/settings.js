@@ -13,6 +13,6 @@ const Setting = db.define('settings', {
 		allowNull: false,
 		default: {}
 	}
-}, { paranoid: true });
+});
 
 module.exports = Setting;

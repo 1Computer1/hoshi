@@ -41,7 +41,7 @@ class TopRepsCommand extends Command {
 				COUNT(*) AS amount,
 				"targetID"
 			FROM reputations
-			WHERE "guildID" = :guildID AND "deletedAt" IS NULL
+			WHERE "guildID" = :guildID
 			GROUP BY "targetID" ORDER BY amount DESC
 			OFFSET :offset
 			LIMIT :limit

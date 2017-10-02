@@ -33,6 +33,6 @@ const Star = db.define('stars', {
 		type: Sequelize.ARRAY(Sequelize.STRING), // eslint-disable-line new-cap
 		allowNull: false
 	}
-}, { paranoid: true });
+});
 
 module.exports = Star;

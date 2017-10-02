@@ -73,15 +73,7 @@ class AddRepCommand extends Command {
 			paranoid: false
 		});
 
-		if (existing && existing.deletedAt !== null) {
-			await Reputation.restore({
-				where: {
-					sourceID: message.author.id,
-					targetID: member.id,
-					guildID: message.guild.id
-				}
-			});
-
+		if (existing) {
 			await Reputation.update({ reason }, {
 				where: {
 					sourceID: message.author.id,

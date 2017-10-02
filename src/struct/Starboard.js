@@ -85,8 +85,7 @@ class Starboard {
 				paranoid: false
 			});
 
-			if (existing && existing.deletedAt !== null) {
-				await Star.restore({ where: { messageID: message.id } });
+			if (existing) {
 				await Star.update({
 					starboardMessageID: starboardMessage.id,
 					starredBy: [starredBy.id],
@@ -251,8 +250,7 @@ class Starboard {
 				paranoid: false
 			});
 
-			if (existing && existing.deletedAt !== null) {
-				await Star.restore({ where: { messageID: message.id } });
+			if (existing) {
 				await Star.update({
 					starredBy,
 					starboardMessageID: starboardMessage.id,

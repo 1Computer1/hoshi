@@ -15,7 +15,6 @@ class ChannelDeleteListener extends Listener {
 		if (!starboardChannelID) return;
 		if (starboardChannelID === channel.id) {
 			await this.client.settings.delete(channel.guild, 'starboardChannelID');
-			await this.client.starboards.get(channel.guild.id).destroy();
 		}
 	}
 }

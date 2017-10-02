@@ -43,7 +43,7 @@ class TopStarsCommand extends Command {
 				SUM("starCount") AS amount,
 				"authorID"
 			FROM stars
-			WHERE "guildID" = :guildID AND "deletedAt" IS NULL
+			WHERE "guildID" = :guildID
 			GROUP BY "authorID" ORDER BY amount DESC
 			OFFSET :offset
 			LIMIT :limit
