@@ -79,31 +79,15 @@ class Starboard {
 		if (!this.stars.has(message.id)) {
 			const starboardMessage = await this.channel.send({ embed: this.buildStarboardEmbed(message) });
 
-			let star;
-			const existing = await Star.findOne({
-				where: { messageID: message.id },
-				paranoid: false
+			const star = await Star.create({
+				messageID: message.id,
+				authorID: message.author.id,
+				channelID: message.channel.id,
+				guildID: this.guild.id,
+				starboardMessageID: starboardMessage.id,
+				starredBy: [starredBy.id],
+				starCount: 1
 			});
-
-			if (existing) {
-				await Star.update({
-					starboardMessageID: starboardMessage.id,
-					starredBy: [starredBy.id],
-					starCount: 1
-				}, { where: { messageID: message.id } });
-
-				star = await Star.findOne({ where: { messageID: message.id } });
-			} else {
-				star = await Star.create({
-					messageID: message.id,
-					authorID: message.author.id,
-					channelID: message.channel.id,
-					guildID: this.guild.id,
-					starboardMessageID: starboardMessage.id,
-					starredBy: [starredBy.id],
-					starCount: 1
-				});
-			}
 
 			this.stars.set(message.id, star);
 			return undefined;
@@ -244,31 +228,15 @@ class Starboard {
 			const embed = this.buildStarboardEmbed(message, starredBy.length);
 			const starboardMessage = await this.channel.send({ embed });
 
-			let newStar;
-			const existing = await Star.findOne({
-				where: { messageID: message.id },
-				paranoid: false
+			const newStar = await Star.create({
+				starredBy,
+				messageID: message.id,
+				authorID: message.author.id,
+				channelID: message.channel.id,
+				guildID: this.guild.id,
+				starboardMessageID: starboardMessage.id,
+				starCount: starredBy.length
 			});
-
-			if (existing) {
-				await Star.update({
-					starredBy,
-					starboardMessageID: starboardMessage.id,
-					starCount: starredBy.length
-				}, { where: { messageID: message.id } });
-
-				newStar = await Star.findOne({ where: { messageID: message.id } });
-			} else {
-				newStar = await Star.create({
-					starredBy,
-					messageID: message.id,
-					authorID: message.author.id,
-					channelID: message.channel.id,
-					guildID: this.guild.id,
-					starboardMessageID: starboardMessage.id,
-					starCount: starredBy.length
-				});
-			}
 
 			this.stars.set(message.id, newStar);
 		} else {

@@ -64,31 +64,12 @@ class AddRepCommand extends Command {
 			return message.util.reply(reply);
 		}
 
-		const existing = await Reputation.findOne({
-			where: {
-				sourceID: message.author.id,
-				targetID: member.id,
-				guildID: message.guild.id
-			},
-			paranoid: false
+		await Reputation.create({
+			reason,
+			sourceID: message.author.id,
+			targetID: member.id,
+			guildID: message.guild.id
 		});
-
-		if (existing) {
-			await Reputation.update({ reason }, {
-				where: {
-					sourceID: message.author.id,
-					targetID: member.id,
-					guildID: message.guild.id
-				}
-			});
-		} else {
-			await Reputation.create({
-				reason,
-				sourceID: message.author.id,
-				targetID: member.id,
-				guildID: message.guild.id
-			});
-		}
 
 		if (reason) {
 			return message.util.reply(`You have added reputation to ${member} with the reason: ${reason}`);
