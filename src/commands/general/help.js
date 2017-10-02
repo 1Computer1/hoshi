@@ -35,8 +35,6 @@ class HelpCommand extends Command {
 				`You can also use the commands \`${prefix}star <messageID>\` and \`${prefix}unstar <messageID>\`.`,
 				'',
 				`Those with \`Manage Messages\` can use \`${prefix}deletestar <messageID>\` to delete stars.`,
-				'Deleting or changing the starboard channel itself will reset all stars.',
-				'',
 				`To fix missing or incorrect stars on a message, use the \`${prefix}fixstar <messageID>\` command.`,
 				'This command requires the `Manage Messages` permission to be usable.',
 				'',
