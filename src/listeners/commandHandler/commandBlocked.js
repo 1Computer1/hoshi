@@ -20,7 +20,9 @@ class CommandBlockedListener extends Listener {
 		Logger.log(`=> ${command.id} ~ ${reason}`, { tag });
 
 		if (!text) return;
-		message.reply(text());
+		if (message.guild ? message.channel.permissionsFor(this.client.user).has('SEND_MESSAGES') : true) {
+			message.reply(text());
+		}
 	}
 }
 

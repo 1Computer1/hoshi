@@ -15,16 +15,17 @@ class ErrorListener extends Listener {
 
 		const tag = message.guild ? message.guild.name : `${message.author.tag}/PM`;
 		Logger.error(message.content, { tag });
-
 		Logger.stacktrace(err);
 
-		const owners = this.client.ownerID.map(id => this.client.users.get(id).tag);
-		return message.channel.send([
-			`An error occured, please contact ${owners.join(' or ')}.`,
-			'```js',
-			err.toString(),
-			'```'
-		]);
+		if (message.guild ? message.channel.permissionsFor(this.client.user).has('SEND_MESSAGES') : true) {
+			const owners = this.client.ownerID.map(id => this.client.users.get(id).tag);
+			message.channel.send([
+				`An error occured, please contact ${owners.join(' or ')}.`,
+				'```js',
+				err.toString(),
+				'```'
+			]);
+		}
 	}
 }
 

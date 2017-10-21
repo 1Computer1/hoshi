@@ -26,7 +26,9 @@ class MissingPermissionsListener extends Listener {
 		Logger.log(`=> ${command.id} ~ ${type}Permissions`, { tag });
 
 		if (!text) return;
-		message.reply(text());
+		if (message.guild ? message.channel.permissionsFor(this.client.user).has('SEND_MESSAGES') : true) {
+			message.reply(text());
+		}
 	}
 
 	missingPermissions(channel, user, permissions) {
