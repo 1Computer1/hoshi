@@ -5,7 +5,10 @@ const Sequelize = require('sequelize');
 const { dbURL } = require('../../config.json');
 const Logger = require('../util/Logger');
 
-const db = new Sequelize(dbURL, { logging: false });
+const db = new Sequelize(dbURL, {
+	logging: false,
+	operatorsAliases: Sequelize.Op
+});
 
 class Database {
 	static get db() {
