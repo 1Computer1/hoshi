@@ -42,6 +42,7 @@
     "discord.js": "github:hydrabolt/discord.js",
     "moment": "^2.19.1",
     "pg": "^6.4.2",
+    "raven": "^2.2.1",
     "sequelize": "^4.15.0"
   }
 }

@@ -1,10 +1,16 @@
 require('./src/util/Extensions');
 
+const Raven = require('raven');
+
 const HoshiClient = require('./src/struct/HoshiClient');
 const Logger = require('./src/util/Logger');
 
 const config = require('./config.json');
 const client = new HoshiClient(config).build();
+
+if (config.sentryKey) {
+	Raven.config(config.sentryKey).install();
+}
 
 client.on('disconnect', () => Logger.warn('Connection lost...'))
 	.on('reconnect', () => Logger.info('Attempting to reconnect...'))
