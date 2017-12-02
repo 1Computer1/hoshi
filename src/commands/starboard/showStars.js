@@ -17,8 +17,8 @@ class ShowStarsCommand extends Command {
 					type: 'member',
 					default: message => message.member,
 					prompt: {
-						start: 'That user could not be found. Whose reputation would you like to view?',
-						retry: 'Please provide a valid member.',
+						start: 'That user could not be found. Whose stars would you like to view?',
+						retry: 'Please provide a valid user.',
 						optional: true
 					}
 				}

@@ -14,7 +14,7 @@ class BlacklistCommand extends Command {
 					type: 'member',
 					prompt: {
 						start: 'Which user do you want to blacklist or unblacklist?',
-						retry: 'You did not supply a valid user. Please try again.'
+						retry: 'Please provide a valid user.'
 					}
 				}
 			]

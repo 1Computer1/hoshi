@@ -15,9 +15,9 @@ class ResetCommand extends Command {
 					match: 'content',
 					type: [['stars', 'star'], ['reps', 'rep'], 'all'],
 					prompt: {
-						start: 'Please choose a mode to reset: `stars`, `reps`, `all`.',
+						start: 'Please choose an item to reset: `stars`, `reps`, `all`.',
 						retry: [
-							'You did not choose a valid reset mode.',
+							'Please provide a valid reset item.',
 							'Choose one of `stars`, `reps` or `all`.'
 						]
 					}

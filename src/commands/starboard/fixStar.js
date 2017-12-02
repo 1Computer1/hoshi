@@ -30,7 +30,7 @@ class FixStarCommand extends Command {
 					},
 					prompt: {
 						start: 'What is the ID of the message you would like to fix the stars of?',
-						retry: (msg, { channel }) => `I can't find that message in ${channel}. Remember to use its ID.`
+						retry: (msg, { channel }) => `Please provide a valid message ID in ${channel}.`
 					}
 				}
 			]

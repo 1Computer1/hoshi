@@ -31,7 +31,7 @@ class StarInfoCommand extends Command {
 					},
 					prompt: {
 						start: 'What is the ID of the message you would like to view the info of?',
-						retry: (message, { channel }) => `I can't find that message in ${channel}. Remember to use its ID.`
+						retry: (message, { channel }) => `Please provide a valid message ID in ${channel}.`
 					}
 				}
 			]

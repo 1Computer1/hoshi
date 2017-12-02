@@ -16,7 +16,7 @@ class DeleteRepCommand extends Command {
 					type: 'member',
 					prompt: {
 						start: 'Which user gave the reputation you would like to delete?',
-						retry: 'You did not supply a valid user. Please try again.'
+						retry: 'Please provide a valid user.'
 					}
 				},
 				{
@@ -24,7 +24,7 @@ class DeleteRepCommand extends Command {
 					type: 'member',
 					prompt: {
 						start: (msg, { source }) => `Which user's rep by **${source.user.tag}** would you like to delete?`,
-						retry: 'You did not supply a valid user. Please try again.'
+						retry: 'Please provide a valid user.'
 					}
 				}
 			]

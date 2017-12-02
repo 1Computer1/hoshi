@@ -14,7 +14,7 @@ class AddRepCommand extends Command {
 					type: 'member',
 					prompt: {
 						start: 'Which user do you want to add reputation to?',
-						retry: 'You did not supply a valid user. Please try again.'
+						retry: 'Please provide a valid user.'
 					}
 				},
 				{
