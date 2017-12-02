@@ -59,16 +59,18 @@ class ShowStarsCommand extends Command {
 				content = starboardMsg.embeds[0].fields[2] && starboardMsg.embeds[0].fields[2].value;
 			}
 
-			if (content.length > 1000) {
-				content = content.slice(0, 1000);
-				content += '...';
-			}
-
 			const emoji = Starboard.getStarEmoji(topStar.starCount);
 			embed.addField('Top Star', `\\${emoji} ${topStar.starCount} (${topStar.messageID})`, true)
 				.addField('Channel', `<#${topStar.channelID}>`, true);
 
-			if (content) embed.addField('Message', content);
+			if (content) {
+				if (content.length > 1000) {
+					content = content.slice(0, 1000);
+					content += '...';
+				}
+
+				embed.addField('Message', content);
+			}
 		}
 
 		return message.util.send({ embed });

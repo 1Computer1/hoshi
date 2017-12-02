@@ -40,11 +40,6 @@ class BestStarCommand extends Command {
 				displayAvatarURL = () => starboardMsg.embeds[0].thumbnail.url;
 			}
 
-			if (content.length > 1000) {
-				content = content.slice(0, 1000);
-				content += '...';
-			}
-
 			const user = await this.client.users.fetch(bestStar.authorID).catch(() => ({ tag, displayAvatarURL }));
 			const emoji = Starboard.getStarEmoji(bestStar.starCount);
 
@@ -53,7 +48,14 @@ class BestStarCommand extends Command {
 				.addField('Top Star', `\\${emoji} ${bestStar.starCount} (${bestStar.messageID})`, true)
 				.addField('Channel', `<#${bestStar.channelID}>`, true);
 
-			if (content) embed.addField('Message', content);
+			if (content) {
+				if (content.length > 1000) {
+					content = content.slice(0, 1000);
+					content += '...';
+				}
+
+				embed.addField('Message', content);
+			}
 		} else {
 			embed.setTitle(`Best of ${message.guild.name}`)
 				.setDescription('*Nothing to show here yet...*');
