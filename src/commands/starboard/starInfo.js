@@ -4,7 +4,7 @@ const Starboard = require('../../struct/Starboard');
 class StarInfoCommand extends Command {
 	constructor() {
 		super('starInfo', {
-			aliases: ['starInfo', 'star-info'],
+			aliases: ['star-info'],
 			category: 'starboard',
 			channel: 'guild',
 			clientPermissions: ['EMBED_LINKS'],

@@ -6,7 +6,7 @@ const Star = require('../../models/stars');
 class ShowStarsCommand extends Command {
 	constructor() {
 		super('showStars', {
-			aliases: ['showStars', 'show-stars', 'showStar', 'show-star', 'stars'],
+			aliases: ['show-stars', 'show-star', 'stars'],
 			category: 'starboard',
 			channel: 'guild',
 			clientPermissions: ['EMBED_LINKS'],

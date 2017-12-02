@@ -6,7 +6,7 @@ const { db } = require('../../struct/Database');
 class TopStarsCommand extends Command {
 	constructor() {
 		super('topStars', {
-			aliases: ['topStars', 'top-stars', 'topStar', 'top-star', 'starsTop', 'star-top', 'starTop', 'stars-top'],
+			aliases: ['top-stars', 'top-star', 'star-top', 'stars-top'],
 			category: 'starboard',
 			channel: 'guild',
 			clientPermissions: ['EMBED_LINKS'],

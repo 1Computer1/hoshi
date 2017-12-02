@@ -4,7 +4,7 @@ const Reputation = require('../../models/reputations');
 class RemoveRepCommand extends Command {
 	constructor() {
 		super('removeRep', {
-			aliases: ['removeRep', 'remove-rep', 'unrep', '--'],
+			aliases: ['remove-rep', 'unrep', '--'],
 			category: 'reputation',
 			channel: 'guild',
 			args: [

@@ -4,7 +4,7 @@ const Reputation = require('../../models/reputations');
 class AddRepCommand extends Command {
 	constructor() {
 		super('addRep', {
-			aliases: ['addRep', 'add-rep', 'rep', '++'],
+			aliases: ['add-rep', 'rep', '++'],
 			category: 'reputation',
 			channel: 'guild',
 			split: 'quoted',

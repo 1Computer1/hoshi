@@ -4,7 +4,7 @@ const { db } = require('../../struct/Database');
 class TopRepsCommand extends Command {
 	constructor() {
 		super('topReps', {
-			aliases: ['topReps', 'top-reps', 'topRep', 'top-rep', 'repsTop', 'reps-top', 'repTop', 'rep-top'],
+			aliases: ['top-reps', 'top-rep', 'reps-top', 'rep-top'],
 			category: 'reputation',
 			channel: 'guild',
 			clientPermissions: ['EMBED_LINKS'],
