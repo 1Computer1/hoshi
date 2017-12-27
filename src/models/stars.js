@@ -22,7 +22,7 @@ const Star = db.define('stars', {
 	},
 	starboardMessageID: {
 		type: Sequelize.STRING,
-		allowNull: false
+		allowNull: true
 	},
 	starCount: {
 		type: Sequelize.INTEGER,

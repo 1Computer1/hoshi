@@ -33,6 +33,7 @@ class HelpCommand extends Command {
 				'The easiest way is to add or remove ⭐ reactions to the message.',
 				'Note that messages sent before the Hoshi went online will not work with reactions.',
 				`You can also use the commands \`${prefix}star <messageID>\` and \`${prefix}unstar <messageID>\`.`,
+				`To set a threshold for a star to be able to show up on the starboard, use \`${prefix}starThreshold <number>\`.`,
 				'',
 				`Those with \`Manage Messages\` can use \`${prefix}deletestar <messageID>\` to delete stars.`,
 				`To fix missing or incorrect stars on a message, use the \`${prefix}fixstar <messageID>\` command.`,
