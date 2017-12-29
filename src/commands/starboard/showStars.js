@@ -50,13 +50,16 @@ class ShowStarsCommand extends Command {
 				.catch(() => null);
 
 			let content;
+			let attachment;
 
 			if (msg) {
 				content = msg.content;
+				attachment = Starboard.findAttachment(msg);
 			} else {
 				const starboard = this.client.starboards.get(message.guild.id);
 				const starboardMsg = await starboard.channel.messages.fetch(topStar.starboardMessageID);
 				content = starboardMsg.embeds[0].fields[2] && starboardMsg.embeds[0].fields[2].value;
+				attachment = starboardMsg.embeds[0].attachment;
 			}
 
 			const emoji = Starboard.getStarEmoji(topStar.starCount);
@@ -70,6 +73,10 @@ class ShowStarsCommand extends Command {
 				}
 
 				embed.addField('Message', content);
+			}
+
+			if (attachment) {
+				embed.setImage(attachment);
 			}
 		}
 

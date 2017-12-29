@@ -27,15 +27,24 @@ class BestStarCommand extends Command {
 				.messages.fetch(bestStar.messageID).catch(() => null);
 
 			let content;
+			let attachment;
 			let tag;
 			let displayAvatarURL;
 
 			if (msg) {
 				content = msg.content;
+				attachment = Starboard.findAttachment(msg);
+
+				// Fallbacks
+				tag = msg.author.tag;
+				displayAvatarURL = msg.author.displayAvatarURL.bind(msg.author);
 			} else {
 				const starboard = this.client.starboards.get(message.guild.id);
 				const starboardMsg = await starboard.channel.messages.fetch(bestStar.starboardMessageID);
+
+				// Fallbacks
 				content = starboardMsg.embeds[0].fields[2] && starboardMsg.embeds[0].fields[2].value;
+				attachment = starboardMsg.embeds[0].attachment;
 				tag = 'Unknown#????';
 				displayAvatarURL = () => starboardMsg.embeds[0].thumbnail.url;
 			}
@@ -55,6 +64,10 @@ class BestStarCommand extends Command {
 				}
 
 				embed.addField('Message', content);
+			}
+
+			if (attachment) {
+				embed.setImage(attachment);
 			}
 		} else {
 			embed.setTitle(`Best of ${message.guild.name}`)
