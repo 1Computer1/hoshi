@@ -21,7 +21,12 @@ class StarThresholdCommand extends Command {
 						retry: 'Please provide an integer greater than zero.'
 					}
 				}
-			]
+			],
+			description: {
+				content: 'Sets the amount of stars a message must receive before it appears on the starboard.',
+				usage: '<threshold>',
+				examples: ['5', '1']
+			}
 		});
 	}
 

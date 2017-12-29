@@ -27,7 +27,12 @@ class DeleteRepCommand extends Command {
 						retry: 'Please provide a valid user.'
 					}
 				}
-			]
+			],
+			description: {
+				content: 'Deletes a reputation from someone to someone else.',
+				usage: '<source user> <target user>',
+				examples: ['@badrepper @innocentperson']
+			}
 		});
 	}
 

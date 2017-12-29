@@ -29,7 +29,11 @@ class ReloadCommand extends Command {
 						return resolver(word);
 					}
 				}
-			]
+			],
+			description: {
+				content: 'Reloads a module.',
+				usage: '<module> [type:]'
+			}
 		});
 	}
 

@@ -17,7 +17,12 @@ class BlacklistCommand extends Command {
 						retry: 'Please provide a valid user.'
 					}
 				}
-			]
+			],
+			description: {
+				content: 'Blacklists or unblacklists someone from using stars and giving reputation.',
+				usage: '<user>',
+				examples: ['@BadPerson', 'someone#1234']
+			}
 		});
 	}
 

@@ -5,7 +5,8 @@ class AboutCommand extends Command {
 		super('about', {
 			aliases: ['about', 'info'],
 			category: 'general',
-			clientPermissions: ['EMBED_LINKS']
+			clientPermissions: ['EMBED_LINKS'],
+			description: { content: 'Shows information about Hoshi.' }
 		});
 	}
 

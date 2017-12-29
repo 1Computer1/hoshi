@@ -5,7 +5,8 @@ class InviteCommand extends Command {
 		super('invite', {
 			aliases: ['invite'],
 			category: 'general',
-			clientPermissions: ['EMBED_LINKS']
+			clientPermissions: ['EMBED_LINKS'],
+			description: { content: 'Gets the bot invite for Hoshi.' }
 		});
 	}
 

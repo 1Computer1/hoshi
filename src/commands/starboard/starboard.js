@@ -37,7 +37,15 @@ class StarCommand extends Command {
 						retry: ''
 					}
 				}
-			]
+			],
+			description: {
+				content: [
+					'Sets the channel for the starboard.',
+					'If there is already a channel and you change it to another, it will reset all stars.'
+				],
+				usage: '<channel>',
+				examples: ['#starboard']
+			}
 		});
 	}
 

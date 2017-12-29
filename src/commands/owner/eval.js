@@ -19,7 +19,11 @@ class EvalCommand extends Command {
 					id: 'code',
 					match: 'content'
 				}
-			]
+			],
+			description: {
+				content: 'Evaluates code.',
+				usage: '<code>'
+			}
 		});
 	}
 

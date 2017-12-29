@@ -16,7 +16,12 @@ class HelpCommand extends Command {
 						optional: true
 					}
 				}
-			]
+			],
+			description: {
+				content: 'Displays a list of commands or information about a command.',
+				usage: '[command]',
+				examples: ['', 'star', 'remove-rep']
+			}
 		});
 	}
 
@@ -27,7 +32,7 @@ class HelpCommand extends Command {
 		const description = Object.assign({
 			content: 'No description available.',
 			usage: '',
-			examples: [command.aliases[0]],
+			examples: [],
 			fields: []
 		}, command.description);
 
@@ -37,9 +42,15 @@ class HelpCommand extends Command {
 			.addField('Description', description.content);
 
 		for (const field of description.fields) embed.addField(field.name, field.value);
-		embed
-			.addField('Examples', `\`${description.examples.join('`\n`')}\``)
-			.addField('Aliases', `\`${command.aliases.join('` `')}\``);
+
+		if (description.examples.length) {
+			const text = `${prefix}${command.aliases[0]}`;
+			embed.addField('Examples', `\`${text} ${description.examples.join(`\`\n\`${text} `)}\``, true);
+		}
+
+		if (command.aliases.length > 1) {
+			embed.addField('Aliases', `\`${command.aliases.join('` `')}\``, true);
+		}
 
 		return message.util.send({ embed });
 	}

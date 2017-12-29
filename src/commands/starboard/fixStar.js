@@ -33,7 +33,12 @@ class FixStarCommand extends Command {
 						retry: (msg, { channel }) => `Please provide a valid message ID in ${channel}.`
 					}
 				}
-			]
+			],
+			description: {
+				content: 'Fixes the stars on the message based on the reactions.',
+				usage: '<message id> [channel]',
+				examples: ['396429741176913921', '396430734585233411 #OtherChannel']
+			}
 		});
 	}
 

@@ -31,7 +31,12 @@ class ShowRepsCommand extends Command {
 						optional: true
 					}
 				}
-			]
+			],
+			description: {
+				content: 'Shows a user\'s accumulated reputation.',
+				usage: '<user> [page]',
+				examples: ['@JimBob', 'PopularDude#4232 10']
+			}
 		});
 
 		this.perPage = 5;

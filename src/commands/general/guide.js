@@ -5,7 +5,8 @@ class GuideCommand extends Command {
 		super('guide', {
 			aliases: ['guide'],
 			category: 'general',
-			clientPermissions: ['EMBED_LINKS']
+			clientPermissions: ['EMBED_LINKS'],
+			description: { content: 'Shows information about how to use Hoshi.' }
 		});
 	}
 

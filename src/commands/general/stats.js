@@ -8,7 +8,8 @@ class StatsCommand extends Command {
 		super('stats', {
 			aliases: ['stats'],
 			category: 'general',
-			clientPermissions: ['EMBED_LINKS']
+			clientPermissions: ['EMBED_LINKS'],
+			description: { content: 'Displays Hoshi\'s statistics.' }
 		});
 	}
 

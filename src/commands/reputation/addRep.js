@@ -21,7 +21,16 @@ class AddRepCommand extends Command {
 					id: 'reason',
 					match: 'rest'
 				}
-			]
+			],
+			description: {
+				content: [
+					'Adds reputation to someone.',
+					'You can only give one rep to a person.',
+					'Reusing this command will simply replace the reason.'
+				],
+				usage: '<user> [reason...]',
+				examples: ['@ABC because he is a cool dude', 'Jim#9327']
+			}
 		});
 	}
 

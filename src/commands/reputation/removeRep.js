@@ -17,7 +17,12 @@ class RemoveRepCommand extends Command {
 						retry: 'Please provide a valid user.'
 					}
 				}
-			]
+			],
+			description: {
+				content: 'Removes a reputation to someone.',
+				usage: '<user>',
+				examples: ['notafriend#0452']
+			}
 		});
 	}
 

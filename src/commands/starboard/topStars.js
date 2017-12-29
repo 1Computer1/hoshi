@@ -21,7 +21,12 @@ class TopStarsCommand extends Command {
 						optional: true
 					}
 				}
-			]
+			],
+			description: {
+				content: 'Displays a list of users sorted by how many stars they have in the guild.',
+				usage: '[page]',
+				examples: ['', '3']
+			}
 		});
 
 		this.perPage = 10;

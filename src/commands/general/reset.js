@@ -41,7 +41,12 @@ class ResetCommand extends Command {
 						retry: ''
 					}
 				}
-			]
+			],
+			description: {
+				content: 'Resets the stars and/or reputations of the guild.',
+				usage: '<mode>',
+				examples: ['stars', 'reps', 'all']
+			}
 		});
 	}
 

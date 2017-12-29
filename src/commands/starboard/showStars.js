@@ -22,7 +22,12 @@ class ShowStarsCommand extends Command {
 						optional: true
 					}
 				}
-			]
+			],
+			description: {
+				content: 'Shows a user\'s accumulated stars and their best starred message.',
+				usage: '<user>',
+				examples: ['@FunnyGuy']
+			}
 		});
 	}
 

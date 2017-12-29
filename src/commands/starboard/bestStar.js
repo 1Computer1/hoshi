@@ -10,7 +10,8 @@ class BestStarCommand extends Command {
 			aliases: ['best-star', 'star-best'],
 			category: 'starboard',
 			channel: 'guild',
-			clientPermissions: ['EMBED_LINKS']
+			clientPermissions: ['EMBED_LINKS'],
+			description: { content: 'Shows the most starred message in the guild.' }
 		});
 	}
 

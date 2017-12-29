@@ -20,7 +20,15 @@ class PrefixCommand extends Command {
 						retry: 'Please provide a prefix without spaces and less than 10 characters.'
 					}
 				}
-			]
+			],
+			description: {
+				content: [
+					'Changes the prefix of the guild.',
+					'The prefix must not contain spaces and be below 10 characters.'
+				],
+				usage: '<prefix>',
+				examples: ['*', '-']
+			}
 		});
 	}
 
