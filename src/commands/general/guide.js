@@ -32,7 +32,6 @@ class GuideCommand extends Command {
 			.addField('Starring', [
 				'There are two ways to star and unstar a message.',
 				'The easiest way is to add or remove ⭐ reactions to the message.',
-				'Note that messages sent before the Hoshi went online will not work with reactions.',
 				`You can also use the commands \`${prefix}star <messageID>\` and \`${prefix}unstar <messageID>\`.`,
 				`To set a threshold for a star to be able to show up on the starboard, use \`${prefix}starThreshold <number>\`.`,
 				'',
