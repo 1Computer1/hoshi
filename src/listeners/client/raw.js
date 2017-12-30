@@ -1,6 +1,6 @@
 const { Listener } = require('discord-akairo');
 
-class ReadyListener extends Listener {
+class RawListener extends Listener {
 	constructor() {
 		super('raw', {
 			event: 'raw',
@@ -35,4 +35,4 @@ class ReadyListener extends Listener {
 	}
 }
 
-module.exports = ReadyListener;
+module.exports = RawListener;
