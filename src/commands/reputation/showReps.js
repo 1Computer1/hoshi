@@ -67,7 +67,8 @@ class ShowRepsCommand extends Command {
 			const sources = await Promise.all(promises);
 
 			embed.addField(`Reasons — Page ${page} of ${Math.ceil(guildReputations.length / this.perPage)}`, paginated.map((rep, index) => {
-				let text = rep.reason ? rep.reason.substring(0, 160) : '';
+				if (!rep.reason) return `**${sources[index].tag}**`;
+				let text = rep.reason.substring(0, 160);
 				if (rep.reason.length > 160) text += '...';
 				return `**${sources[index].tag} ::** ${text}`;
 			}));
