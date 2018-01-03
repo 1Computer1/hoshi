@@ -13,6 +13,7 @@ class HoshiClient extends AkairoClient {
 			prefix: message => this.settings.get(message.guild, 'prefix', '*'),
 			allowMention: true,
 			handleEdits: true,
+			fetchMembers: true,
 			commandUtilLifetime: 3e5,
 			ownerID: config.owner,
 			commandDirectory: path.join(__dirname, '..', 'commands'),
