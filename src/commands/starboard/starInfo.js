@@ -75,7 +75,7 @@ class StarInfoCommand extends Command {
 			.addField('Starrers', starredBy.join(', '))
 			.setThumbnail(msg.author.displayAvatarURL())
 			.setTimestamp(msg.createdAt)
-			.setFooter(`${emoji} ${star.starredBy.length} | ${msg.id}`);
+			.setFooter(`${emoji} ${star.starredBy.length} • ${msg.id}`);
 
 		return message.util.send({ embed });
 	}
