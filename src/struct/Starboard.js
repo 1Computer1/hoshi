@@ -314,7 +314,7 @@ class Starboard {
 			.addField('Channel', message.channel, true)
 			.setThumbnail(message.author.displayAvatarURL())
 			.setTimestamp(message.createdAt)
-			.setFooter(`${star} ${starCount} • ${message.id}`);
+			.setFooter(`${star} ${starCount} | ${message.id}`);
 
 		if (message.content) {
 			let content = message.content.substring(0, 1000);
