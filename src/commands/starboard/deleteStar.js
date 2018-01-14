@@ -81,7 +81,7 @@ class DeleteStarCommand extends Command {
 		}
 
 		if (msg.reactions && msg.reactions.size) {
-			await msg.clearReactions().then(() => {
+			await msg.reactions.removeAll().then(() => {
 				starboard.reactionsRemoved.add(msg.id);
 			});
 		}
