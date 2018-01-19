@@ -370,10 +370,19 @@ class Starboard {
 		if (count < 15) return '✨';
 		if (count < 20) return '💫';
 		if (count < 30) return '🎇';
-		if (count < 50) return '🎆';
-		if (count < 75) return '☄️';
-		if (count < 100) return '🌠';
-		return '🌌';
+		if (count < 40) return '🎆';
+		if (count < 50) return '☄️';
+		if (count < 75) return '🌠';
+		if (count < 100) return '🌌';
+		if (count < 150) return '🌌•⭐';
+		if (count < 200) return '🌌•🌟';
+		if (count < 300) return '🌌•✨';
+		if (count < 400) return '🌌•💫';
+		if (count < 650) return '🌌•🎇';
+		if (count < 900) return '🌌•🎆';
+		if (count < 1400) return '🌌•☄️';
+		if (count < 2400) return '🌌•🌠';
+		return '🌌•🌌';
 	}
 }
 
