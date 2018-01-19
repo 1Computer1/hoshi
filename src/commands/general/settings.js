@@ -21,8 +21,8 @@ class SettingsCommand extends Command {
 			.setTitle('Settings')
 			.setDescription([
 				`**Prefix**: \`${prefix}\``,
-				`**Starboard**: ${starboard ? starboard.channel : 'None'}`,
-				`**Threshold**: ${starboard ? starboard.threshold : 'None'}`,
+				`**Starboard**: ${(starboard && starboard.channel) || 'None'}`,
+				`**Threshold**: ${(starboard && starboard.threshold) || 'None'}`,
 				`**Blacklist**: ${blacklist.join(', ') || 'None'}`
 			]);
 

@@ -32,6 +32,12 @@ class ShowStarsCommand extends Command {
 	}
 
 	async exec(message, { member }) {
+		const starboard = this.client.starboards.get(message.guild.id);
+		if (!starboard.channel) {
+			const prefix = this.handler.prefix(message);
+			return message.util.reply(`There isn't a starboard channel to use. Set one using the \`${prefix}starboard\` command!`);
+		}
+
 		const stars = await Star.findAll({ where: { authorID: member.id } });
 		const guildStars = stars.filter(star => star.guildID === message.guild.id);
 
@@ -61,7 +67,6 @@ class ShowStarsCommand extends Command {
 				content = msg.content;
 				attachment = Starboard.findAttachment(msg);
 			} else if (topStar.starboardMessageID) {
-				const starboard = this.client.starboards.get(message.guild.id);
 				const starboardMsg = await starboard.channel.messages.fetch(topStar.starboardMessageID).catch(() => null);
 
 				if (starboardMsg) {

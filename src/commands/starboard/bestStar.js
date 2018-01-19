@@ -16,6 +16,12 @@ class BestStarCommand extends Command {
 	}
 
 	async exec(message) {
+		const starboard = this.client.starboards.get(message.guild.id);
+		if (!starboard.channel) {
+			const prefix = this.handler.prefix(message);
+			return message.util.reply(`There isn't a starboard channel to use. Set one using the \`${prefix}starboard\` command!`);
+		}
+
 		const [bestStar] = await Star.findAll({
 			where: { guildID: message.guild.id },
 			order: Sequelize.literal('"starCount" DESC')
@@ -40,7 +46,6 @@ class BestStarCommand extends Command {
 				tag = msg.author.tag;
 				displayAvatarURL = msg.author.displayAvatarURL.bind(msg.author);
 			} else if (bestStar.starboardMessageID) {
-				const starboard = this.client.starboards.get(message.guild.id);
 				const starboardMsg = await starboard.channel.messages.fetch(bestStar.starboardMessageID).catch(() => null);
 
 				// Fallbacks

@@ -46,7 +46,8 @@ class StarInfoCommand extends Command {
 	async exec(message, { message: msg }) {
 		const starboard = this.client.starboards.get(message.guild.id);
 		if (!starboard.channel) {
-			return message.util.reply('There isn\'t a starboard channel to use.');
+			const prefix = this.handler.prefix(message);
+			return message.util.reply(`There isn't a starboard channel to use. Set one using the \`${prefix}starboard\` command!`);
 		}
 
 		const star = starboard.stars.get(msg.id);

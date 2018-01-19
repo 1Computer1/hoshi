@@ -18,12 +18,6 @@ class ReadyListener extends Listener {
 		for (const guild of this.client.guilds.values()) {
 			const starboard = new Starboard(guild);
 			this.client.starboards.set(guild.id, starboard);
-
-			const starboardChannelID = this.client.settings.get(guild, 'starboardChannelID');
-			if (starboardChannelID && !starboard.channel) {
-				this.client.settings.delete(guild, 'starboardChannelID');
-				this.client.starboards.get(guild.id).destroy();
-			}
 		}
 	}
 }
