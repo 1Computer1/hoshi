@@ -34,6 +34,11 @@ class TopStarsCommand extends Command {
 
 	async exec(message, { page }) {
 		const starboard = this.client.starboards.get(message.guild.id);
+
+		if (!starboard.initiated) {
+			return message.util.reply('Starboard has not fully loaded, please wait.');
+		}
+
 		if (!starboard.channel) {
 			const prefix = this.handler.prefix(message);
 			return message.util.reply(`There isn't a starboard channel to use. Set one using the \`${prefix}starboard\` command!`);
