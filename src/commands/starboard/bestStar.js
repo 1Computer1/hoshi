@@ -29,7 +29,7 @@ class BestStarCommand extends Command {
 
 			let content;
 			let attachment;
-			let tag;
+			let tag = 'Unknown#????';
 			let displayAvatarURL;
 
 			if (msg) {
@@ -39,15 +39,16 @@ class BestStarCommand extends Command {
 				// Fallbacks
 				tag = msg.author.tag;
 				displayAvatarURL = msg.author.displayAvatarURL.bind(msg.author);
-			} else {
+			} else if (bestStar.starboardMessageID) {
 				const starboard = this.client.starboards.get(message.guild.id);
-				const starboardMsg = await starboard.channel.messages.fetch(bestStar.starboardMessageID);
+				const starboardMsg = await starboard.channel.messages.fetch(bestStar.starboardMessageID).catch(() => null);
 
 				// Fallbacks
-				content = starboardMsg.embeds[0].fields[2] && starboardMsg.embeds[0].fields[2].value;
-				attachment = starboardMsg.embeds[0].attachment;
-				tag = 'Unknown#????';
-				displayAvatarURL = () => starboardMsg.embeds[0].thumbnail.url;
+				if (starboardMsg) {
+					content = starboardMsg.embeds[0].fields[2] && starboardMsg.embeds[0].fields[2].value;
+					attachment = starboardMsg.embeds[0].attachment;
+					displayAvatarURL = () => starboardMsg.embeds[0].thumbnail.url;
+				}
 			}
 
 			const user = await this.client.users.fetch(bestStar.authorID).catch(() => ({ tag, displayAvatarURL }));

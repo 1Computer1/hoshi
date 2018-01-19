@@ -60,11 +60,14 @@ class ShowStarsCommand extends Command {
 			if (msg) {
 				content = msg.content;
 				attachment = Starboard.findAttachment(msg);
-			} else {
+			} else if (topStar.starboardMessageID) {
 				const starboard = this.client.starboards.get(message.guild.id);
-				const starboardMsg = await starboard.channel.messages.fetch(topStar.starboardMessageID);
-				content = starboardMsg.embeds[0].fields[2] && starboardMsg.embeds[0].fields[2].value;
-				attachment = starboardMsg.embeds[0].attachment;
+				const starboardMsg = await starboard.channel.messages.fetch(topStar.starboardMessageID).catch(() => null);
+
+				if (starboardMsg) {
+					content = starboardMsg.embeds[0].fields[2] && starboardMsg.embeds[0].fields[2].value;
+					attachment = starboardMsg.embeds[0].attachment;
+				}
 			}
 
 			const emoji = Starboard.getStarEmoji(topStar.starCount);
