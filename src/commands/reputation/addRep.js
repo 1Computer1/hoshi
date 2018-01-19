@@ -63,12 +63,14 @@ class AddRepCommand extends Command {
 
 			const reply = [];
 			if (reason) {
-				reply.push(`You have added reputation to ${member} with the reason: ${reason}`);
+				reply.push(`You have updated your reputation to ${member} with the reason: ${reason}`);
 			} else {
-				reply.push(`You have added reputation to ${member}.`);
+				reply.push(`You have updated your reputation to ${member}.`);
 			}
 
-			if (previous.reason) reply.push(`This replaced the previous reason: ${previous.reason}`);
+			if (previous.reason) {
+				reply.push(`This replaced the previous reason: ${previous.reason}`);
+			}
 
 			return message.util.reply(reply);
 		}
@@ -82,9 +84,9 @@ class AddRepCommand extends Command {
 
 		if (reason) {
 			return message.util.reply(`You have added reputation to ${member} with the reason: ${reason}`);
-		} else {
-			return message.util.reply(`You have added reputation to ${member}.`);
 		}
+
+		return message.util.reply(`You have added reputation to ${member}.`);
 	}
 }
 

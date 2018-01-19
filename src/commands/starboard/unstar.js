@@ -44,45 +44,36 @@ class UnstarCommand extends Command {
 
 	async exec(message, { message: msg }) {
 		if (msg.author.id === message.author.id) {
-			message.util.reply('You can\'t unstar your own message.');
-			return;
+			return message.util.reply('You can\'t unstar your own message.');
 		}
 
 		const starboard = this.client.starboards.get(msg.guild.id);
 
 		if (!starboard.initiated) {
-			message.util.reply('Starboard has not fully loaded, please wait.');
-			return;
+			return message.util.reply('Starboard has not fully loaded, please wait.');
 		}
 
 		if (!starboard.channel) {
 			const prefix = this.client.commandHandler.prefix(message);
-			message.util.reply(`There isn't a starboard channel to use. Set one using the \`${prefix}starboard\` command!`);
-			return;
+			return message.util.reply(`There isn't a starboard channel to use. Set one using the \`${prefix}starboard\` command!`);
 		}
 
 		if (!message.channel.permissionsFor(this.client.user).has('MANAGE_MESSAGES')) {
-			message.util.reply('I\'m missing `Manage Messages` to unstar that message in this channel.');
-			return;
+			return message.util.reply('I\'m missing `Manage Messages` to unstar that message in this channel.');
 		}
 
 		const missingPerms = starboard.missingPermissions();
-		if (missingPerms) {
-			message.util.reply(missingPerms);
-			return;
-		}
+		if (missingPerms) return message.util.reply(missingPerms);
 
 		const star = starboard.stars.get(msg.id);
 
 		if (!star || !star.starredBy.includes(message.author.id)) {
-			message.util.reply('You can\'t remove any star from this message because you never gave it one in the first place.');
-			return;
+			return message.util.reply('You can\'t remove any star from this message because you never gave it one in the first place.');
 		}
 
 		const error = await starboard.remove(msg, message.author);
-		if (error) {
-			message.util.reply(error);
-		}
+		if (error) return message.util.reply(error);
+		return message.util.reply('The message has been unstarred.');
 	}
 }
 

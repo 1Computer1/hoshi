@@ -45,11 +45,8 @@ class FixStarCommand extends Command {
 	async exec(message, { message: msg }) {
 		const starboard = this.client.starboards.get(message.guild.id);
 		const error = await starboard.fix(msg);
-		if (error) {
-			return message.util.reply(error);
-		} else {
-			return message.util.reply('Successfully fixed the stars for the message!');
-		}
+		if (error) return message.util.reply(error);
+		return message.util.reply('Successfully fixed the stars for the message!');
 	}
 }
 

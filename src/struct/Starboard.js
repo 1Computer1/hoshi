@@ -241,14 +241,14 @@ class Starboard {
 		};
 
 		if (!star) {
-			if (!message.reactions.has('⭐')) return;
+			if (!message.reactions.has('⭐')) return undefined;
 
 			const users = await fetchUsers(message.reactions.get('⭐'));
 			const starredBy = users
 				.map(user => user.id)
 				.filter(user => message.author.id !== user && !blacklist.includes(user));
 
-			if (!starredBy.length) return;
+			if (!starredBy.length) return undefined;
 
 			let starboardMessage;
 			if (starredBy.length >= this.threshold) {
@@ -270,37 +270,39 @@ class Starboard {
 			});
 
 			this.stars.set(message.id, newStar);
-		} else {
-			const users = message.reactions.has('⭐')
-				? await fetchUsers(message.reactions.get('⭐'))
-				: this.client.util.collection();
-
-			const newStarredBy = users
-				.map(user => user.id)
-				.filter(user => !star.starredBy.includes(user) && message.author.id !== user && !blacklist.includes(user))
-				.concat(star.starredBy);
-
-			let starboardMessage;
-			if (newStarredBy.length >= this.threshold) {
-				const embed = this.buildStarboardEmbed(message, newStarredBy.length);
-				starboardMessage = star.starboardMessageID
-					? await this.channel.messages.fetch(star.starboardMessageID)
-						.then(msg => msg.edit({ embed }))
-						.catch(() => this.channel.send({ embed }))
-					: await this.channel.send({ embed });
-			} else {
-				const msg = await this.channel.messages.fetch(star.starboardMessageID).catch(() => null);
-				if (msg) await msg.delete();
-			}
-
-			const newStar = await star.update({
-				starCount: newStarredBy.length,
-				starredBy: newStarredBy,
-				starboardMessageID: starboardMessage ? starboardMessage.id : null
-			});
-
-			this.stars.set(message.id, newStar);
+			return undefined;
 		}
+
+		const users = message.reactions.has('⭐')
+			? await fetchUsers(message.reactions.get('⭐'))
+			: this.client.util.collection();
+
+		const newStarredBy = users
+			.map(user => user.id)
+			.filter(user => !star.starredBy.includes(user) && message.author.id !== user && !blacklist.includes(user))
+			.concat(star.starredBy);
+
+		let starboardMessage;
+		if (newStarredBy.length >= this.threshold) {
+			const embed = this.buildStarboardEmbed(message, newStarredBy.length);
+			starboardMessage = star.starboardMessageID
+				? await this.channel.messages.fetch(star.starboardMessageID)
+					.then(msg => msg.edit({ embed }))
+					.catch(() => this.channel.send({ embed }))
+				: await this.channel.send({ embed });
+		} else {
+			const msg = await this.channel.messages.fetch(star.starboardMessageID).catch(() => null);
+			if (msg) await msg.delete();
+		}
+
+		const newStar = await star.update({
+			starCount: newStarredBy.length,
+			starredBy: newStarredBy,
+			starboardMessageID: starboardMessage ? starboardMessage.id : null
+		});
+
+		this.stars.set(message.id, newStar);
+		return undefined;
 	}
 
 	destroy() {

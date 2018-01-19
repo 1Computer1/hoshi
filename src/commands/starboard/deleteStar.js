@@ -53,32 +53,23 @@ class DeleteStarCommand extends Command {
 		const starboard = this.client.starboards.get(message.guild.id);
 
 		if (!starboard.initiated) {
-			message.util.reply('Starboard has not fully loaded, please wait.');
-			return;
+			return message.util.reply('Starboard has not fully loaded, please wait.');
 		}
 
 		if (!starboard.channel) {
 			const prefix = this.client.commandHandler.prefix(message);
-			message.util.reply(`There isn't a starboard channel to use. Set one using the \`${prefix}starboard\` command!`);
-			return;
+			return message.util.reply(`There isn't a starboard channel to use. Set one using the \`${prefix}starboard\` command!`);
 		}
 
 		const missingPerms = starboard.missingPermissions();
-		if (missingPerms) {
-			message.util.reply(missingPerms);
-			return;
-		}
+		if (missingPerms) return message.util.reply(missingPerms);
 
 		if (!starboard.stars.has(msg.id)) {
-			message.util.reply('The message cannot be removed because it does not exist in the starboard.');
-			return;
+			return message.util.reply('The message cannot be removed because it does not exist in the starboard.');
 		}
 
 		const error = await starboard.delete(msg);
-		if (error) {
-			message.util.reply(error);
-			return;
-		}
+		if (error) return message.util.reply(error);
 
 		if (msg.reactions && msg.reactions.size) {
 			await msg.reactions.removeAll().then(() => {
@@ -86,7 +77,7 @@ class DeleteStarCommand extends Command {
 			});
 		}
 
-		message.util.reply('The message has been removed from the starboard.');
+		return message.util.reply('The message has been removed from the starboard.');
 	}
 }
 

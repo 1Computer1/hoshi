@@ -80,10 +80,12 @@ class HelpCommand extends Command {
 
 		try {
 			await message.author.send({ embed });
-			if (shouldReply) message.util.reply('I\'ve sent you a DM with the command list.');
+			if (shouldReply) return message.util.reply('I\'ve sent you a DM with the command list.');
 		} catch (err) {
-			if (shouldReply) message.util.reply('I could not send you the command list in DMs.');
+			if (shouldReply) return message.util.reply('I could not send you the command list in DMs.');
 		}
+
+		return undefined;
 	}
 }
 
