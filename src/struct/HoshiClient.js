@@ -15,6 +15,7 @@ class HoshiClient extends AkairoClient {
 			handleEdits: true,
 			fetchMembers: true,
 			commandUtilLifetime: 3e5,
+			defaultCooldown: 2500,
 			ownerID: config.owner,
 			commandDirectory: path.join(__dirname, '..', 'commands'),
 			inhibitorDirectory: path.join(__dirname, '..', 'inhibitors'),
