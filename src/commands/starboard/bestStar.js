@@ -62,11 +62,11 @@ class BestStarCommand extends Command {
 			}
 
 			const user = await this.client.users.fetch(bestStar.authorID).catch(() => ({ tag, displayAvatarURL }));
-			const emoji = Starboard.getStarEmoji(bestStar.starCount);
+			const emoji = Starboard.getEscapedStarEmoji(bestStar.starCount);
 
 			embed.setTitle(`Best of ${message.guild.name} — ${user.tag}`)
 				.setThumbnail(user.displayAvatarURL())
-				.addField('Top Star', `\\${emoji} ${bestStar.starCount} (${bestStar.messageID})`, true)
+				.addField('Top Star', `${emoji} ${bestStar.starCount} (${bestStar.messageID})`, true)
 				.addField('Channel', `<#${bestStar.channelID}>`, true);
 
 			if (content) {

@@ -386,6 +386,11 @@ class Starboard {
 		if (count < 2400) return '🌌•🌠';
 		return '🌌•🌌';
 	}
+
+	static getEscapedStarEmoji(count) {
+		const emoji = this.getStarEmoji(count);
+		return `\\${emoji.replace('•', '•\\')}`;
+	}
 }
 
 module.exports = Starboard;

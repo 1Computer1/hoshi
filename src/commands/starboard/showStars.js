@@ -56,8 +56,8 @@ class ShowStarsCommand extends Command {
 			.setThumbnail(member.user.displayAvatarURL())
 			.setTitle(`User Information for ${member.user.tag}`)
 			.addField('Star Count', [
-				`**Local**: ${plural(guildStars.length, 'message')} — ${totalGuildStars} \\${Starboard.getStarEmoji(totalGuildStars)}`,
-				`**Global**: ${plural(stars.length, 'message')} — ${totalStars} \\${Starboard.getStarEmoji(totalStars)}`
+				`**Local**: ${plural(guildStars.length, 'message')} — ${totalGuildStars} ${Starboard.getEscapedStarEmoji(totalGuildStars)}`,
+				`**Global**: ${plural(stars.length, 'message')} — ${totalStars} ${Starboard.getEscapedStarEmoji(totalStars)}`
 			]);
 
 		if (guildStars.length) {
@@ -80,8 +80,8 @@ class ShowStarsCommand extends Command {
 				}
 			}
 
-			const emoji = Starboard.getStarEmoji(topStar.starCount);
-			embed.addField('Top Star', `\\${emoji} ${topStar.starCount} (${topStar.messageID})`, true)
+			const emoji = Starboard.getEscapedStarEmoji(topStar.starCount);
+			embed.addField('Top Star', `${emoji} ${topStar.starCount} (${topStar.messageID})`, true)
 				.addField('Channel', `<#${topStar.channelID}>`, true);
 
 			if (content) {

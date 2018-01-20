@@ -88,7 +88,7 @@ class TopStarsCommand extends Command {
 
 		if (users.length) {
 			const desc = users
-				.map(({ tag, amount }, index) => `${1 + index + ((page - 1) * this.perPage)}. **${tag} ::** ${amount} \\${Starboard.getStarEmoji(amount)}`);
+				.map(({ tag, amount }, index) => `${1 + index + ((page - 1) * this.perPage)}. **${tag} ::** ${amount} ${Starboard.getEscapedStarEmoji(amount)}`);
 
 			embed.setDescription(desc);
 		} else {
