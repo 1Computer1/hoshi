@@ -15,7 +15,13 @@ class RawListener extends Listener {
 		const channel = this.client.channels.get(packet.d.channel_id);
 		if (channel.messages.has(packet.d.message_id)) return;
 
-		const message = await channel.messages.fetch(packet.d.message_id);
+		let message;
+		try {
+			message = await channel.messages.fetch(packet.d.message_id);
+		} catch (err) {
+			return;
+		}
+
 		if (packet.t === 'MESSAGE_REACTION_REMOVE_ALL') {
 			this.client.emit('messageReactionRemoveAll', message);
 			return;
