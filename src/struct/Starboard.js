@@ -352,8 +352,16 @@ class Starboard {
 		const extensions = ['.png', '.jpg', '.jpeg', '.gif', '.webp'];
 		const linkRegex = /https?:\/\/(?:\w+\.)?[\w-]+\.[\w]{2,3}(?:\/[\w-_.]+)+\.(?:png|jpg|jpeg|gif|webp)/;
 
-		if (message.attachments.some(attachment => extensions.includes(path.extname(attachment.url)))) {
-			attachmentImage = message.attachments.first().url;
+		const richEmbed = message.embeds.find(embed => embed.type === 'rich'
+			&& embed.image
+			&& extensions.includes(path.extname(embed.image.url)));
+		if (richEmbed) {
+			attachmentImage = richEmbed.image.url;
+		}
+
+		const attachment = message.attachments.find(file => extensions.includes(path.extname(file.url)));
+		if (attachment) {
+			attachmentImage = attachment.first().url;
 		}
 
 		if (!attachmentImage) {
