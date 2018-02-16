@@ -361,7 +361,7 @@ class Starboard {
 
 		const attachment = message.attachments.find(file => extensions.includes(path.extname(file.url)));
 		if (attachment) {
-			attachmentImage = attachment.first().url;
+			attachmentImage = attachment.url;
 		}
 
 		if (!attachmentImage) {
