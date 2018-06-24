@@ -50,10 +50,9 @@ class TopStarsCommand extends Command {
 				COUNT(DISTINCT "authorID")
 			FROM stars WHERE "guildID" = :guildID
 		`, {
-				type: db.Sequelize.QueryTypes.SELECT,
-				replacements: { guildID: message.guild.id }
-			}
-		))[0].count);
+			type: db.Sequelize.QueryTypes.SELECT,
+			replacements: { guildID: message.guild.id }
+		}))[0].count);
 
 		const topStars = await db.query(`
 			SELECT
@@ -65,14 +64,13 @@ class TopStarsCommand extends Command {
 			OFFSET :offset
 			LIMIT :limit
 		`, {
-				type: db.Sequelize.QueryTypes.SELECT,
-				replacements: {
-					guildID: message.guild.id,
-					offset: (page - 1) * this.perPage,
-					limit: this.perPage
-				}
+			type: db.Sequelize.QueryTypes.SELECT,
+			replacements: {
+				guildID: message.guild.id,
+				offset: (page - 1) * this.perPage,
+				limit: this.perPage
 			}
-		);
+		});
 
 		const users = await Promise.all(topStars.map(async row => {
 			const user = await this.client.users.fetch(row.authorID).catch(() => ({ tag: 'Unknown#????' }));

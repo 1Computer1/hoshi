@@ -37,10 +37,9 @@ class TopRepsCommand extends Command {
 				COUNT(DISTINCT "targetID")
 			FROM reputations WHERE "guildID" = :guildID
 		`, {
-				type: db.Sequelize.QueryTypes.SELECT,
-				replacements: { guildID: message.guild.id }
-			}
-		))[0].count);
+			type: db.Sequelize.QueryTypes.SELECT,
+			replacements: { guildID: message.guild.id }
+		}))[0].count);
 
 		const topReps = await db.query(`
 			SELECT
@@ -52,14 +51,13 @@ class TopRepsCommand extends Command {
 			OFFSET :offset
 			LIMIT :limit
 		`, {
-				type: db.Sequelize.QueryTypes.SELECT,
-				replacements: {
-					guildID: message.guild.id,
-					offset: (page - 1) * this.perPage,
-					limit: this.perPage
-				}
+			type: db.Sequelize.QueryTypes.SELECT,
+			replacements: {
+				guildID: message.guild.id,
+				offset: (page - 1) * this.perPage,
+				limit: this.perPage
 			}
-		);
+		});
 
 		const users = await Promise.all(topReps.map(async row => {
 			const user = await this.client.users.fetch(row.targetID).catch(() => ({ tag: 'Unknown#????' }));
