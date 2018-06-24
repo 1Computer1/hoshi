@@ -34,7 +34,7 @@ class HoshiClient extends AkairoClient {
 		});
 
 		this.inhibitorHandler = new InhibitorHandler(this, { directory: path.join(__dirname, '..', 'inhibitors') });
-		this.listenerHandler = new ListenerHandler(this, { directory: path.join(__dirname, '..', 'lsiteners') });
+		this.listenerHandler = new ListenerHandler(this, { directory: path.join(__dirname, '..', 'listeners') });
 
 		this.config = config;
 		this.settings = new SettingsProvider(Setting);
