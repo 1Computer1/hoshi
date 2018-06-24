@@ -9,7 +9,6 @@ class ShowRepsCommand extends Command {
 			category: 'reputation',
 			channel: 'guild',
 			clientPermissions: ['EMBED_LINKS'],
-			split: 'quoted',
 			args: [
 				{
 					id: 'member',

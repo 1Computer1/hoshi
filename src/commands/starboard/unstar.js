@@ -7,6 +7,7 @@ class UnstarCommand extends Command {
 			category: 'starboard',
 			channel: 'guild',
 			clientPermissions: ['MANAGE_MESSAGES'],
+			quoted: false,
 			args: [
 				// Indices are swapped in order to process channel first.
 				{

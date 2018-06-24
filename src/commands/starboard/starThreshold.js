@@ -7,6 +7,7 @@ class StarThresholdCommand extends Command {
 			category: 'starboard',
 			channel: 'guild',
 			userPermissions: ['ADMINISTRATOR'],
+			quoted: false,
 			args: [
 				{
 					id: 'threshold',

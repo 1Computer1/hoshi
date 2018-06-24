@@ -6,6 +6,7 @@ class HelpCommand extends Command {
 			aliases: ['help', 'halp', 'h'],
 			category: 'general',
 			clientPermissions: ['EMBED_LINKS'],
+			quoted: false,
 			args: [
 				{
 					id: 'command',

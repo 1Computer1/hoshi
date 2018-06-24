@@ -7,6 +7,7 @@ class FixStarCommand extends Command {
 			category: 'starboard',
 			channel: 'guild',
 			userPermissions: ['MANAGE_MESSAGES'],
+			quoted: false,
 			args: [
 				// Indices are swapped in order to process channel first.
 				{

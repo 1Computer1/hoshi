@@ -8,6 +8,7 @@ class TopRepsCommand extends Command {
 			category: 'reputation',
 			channel: 'guild',
 			clientPermissions: ['EMBED_LINKS'],
+			quoted: false,
 			args: [
 				{
 					id: 'page',

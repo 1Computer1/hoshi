@@ -7,7 +7,6 @@ class AddRepCommand extends Command {
 			aliases: ['add-rep', 'rep', '++'],
 			category: 'reputation',
 			channel: 'guild',
-			split: 'quoted',
 			args: [
 				{
 					id: 'member',

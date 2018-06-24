@@ -7,7 +7,7 @@ class ReloadCommand extends Command {
 			aliases: ['reload', 'r'],
 			category: 'owner',
 			ownerOnly: true,
-			protected: true,
+			quoted: false,
 			args: [
 				{
 					id: 'type',
@@ -20,7 +20,7 @@ class ReloadCommand extends Command {
 					id: 'module',
 					type: (word, message, { type }) => {
 						if (!word) return null;
-						const resolver = this.client.commandHandler.resolver.type({
+						const resolver = this.handler.resolver.type({
 							command: 'commandAlias',
 							inhibitor: 'inhibitor',
 							listener: 'listener'

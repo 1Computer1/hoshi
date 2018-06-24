@@ -6,7 +6,7 @@ const HoshiClient = require('./src/struct/HoshiClient');
 const Logger = require('./src/util/Logger');
 
 const config = require('./config.json');
-const client = new HoshiClient(config).build();
+const client = new HoshiClient(config);
 
 if (config.sentryKey) {
 	Raven.config(config.sentryKey).install();

@@ -8,6 +8,7 @@ class StarInfoCommand extends Command {
 			category: 'starboard',
 			channel: 'guild',
 			clientPermissions: ['EMBED_LINKS'],
+			quoted: false,
 			args: [
 				// Indices are swapped in order to process channel first.
 				{

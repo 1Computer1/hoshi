@@ -1,5 +1,5 @@
 const path = require('path');
-const { AkairoClient } = require('discord-akairo');
+const { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler } = require('discord-akairo');
 const { Collection } = require('discord.js');
 
 const Database = require('./Database');
@@ -8,7 +8,13 @@ const Setting = require('../models/settings');
 
 class HoshiClient extends AkairoClient {
 	constructor(config) {
-		super({
+		super({ ownerID: config.owner }, {
+			disableEveryone: true,
+			disabledEvents: ['TYPING_START']
+		});
+
+		this.commandHandler = new CommandHandler(this, {
+			directory: path.join(__dirname, '..', 'commands'),
 			aliasReplacement: /-/g,
 			prefix: message => this.settings.get(message.guild, 'prefix', '*'),
 			allowMention: true,
@@ -16,10 +22,6 @@ class HoshiClient extends AkairoClient {
 			fetchMembers: true,
 			commandUtilLifetime: 3e5,
 			defaultCooldown: 2500,
-			ownerID: config.owner,
-			commandDirectory: path.join(__dirname, '..', 'commands'),
-			inhibitorDirectory: path.join(__dirname, '..', 'inhibitors'),
-			listenerDirectory: path.join(__dirname, '..', 'listeners'),
 			defaultPrompt: {
 				modifyStart: (text, msg) => text && `${msg.author} **::** ${text}\nType \`cancel\` to cancel this command.`,
 				modifyRetry: (text, msg) => text && `${msg.author} **::** ${text}\nType \`cancel\` to cancel this command.`,
@@ -29,14 +31,30 @@ class HoshiClient extends AkairoClient {
 				retries: 4,
 				time: 30000
 			}
-		}, {
-			disableEveryone: true,
-			disabledEvents: ['TYPING_START']
 		});
+
+		this.inhibitorHandler = new InhibitorHandler(this, { directory: path.join(__dirname, '..', 'inhibitors') });
+		this.listenerHandler = new ListenerHandler(this, { directory: path.join(__dirname, '..', 'lsiteners') });
 
 		this.config = config;
 		this.settings = new SettingsProvider(Setting);
 		this.starboards = new Collection();
+
+		this.setup();
+	}
+
+	setup() {
+		this.commandHandler.useInhibitorHandler(this.inhibitorHandler);
+		this.commandHandler.useListenerHandler(this.listenerHandler);
+		this.listenerHandler.setEmitters({
+			commandHandler: this.commandHandler,
+			inhibitorHandler: this.inhibitorHandler,
+			listenerHandler: this.listenerHandler
+		});
+
+		this.commandHandler.loadAll();
+		this.inhibitorHandler.loadAll();
+		this.listenerHandler.loadAll();
 	}
 
 	async start() {

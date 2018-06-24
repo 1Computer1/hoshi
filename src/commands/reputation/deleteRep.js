@@ -9,7 +9,6 @@ class DeleteRepCommand extends Command {
 			channel: 'guild',
 			userPermissions: ['MANAGE_MESSAGES'],
 			clientPermissions: ['MANAGE_MESSAGES'],
-			split: 'quoted',
 			args: [
 				{
 					id: 'source',

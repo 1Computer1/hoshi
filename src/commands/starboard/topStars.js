@@ -10,6 +10,7 @@ class TopStarsCommand extends Command {
 			category: 'starboard',
 			channel: 'guild',
 			clientPermissions: ['EMBED_LINKS'],
+			quoted: false,
 			args: [
 				{
 					id: 'page',

@@ -7,6 +7,7 @@ class StarCommand extends Command {
 			category: 'starboard',
 			channel: 'guild',
 			userPermissions: ['ADMINISTRATOR'],
+			quoted: false,
 			args: [
 				{
 					id: 'channel',
