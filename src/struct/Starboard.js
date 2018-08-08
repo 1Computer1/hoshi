@@ -339,6 +339,8 @@ class Starboard {
 			embed.addField('Message', content);
 		}
 
+		embed.addField('Jump To', message.url);
+
 		const attachment = Starboard.findAttachment(message);
 		if (attachment) {
 			embed.setImage(attachment);
