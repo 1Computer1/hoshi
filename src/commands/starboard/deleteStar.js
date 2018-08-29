@@ -1,4 +1,5 @@
 const { Command } = require('discord-akairo');
+const Star = require('../../models/stars');
 
 class DeleteStarCommand extends Command {
 	constructor() {
@@ -28,8 +29,9 @@ class DeleteStarCommand extends Command {
 					index: 0,
 					type: (word, message, { channel }) => {
 						if (!word) return null;
-						return channel.messages.fetch(word).catch(() => {
-							if (this.client.starboards.get(message.guild.id).stars.has(word)) {
+						return channel.messages.fetch(word).catch(async () => {
+							const star = await Star.findOne({ where: { messageID: word } });
+							if (star) {
 								return { id: word };
 							}
 
@@ -53,10 +55,6 @@ class DeleteStarCommand extends Command {
 	async exec(message, { message: msg }) {
 		const starboard = this.client.starboards.get(message.guild.id);
 
-		if (!starboard.initiated) {
-			return message.util.reply('Starboard has not fully loaded, please wait.');
-		}
-
 		if (!starboard.channel) {
 			const prefix = this.client.commandHandler.prefix(message);
 			return message.util.reply(`There isn't a starboard channel to use. Set one using the \`${prefix}starboard\` command!`);
@@ -65,7 +63,7 @@ class DeleteStarCommand extends Command {
 		const missingPerms = starboard.missingPermissions();
 		if (missingPerms) return message.util.reply(missingPerms);
 
-		if (!starboard.stars.has(msg.id)) {
+		if (!await Star.findOne({ where: { messageID: msg.id } })) {
 			return message.util.reply('The message cannot be removed because it does not exist in the starboard.');
 		}
 

@@ -1,4 +1,5 @@
 const { Command } = require('discord-akairo');
+const Star = require('../../models/stars');
 
 class UnstarCommand extends Command {
 	constructor() {
@@ -50,10 +51,6 @@ class UnstarCommand extends Command {
 
 		const starboard = this.client.starboards.get(msg.guild.id);
 
-		if (!starboard.initiated) {
-			return message.util.reply('Starboard has not fully loaded, please wait.');
-		}
-
 		if (!starboard.channel) {
 			const prefix = this.client.commandHandler.prefix(message);
 			return message.util.reply(`There isn't a starboard channel to use. Set one using the \`${prefix}starboard\` command!`);
@@ -66,7 +63,7 @@ class UnstarCommand extends Command {
 		const missingPerms = starboard.missingPermissions();
 		if (missingPerms) return message.util.reply(missingPerms);
 
-		const star = starboard.stars.get(msg.id);
+		const star = await Star.findOne({ where: { messageID: msg.id } });
 
 		if (!star || !star.starredBy.includes(message.author.id)) {
 			return message.util.reply('You can\'t remove any star from this message because you never gave it one in the first place.');

@@ -7,18 +7,8 @@ class Starboard {
 	constructor(guild) {
 		this.client = guild.client;
 		this.guild = guild;
-		this.stars = new Collection();
 		this.queues = new Collection();
 		this.reactionsRemoved = new Set();
-		this.initiated = false;
-
-		Star.findAll({ where: { guildID: this.guild.id } }).then(stars => {
-			for (const star of stars) {
-				this.stars.set(star.messageID, star);
-			}
-
-			this.initiated = true;
-		});
 	}
 
 	get channel() {
@@ -46,10 +36,6 @@ class Starboard {
 	}
 
 	add(message, starredBy) {
-		if (!this.initiated) {
-			return 'Starboard has not fully loaded, please wait.';
-		}
-
 		const blacklist = this.client.settings.get(message.guild, 'blacklist', []);
 		if (blacklist.includes(starredBy.id)) {
 			return 'You have been blacklisted from using the starboard';
@@ -73,19 +59,14 @@ class Starboard {
 	}
 
 	async addStar(message, starredBy) {
-		if (this.stars.has(message.id)) {
-			const star = this.stars.get(message.id);
-			if (star.starredBy.includes(starredBy.id)) {
-				return 'You have already starred this message before; You can\'t star it again.';
-			}
-		}
+		const star = await Star.findOne({ where: { messageID: message.id } });
 
-		if (!this.stars.has(message.id)) {
+		if (!star) {
 			const starboardMessage = this.threshold === 1
 				? await this.channel.send({ embed: this.buildStarboardEmbed(message) })
 				: null;
 
-			const star = await Star.create({
+			await Star.create({
 				messageID: message.id,
 				authorID: message.author.id,
 				channelID: message.channel.id,
@@ -95,11 +76,13 @@ class Starboard {
 				starCount: 1
 			});
 
-			this.stars.set(message.id, star);
 			return undefined;
 		}
 
-		const star = this.stars.get(message.id);
+		if (star.starredBy.includes(starredBy.id)) {
+			return 'You have already starred this message before; You can\'t star it again.';
+		}
+
 		const newStarredBy = star.starredBy.concat([starredBy.id]);
 
 		let starboardMessage;
@@ -112,19 +95,16 @@ class Starboard {
 				: await this.channel.send({ embed });
 		}
 
-		const newStar = await star.update({
+		await star.update({
 			starCount: newStarredBy.length,
 			starredBy: newStarredBy,
 			starboardMessageID: starboardMessage ? starboardMessage.id : null
 		});
 
-		this.stars.set(message.id, newStar);
 		return undefined;
 	}
 
 	remove(message, unstarredBy) {
-		if (!this.initiated) return undefined;
-
 		const blacklist = this.client.settings.get(message.guild, 'blacklist', []);
 		if (blacklist.includes(unstarredBy.id)) return undefined;
 		if (message.author.id === unstarredBy.id) return undefined;
@@ -136,7 +116,7 @@ class Starboard {
 	}
 
 	async removeStar(message, unstarredBy) {
-		const star = this.stars.get(message.id);
+		const star = await Star.findOne({ where: { messageID: message.id } });
 		if (!star || !star.starredBy.includes(unstarredBy.id)) {
 			return undefined;
 		}
@@ -166,13 +146,12 @@ class Starboard {
 				if (msg) await msg.delete();
 			}
 
-			const newStar = await star.update({
+			await star.update({
 				starCount: newStarredBy.length,
 				starredBy: newStarredBy,
 				starboardMessageID: starboardMessage ? starboardMessage.id : null
 			});
 
-			this.stars.set(message.id, newStar);
 			return undefined;
 		}
 
@@ -182,19 +161,17 @@ class Starboard {
 		}
 
 		await star.destroy();
-		this.stars.delete(message.id);
 		return undefined;
 	}
 
 	delete(message) {
-		if (!this.initiated) return undefined;
 		if (!this.channel) return undefined;
 		if (this.missingPermissions()) return undefined;
 		return this.queue(message, () => this.deleteStar(message));
 	}
 
 	async deleteStar(message) {
-		const star = this.stars.get(message.id);
+		const star = await Star.findOne({ where: { messageID: message.id } });
 		if (!star) return undefined;
 
 		const starboardMessage = star.starboardMessageID
@@ -205,12 +182,10 @@ class Starboard {
 		}
 
 		await star.destroy();
-		this.stars.delete(message.id);
 		return undefined;
 	}
 
 	fix(message) {
-		if (!this.initiated) return 'Starboard has not fully loaded, please wait.';
 		const missingPerms = this.missingPermissions();
 		if (missingPerms) return missingPerms;
 
@@ -218,7 +193,7 @@ class Starboard {
 	}
 
 	async fixStar(message) {
-		let star = this.stars.get(message.id);
+		const star = await Star.findOne({ where: { messageID: message.id } });
 		const blacklist = this.client.settings.get(message.guild, 'blacklist', []);
 
 		const fetchUsers = reaction => {
@@ -259,7 +234,7 @@ class Starboard {
 				if (msg) await msg.delete();
 			}
 
-			const newStar = await Star.create({
+			await Star.create({
 				starredBy,
 				messageID: message.id,
 				authorID: message.author.id,
@@ -269,7 +244,6 @@ class Starboard {
 				starCount: starredBy.length
 			});
 
-			this.stars.set(message.id, newStar);
 			return undefined;
 		}
 
@@ -295,13 +269,12 @@ class Starboard {
 			if (msg) await msg.delete();
 		}
 
-		const newStar = await star.update({
+		await star.update({
 			starCount: newStarredBy.length,
 			starredBy: newStarredBy,
 			starboardMessageID: starboardMessage ? starboardMessage.id : null
 		});
 
-		this.stars.set(message.id, newStar);
 		return undefined;
 	}
 
