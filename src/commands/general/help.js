@@ -64,8 +64,7 @@ class HelpCommand extends Command {
 					'This is a list of commands.',
 					'To view details for a command, do `*help <command>`.',
 					'To view the guide which explains how to use Hoshi in depth, use `*guide`.'
-				]
-			);
+				]);
 
 		for (const category of this.handler.categories.values()) {
 			const title = {

@@ -12,10 +12,10 @@ class TopStarsCommand extends Command {
 			quoted: false,
 			args: [
 				{
-					id: 'page',
-					type: 'integer',
-					default: 1,
-					prompt: {
+					'id': 'page',
+					'type': 'integer',
+					'default': 1,
+					'prompt': {
 						start: 'Invalid page. Which page would you like to view?',
 						retry: 'Please provide a valid page number.',
 						optional: true

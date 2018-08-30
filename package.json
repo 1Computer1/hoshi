@@ -6,27 +6,6 @@
   "scripts": {
     "test": "eslint ./"
   },
-  "eslintConfig": {
-    "extends": "aqua",
-    "rules": {
-      "max-len": [
-        "error",
-        120,
-        2,
-        {
-          "ignoreStrings": true,
-          "ignoreTemplateLiterals": true
-        }
-      ],
-      "prefer-destructuring": [
-        "off"
-      ],
-      "quotes": [
-        "error",
-        "single"
-      ]
-    }
-  },
   "contributors": [
     "1Computer",
     "vzwGrey"
@@ -34,7 +13,7 @@
   "license": "MIT",
   "devDependencies": {
     "eslint": "^5.4.0",
-    "eslint-config-aqua": "^2.0.1"
+    "eslint-config-aqua": "^4.3.4"
   },
   "dependencies": {
     "chalk": "^2.4.1",

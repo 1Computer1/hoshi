@@ -174,8 +174,8 @@ class Starboard {
 		const star = await Star.findOne({ where: { messageID: message.id } });
 		if (!star) return undefined;
 
-		const starboardMessage = star.starboardMessageID
-			&& await this.channel.messages.fetch(star.starboardMessageID).catch(() => null);
+		const starboardMessage = star.starboardMessageID &&
+			await this.channel.messages.fetch(star.starboardMessageID).catch(() => null);
 
 		if (starboardMessage) {
 			await starboardMessage.delete();
@@ -327,9 +327,9 @@ class Starboard {
 		const extensions = ['.png', '.jpg', '.jpeg', '.gif', '.webp'];
 		const linkRegex = /https?:\/\/(?:\w+\.)?[\w-]+\.[\w]{2,3}(?:\/[\w-_.]+)+\.(?:png|jpg|jpeg|gif|webp)/;
 
-		const richEmbed = message.embeds.find(embed => embed.type === 'rich'
-			&& embed.image
-			&& extensions.includes(path.extname(embed.image.url)));
+		const richEmbed = message.embeds.find(embed => embed.type === 'rich' &&
+			embed.image &&
+			extensions.includes(path.extname(embed.image.url)));
 		if (richEmbed) {
 			attachmentImage = richEmbed.image.url;
 		}

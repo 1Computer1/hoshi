@@ -30,7 +30,7 @@ class StatsCommand extends Command {
 		hours = `${'0'.repeat(2 - hours.toString().length)}${hours}`;
 		days = `${'0'.repeat(Math.max(0, 2 - days.toString().length))}${days}`;
 
-		return `${days !== '00' ? `${days}:` : ''}${hours}:${minutes}:${seconds}`;
+		return `${days === '00' ? '' : `${days}:`}${hours}:${minutes}:${seconds}`;
 	}
 
 	async exec(message) {

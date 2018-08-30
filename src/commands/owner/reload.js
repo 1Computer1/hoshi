@@ -10,11 +10,11 @@ class ReloadCommand extends Command {
 			quoted: false,
 			args: [
 				{
-					id: 'type',
-					match: 'prefix',
-					prefix: ['type:'],
-					type: [['command', 'c'], ['inhibitor', 'i'], ['listener', 'l']],
-					default: 'command'
+					'id': 'type',
+					'match': 'prefix',
+					'prefix': ['type:'],
+					'type': [['command', 'c'], ['inhibitor', 'i'], ['listener', 'l']],
+					'default': 'command'
 				},
 				{
 					id: 'module',

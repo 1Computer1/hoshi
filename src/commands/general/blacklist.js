@@ -36,12 +36,11 @@ class BlacklistCommand extends Command {
 			await this.client.settings.set(message.guild, 'blacklist', blacklist);
 
 			return message.util.send(`**${member.user.tag}** has been removed from the blacklist.`);
-		} else {
-			blacklist.push(member.id);
-			await this.client.settings.set(message.guild, 'blacklist', blacklist);
-
-			return message.util.send(`**${member.user.tag}** has been blacklisted from using the starboard and giving reputation on this server.`);
 		}
+		blacklist.push(member.id);
+		await this.client.settings.set(message.guild, 'blacklist', blacklist);
+
+		return message.util.send(`**${member.user.tag}** has been blacklisted from using the starboard and giving reputation on this server.`);
 	}
 }
 

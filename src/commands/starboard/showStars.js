@@ -12,11 +12,11 @@ class ShowStarsCommand extends Command {
 			quoted: false,
 			args: [
 				{
-					id: 'member',
-					match: 'content',
-					type: 'member',
-					default: message => message.member,
-					prompt: {
+					'id': 'member',
+					'match': 'content',
+					'type': 'member',
+					'default': message => message.member,
+					'prompt': {
 						start: 'That user could not be found. Whose stars would you like to view?',
 						retry: 'Please provide a valid user.',
 						optional: true

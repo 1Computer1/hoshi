@@ -1,0 +1,25 @@
+{
+    "extends": "aqua/node",
+    "rules": {
+        "max-len": [
+            "error",
+            120,
+            2,
+            {
+                "ignoreStrings": true,
+                "ignoreTemplateLiterals": true
+            }
+        ],
+        "no-confusing-arrow": "off",
+        "no-eq-null": "off",
+        "no-negated-condition": "off",
+        "no-undefined": "off",
+        "prefer-destructuring": [
+            "off"
+        ],
+        "quotes": [
+            "error",
+            "single"
+        ]
+    }
+}

@@ -13,12 +13,12 @@ class DeleteStarCommand extends Command {
 			args: [
 				// Indices are swapped in order to process channel first.
 				{
-					id: 'channel',
-					match: 'rest',
-					index: 1,
-					type: 'textChannel',
-					default: message => message.channel,
-					prompt: {
+					'id': 'channel',
+					'match': 'rest',
+					'index': 1,
+					'type': 'textChannel',
+					'default': message => message.channel,
+					'prompt': {
 						start: 'That channel could not be found. What channel is the message you are trying to remove from the starboard in?',
 						retry: 'Please provide a valid text channel.',
 						optional: true

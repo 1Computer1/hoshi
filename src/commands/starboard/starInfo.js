@@ -13,12 +13,12 @@ class StarInfoCommand extends Command {
 			args: [
 				// Indices are swapped in order to process channel first.
 				{
-					id: 'channel',
-					index: 1,
-					match: 'rest',
-					type: 'textChannel',
-					default: message => message.channel,
-					prompt: {
+					'id': 'channel',
+					'index': 1,
+					'match': 'rest',
+					'type': 'textChannel',
+					'default': message => message.channel,
+					'prompt': {
 						start: 'That channel could not be found. What channel is the message you are trying to view the info of in?',
 						retry: 'Please provide a valid text channel.',
 						optional: true

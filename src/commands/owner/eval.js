@@ -64,7 +64,9 @@ class EvalCommand extends Command {
 		};
 
 		try {
+			// eslint-disable-next-line no-eval
 			let output = eval(code);
+
 			// eslint-disable-next-line eqeqeq
 			if (output != null && typeof output.then === 'function') output = await output;
 
