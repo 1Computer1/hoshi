@@ -18,9 +18,10 @@ class HoshiClient extends AkairoClient {
 			aliasReplacement: /-/g,
 			prefix: message => this.settings.get(message.guild, 'prefix', '*'),
 			allowMention: true,
-			handleEdits: true,
 			fetchMembers: true,
+			commandUtil: true,
 			commandUtilLifetime: 3e5,
+			handleEdits: true,
 			defaultCooldown: 2500,
 			defaultPrompt: {
 				modifyStart: (text, msg) => text && `${msg.author} **::** ${text}\nType \`cancel\` to cancel this command.`,
