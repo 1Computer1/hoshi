@@ -1,5 +1,4 @@
 const { Command } = require('discord-akairo');
-
 const Reputation = require('../../models/reputations');
 
 class ResetCommand extends Command {

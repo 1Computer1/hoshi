@@ -1,5 +1,5 @@
-const { SequelizeProvider } = require('discord-akairo');
 const { Guild } = require('discord.js');
+const { SequelizeProvider } = require('discord-akairo');
 
 class SettingsProvider extends SequelizeProvider {
 	constructor(table) {

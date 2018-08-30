@@ -1,11 +1,10 @@
 require('./src/util/Extensions');
 
-const Raven = require('raven');
-
+const config = require('./config.json');
 const HoshiClient = require('./src/struct/HoshiClient');
 const Logger = require('./src/util/Logger');
+const Raven = require('raven');
 
-const config = require('./config.json');
 const client = new HoshiClient(config);
 
 if (config.sentryKey) {

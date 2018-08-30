@@ -1,8 +1,7 @@
 const { Command } = require('discord-akairo');
 const Sequelize = require('sequelize');
-
-const Starboard = require('../../struct/Starboard');
 const Star = require('../../models/stars');
+const Starboard = require('../../struct/Starboard');
 
 class BestStarCommand extends Command {
 	constructor() {

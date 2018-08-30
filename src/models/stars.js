@@ -1,6 +1,5 @@
-const Sequelize = require('sequelize');
-
 const { db } = require('../struct/Database');
+const Sequelize = require('sequelize');
 
 const Star = db.define('stars', {
 	messageID: {

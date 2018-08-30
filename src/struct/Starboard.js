@@ -1,5 +1,5 @@
-const path = require('path');
 const { Collection } = require('discord.js');
+const path = require('path');
 const Star = require('../models/stars');
 const Queue = require('./Queue');
 

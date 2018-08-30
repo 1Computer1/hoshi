@@ -1,7 +1,6 @@
 const { Command } = require('discord-akairo');
-const Starboard = require('../../struct/Starboard');
-
 const Star = require('../../models/stars');
+const Starboard = require('../../struct/Starboard');
 
 class ShowStarsCommand extends Command {
 	constructor() {

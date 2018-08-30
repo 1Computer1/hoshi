@@ -1,9 +1,8 @@
+const { dbURL } = require('../../config.json');
+const Logger = require('../util/Logger');
 const path = require('path');
 const readdir = require('util').promisify(require('fs').readdir);
 const Sequelize = require('sequelize');
-
-const { dbURL } = require('../../config.json');
-const Logger = require('../util/Logger');
 
 const db = new Sequelize(dbURL, {
 	logging: false,
