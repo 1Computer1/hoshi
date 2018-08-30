@@ -293,7 +293,7 @@ class Starboard {
 		]);
 
 		if (!str) return undefined;
-		return `I'm missing ${str} in ${this.channel}.`;
+		return `I'm missing ${str} to do that!`;
 	}
 
 	buildStarboardEmbed(message, starCount = 1) {
