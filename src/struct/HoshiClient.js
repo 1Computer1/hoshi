@@ -23,6 +23,7 @@ class HoshiClient extends AkairoClient {
 			fetchMembers: true,
 			commandUtil: true,
 			commandUtilLifetime: 9e5,
+			commandUtilSweepInterval: 9e5,
 			handleEdits: true,
 			defaultCooldown: 2500,
 			defaultPrompt: {
