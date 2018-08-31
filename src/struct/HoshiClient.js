@@ -8,6 +8,9 @@ const Setting = require('../models/settings');
 class HoshiClient extends AkairoClient {
 	constructor(config) {
 		super({ ownerID: config.owner }, {
+			messageCacheMaxSize: 50,
+			messageCacheLifetime: 3e2,
+			messageSweepInterval: 3e2,
 			disableEveryone: true,
 			disabledEvents: ['TYPING_START']
 		});
