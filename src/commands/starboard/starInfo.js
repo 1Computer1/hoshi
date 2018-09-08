@@ -27,9 +27,9 @@ class StarInfoCommand extends Command {
 				{
 					id: 'message',
 					index: 0,
-					type: (word, message, { channel }) => {
-						if (!word) return null;
-						return channel.messages.fetch(word).catch(() => null);
+					type: (phrase, message, { channel }) => {
+						if (!phrase) return null;
+						return channel.messages.fetch(phrase).catch(() => null);
 					},
 					prompt: {
 						start: 'What is the ID of the message you would like to view the info of?',

@@ -11,10 +11,10 @@ class PrefixCommand extends Command {
 			args: [
 				{
 					id: 'prefix',
-					type: word => {
-						if (!word) return null;
-						if (/\s/.test(word) || word.length > 10) return null;
-						return word;
+					type: phrase => {
+						if (!phrase) return null;
+						if (/\s/.test(phrase) || phrase.length > 10) return null;
+						return phrase;
 					},
 					prompt: {
 						start: 'What would you like to set the prefix to?',

@@ -25,11 +25,11 @@ class ResetCommand extends Command {
 				{
 					id: 'confirm',
 					match: 'none',
-					type: word => {
-						if (!word) return null;
+					type: phrase => {
+						if (!phrase) return null;
 
 						// Yes, yea, ye, or y.
-						if (/^y(?:e(?:a|s)?)?$/i.test(word)) return true;
+						if (/^y(?:e(?:a|s)?)?$/i.test(phrase)) return true;
 						return false;
 					},
 					prompt: {

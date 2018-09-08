@@ -27,12 +27,12 @@ class DeleteStarCommand extends Command {
 				{
 					id: 'message',
 					index: 0,
-					type: (word, message, { channel }) => {
-						if (!word) return null;
-						return channel.messages.fetch(word).catch(async () => {
-							const star = await Star.findOne({ where: { messageID: word } });
+					type: (phrase, message, { channel }) => {
+						if (!phrase) return null;
+						return channel.messages.fetch(phrase).catch(async () => {
+							const star = await Star.findOne({ where: { messageID: phrase } });
 							if (star) {
-								return { id: word };
+								return { id: phrase };
 							}
 
 							return null;

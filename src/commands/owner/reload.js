@@ -18,15 +18,15 @@ class ReloadCommand extends Command {
 				},
 				{
 					id: 'module',
-					type: (word, message, { type }) => {
-						if (!word) return null;
+					type: (phrase, message, { type }) => {
+						if (!phrase) return null;
 						const resolver = this.handler.resolver.type({
 							command: 'commandAlias',
 							inhibitor: 'inhibitor',
 							listener: 'listener'
 						}[type]);
 
-						return resolver(word);
+						return resolver(phrase);
 					}
 				}
 			],

@@ -11,9 +11,9 @@ class StarThresholdCommand extends Command {
 			args: [
 				{
 					id: 'threshold',
-					type: word => {
-						if (!word) return null;
-						const num = this.handler.resolver.type('integer')(word);
+					type: phrase => {
+						if (!phrase) return null;
+						const num = this.handler.resolver.type('integer')(phrase);
 						if (num <= 0) return null;
 						return num;
 					},
