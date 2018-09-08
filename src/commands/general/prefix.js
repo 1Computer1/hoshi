@@ -1,4 +1,4 @@
-const { Command } = require('discord-akairo');
+const { Argument, Command } = require('discord-akairo');
 
 class PrefixCommand extends Command {
 	constructor() {
@@ -11,11 +11,7 @@ class PrefixCommand extends Command {
 			args: [
 				{
 					id: 'prefix',
-					type: phrase => {
-						if (!phrase) return null;
-						if (/\s/.test(phrase) || phrase.length > 10) return null;
-						return phrase;
-					},
+					type: Argument.validate('string', p => !/\s/.test(p) && p.length <= 10),
 					prompt: {
 						start: 'What would you like to set the prefix to?',
 						retry: 'Please provide a prefix without spaces and less than 10 characters.'

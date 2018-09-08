@@ -1,4 +1,4 @@
-const { Command } = require('discord-akairo');
+const { Argument, Command } = require('discord-akairo');
 const { db } = require('../../struct/Database');
 
 class TopRepsCommand extends Command {
@@ -12,7 +12,7 @@ class TopRepsCommand extends Command {
 			args: [
 				{
 					'id': 'page',
-					'type': 'integer',
+					'type': Argument.range('integer', 0, Infinity),
 					'default': 1,
 					'prompt': {
 						start: 'Invalid page. Which page would you like to view?',

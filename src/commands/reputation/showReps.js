@@ -1,4 +1,4 @@
-const { Command } = require('discord-akairo');
+const { Argument, Command } = require('discord-akairo');
 const Reputation = require('../../models/reputations');
 
 class ShowRepsCommand extends Command {
@@ -21,7 +21,7 @@ class ShowRepsCommand extends Command {
 				},
 				{
 					'id': 'page',
-					'type': 'integer',
+					'type': Argument.range('integer', 0, Infinity),
 					'default': 1,
 					'prompt': {
 						start: 'Invalid page. Which page would you like to view?',

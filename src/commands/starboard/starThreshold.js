@@ -1,4 +1,4 @@
-const { Command } = require('discord-akairo');
+const { Argument, Command } = require('discord-akairo');
 
 class StarThresholdCommand extends Command {
 	constructor() {
@@ -11,12 +11,7 @@ class StarThresholdCommand extends Command {
 			args: [
 				{
 					id: 'threshold',
-					type: phrase => {
-						if (!phrase) return null;
-						const num = this.handler.resolver.type('integer')(phrase);
-						if (num <= 0) return null;
-						return num;
-					},
+					type: Argument.range('integer', 0, Infinity),
 					prompt: {
 						start: 'What would you like the threshold for stars to show up on the starboard to be?',
 						retry: 'Please provide an integer greater than zero.'
