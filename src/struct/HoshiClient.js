@@ -9,7 +9,7 @@ class HoshiClient extends AkairoClient {
 	constructor(config) {
 		super({ ownerID: config.owner }, {
 			messageCacheMaxSize: 50,
-			messageCacheLifetime: 900,
+			messageCacheLifetime: 300,
 			messageSweepInterval: 900,
 			disableEveryone: true,
 			disabledEvents: ['TYPING_START']
@@ -22,7 +22,7 @@ class HoshiClient extends AkairoClient {
 			allowMention: true,
 			fetchMembers: true,
 			commandUtil: true,
-			commandUtilLifetime: 9e5,
+			commandUtilLifetime: 3e5,
 			commandUtilSweepInterval: 9e5,
 			handleEdits: true,
 			defaultCooldown: 2500,
