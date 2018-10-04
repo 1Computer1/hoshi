@@ -2,6 +2,7 @@ const { Collection } = require('discord.js');
 const path = require('path');
 const Star = require('../models/stars');
 const Queue = require('./Queue');
+const { selfstarWarningTimeout } = require('../../config.json');
 
 class Starboard {
 	constructor(guild) {
@@ -9,6 +10,7 @@ class Starboard {
 		this.guild = guild;
 		this.queues = new Collection();
 		this.reactionsRemoved = new Set();
+		this.recentlySelfstarred = new Set();
 	}
 
 	get channel() {
@@ -52,7 +54,13 @@ class Starboard {
 		}
 
 		if (message.author.id === starredBy.id) {
-			return 'You can\'t star your own messages.';
+			if (!this.recentlySelfstarred.has(message.author.id)) {
+				this.recentlySelfstarred.add(message.author.id);
+				setTimeout(() => this.recentlySelfstarred.delete(message.author.id), selfstarWarningTimeout);
+				return 'You can\'t star your own messages.';
+			}
+
+			return '';
 		}
 
 		return this.queue(message, () => this.addStar(message, starredBy));

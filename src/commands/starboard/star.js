@@ -46,7 +46,10 @@ class StarCommand extends Command {
 	async exec(message, { message: msg }) {
 		const starboard = this.client.starboards.get(message.guild.id);
 		const error = await starboard.add(msg, message.author);
-		if (error) return message.util.reply(error);
+		if (error !== undefined) {
+			if (error.length) return message.util.reply(error);
+			return;
+		}
 		return message.util.reply('The message has been starred.');
 	}
 }
