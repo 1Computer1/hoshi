@@ -77,7 +77,7 @@ class ShowStarsCommand extends Command {
 			}
 
 			const emoji = Starboard.getEscapedStarEmoji(topStar.starCount);
-			embed.addField('Top Star', `${emoji} ${topStar.starCount} (${topStar.messageID})`, true)
+			embed.addField('Top Star', `${emoji} ${topStar.starCount} (${msg ? `[Jump To](${msg.url})` : topStar.messageID}))`, true)
 				.addField('Channel', `<#${topStar.channelID}>`, true);
 
 			if (content) {
