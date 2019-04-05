@@ -13,7 +13,7 @@ class TopStarsCommand extends Command {
 			args: [
 				{
 					'id': 'page',
-					'type': Argument.range('integer', 0, Infinity),
+					'type': Argument.range('integer', 1, Infinity),
 					'default': 1,
 					'prompt': {
 						start: 'Invalid page. Which page would you like to view?',
