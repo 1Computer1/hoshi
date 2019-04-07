@@ -10,20 +10,20 @@ class ShowRepsCommand extends Command {
 			clientPermissions: ['EMBED_LINKS'],
 			args: [
 				{
-					'id': 'member',
-					'type': 'member',
-					'default': message => message.member,
-					'prompt': {
+					id: 'member',
+					type: 'member',
+					default: message => message.member,
+					prompt: {
 						start: 'That user could not be found. Whose reputation would you like to view?',
 						retry: 'Please provide a valid user.',
 						optional: true
 					}
 				},
 				{
-					'id': 'page',
-					'type': Argument.range('integer', 0, Infinity),
-					'default': 1,
-					'prompt': {
+					id: 'page',
+					type: Argument.range('integer', 0, Infinity),
+					default: 1,
+					prompt: {
 						start: 'Invalid page. Which page would you like to view?',
 						retry: 'Please provide a valid page number.',
 						optional: true

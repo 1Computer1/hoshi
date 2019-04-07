@@ -7,11 +7,10 @@ class StarThresholdCommand extends Command {
 			category: 'starboard',
 			channel: 'guild',
 			userPermissions: ['ADMINISTRATOR'],
-			quoted: false,
 			args: [
 				{
 					id: 'threshold',
-					type: Argument.range('integer', 0, Infinity),
+					type: Argument.range('integer', 1, Infinity),
 					prompt: {
 						start: 'What would you like the threshold for stars to show up on the starboard to be?',
 						retry: 'Please provide an integer greater than zero.'

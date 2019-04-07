@@ -9,13 +9,12 @@ class TopStarsCommand extends Command {
 			category: 'starboard',
 			channel: 'guild',
 			clientPermissions: ['EMBED_LINKS'],
-			quoted: false,
 			args: [
 				{
-					'id': 'page',
-					'type': Argument.range('integer', 1, Infinity),
-					'default': 1,
-					'prompt': {
+					id: 'page',
+					type: Argument.range('integer', 1, Infinity),
+					default: 1,
+					prompt: {
 						start: 'Invalid page. Which page would you like to view?',
 						retry: 'Please provide a valid page number.',
 						optional: true

@@ -7,7 +7,6 @@ class RemoveRepCommand extends Command {
 			aliases: ['remove-rep', 'unrep', '--'],
 			category: 'reputation',
 			channel: 'guild',
-			quoted: false,
 			args: [
 				{
 					id: 'member',

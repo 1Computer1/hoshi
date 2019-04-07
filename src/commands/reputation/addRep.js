@@ -18,7 +18,7 @@ class AddRepCommand extends Command {
 				},
 				{
 					id: 'reason',
-					match: 'rest'
+					match: 'restContent'
 				}
 			],
 			description: {

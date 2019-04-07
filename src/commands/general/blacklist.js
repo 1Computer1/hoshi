@@ -7,7 +7,6 @@ class BlacklistCommand extends Command {
 			category: 'general',
 			channel: 'guild',
 			userPermissions: ['MANAGE_GUILD'],
-			quoted: false,
 			args: [
 				{
 					id: 'member',

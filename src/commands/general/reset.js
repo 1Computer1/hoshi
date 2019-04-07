@@ -8,46 +8,47 @@ class ResetCommand extends Command {
 			category: 'general',
 			channel: 'guild',
 			userPermissions: ['MANAGE_GUILD'],
-			quoted: false,
-			args: [
-				{
-					id: 'mode',
-					match: 'content',
-					type: [['stars', 'star'], ['reps', 'rep'], 'all'],
-					prompt: {
-						start: 'Please choose an item to reset: `stars`, `reps`, `all`.',
-						retry: [
-							'Please provide a valid reset item.',
-							'Choose one of `stars`, `reps` or `all`.'
-						]
-					}
-				},
-				{
-					id: 'confirm',
-					match: 'none',
-					type: phrase => {
-						if (!phrase) return null;
-
-						// Yes, yea, ye, or y.
-						if (/^y(?:e(?:a|s)?)?$/i.test(phrase)) return true;
-						return false;
-					},
-					prompt: {
-						start: (msg, { mode }) => `${{
-							stars: 'Are you sure you want to reset all stars on this server? (y/N)',
-							reps: 'Are you sure you want to reset all reputation points on this server? (y/N)',
-							all: 'Are you sure you want to reset all stars and reputation points on this server? (y/N)'
-						}[mode]}`,
-						retry: ''
-					}
-				}
-			],
 			description: {
 				content: 'Resets the stars and/or reputations of the guild.',
 				usage: '<mode>',
 				examples: ['stars', 'reps', 'all']
 			}
 		});
+	}
+
+	*args() {
+		const mode = yield {
+			match: 'content',
+			type: [['stars', 'star'], ['reps', 'rep'], 'all'],
+			prompt: {
+				start: 'Please choose an item to reset: `stars`, `reps`, `all`.',
+				retry: [
+					'Please provide a valid reset item.',
+					'Choose one of `stars`, `reps` or `all`.'
+				]
+			}
+		};
+
+		const confirm = yield {
+			id: 'confirm',
+			match: 'none',
+			type: (msg, phrase) => {
+				if (!phrase) return null;
+				// Yes, yea, ye, or y.
+				if (/^y(?:e(?:a|s)?)?$/i.test(phrase)) return true;
+				return false;
+			},
+			prompt: {
+				start: `${{
+					stars: 'Are you sure you want to reset all stars on this server? (y/N)',
+					reps: 'Are you sure you want to reset all reputation points on this server? (y/N)',
+					all: 'Are you sure you want to reset all stars and reputation points on this server? (y/N)'
+				}[mode]}`,
+				retry: ''
+			}
+		};
+
+		return { mode, confirm };
 	}
 
 	async exec(message, { mode, confirm }) {

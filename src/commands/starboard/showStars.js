@@ -9,14 +9,13 @@ class ShowStarsCommand extends Command {
 			category: 'starboard',
 			channel: 'guild',
 			clientPermissions: ['EMBED_LINKS'],
-			quoted: false,
 			args: [
 				{
-					'id': 'member',
-					'match': 'content',
-					'type': 'member',
-					'default': message => message.member,
-					'prompt': {
+					id: 'member',
+					match: 'content',
+					type: 'member',
+					default: message => message.member,
+					prompt: {
 						start: 'That user could not be found. Whose stars would you like to view?',
 						retry: 'Please provide a valid user.',
 						optional: true

@@ -7,11 +7,11 @@ class PrefixCommand extends Command {
 			category: 'general',
 			channel: 'guild',
 			userPermissions: ['MANAGE_GUILD'],
-			quoted: false,
 			args: [
 				{
 					id: 'prefix',
-					type: Argument.validate('string', p => !/\s/.test(p) && p.length <= 10),
+					match: 'content',
+					type: Argument.validate('string', (m, p) => !/\s/.test(p) && p.length <= 10),
 					prompt: {
 						start: 'What would you like to set the prefix to?',
 						retry: 'Please provide a prefix without spaces and less than 10 characters.'

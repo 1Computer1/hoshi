@@ -7,29 +7,6 @@ class ReloadCommand extends Command {
 			aliases: ['reload', 'r'],
 			category: 'owner',
 			ownerOnly: true,
-			quoted: false,
-			args: [
-				{
-					'id': 'type',
-					'match': 'prefix',
-					'prefix': ['type:'],
-					'type': [['command', 'c'], ['inhibitor', 'i'], ['listener', 'l']],
-					'default': 'command'
-				},
-				{
-					id: 'module',
-					type: (phrase, message, { type }) => {
-						if (!phrase) return null;
-						const resolver = this.handler.resolver.type({
-							command: 'commandAlias',
-							inhibitor: 'inhibitor',
-							listener: 'listener'
-						}[type]);
-
-						return resolver(phrase);
-					}
-				}
-			],
 			description: {
 				content: 'Reloads a module.',
 				usage: '<module> [type:]'
@@ -37,7 +14,31 @@ class ReloadCommand extends Command {
 		});
 	}
 
-	exec(message, { type, module: mod }) {
+	*args() {
+		const type = yield {
+			match: 'option',
+			flag: ['type:'],
+			type: [['command', 'c'], ['inhibitor', 'i'], ['listener', 'l']],
+			default: 'command'
+		};
+
+		const mod = yield {
+			type: (msg, phrase) => {
+				if (!phrase) return null;
+				const resolver = this.handler.resolver.type({
+					command: 'commandAlias',
+					inhibitor: 'inhibitor',
+					listener: 'listener'
+				}[type]);
+
+				return resolver(phrase);
+			}
+		};
+
+		return { type, mod };
+	}
+
+	exec(message, { type, mod }) {
 		if (!mod) {
 			return message.util.reply(`Invalid ${type} ${type === 'command' ? 'alias' : 'ID'} specified to reload.`);
 		}
