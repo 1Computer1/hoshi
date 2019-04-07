@@ -12,7 +12,8 @@ class HoshiClient extends AkairoClient {
 			messageCacheLifetime: 300,
 			messageSweepInterval: 900,
 			disableEveryone: true,
-			disabledEvents: ['TYPING_START']
+			disabledEvents: ['TYPING_START'],
+			partials: ['MESSAGE']
 		});
 
 		this.commandHandler = new CommandHandler(this, {

@@ -9,7 +9,8 @@ class MessageReactionRemoveAllListener extends Listener {
 		});
 	}
 
-	exec(message) {
+	async exec(message) {
+		if (message.partial) await message.fetch();
 		if (!message.guild) return;
 		const starboard = this.client.starboards.get(message.guild.id);
 

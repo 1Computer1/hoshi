@@ -11,6 +11,7 @@ class MessageReactionRemoveListener extends Listener {
 
 	async exec(reaction, user) {
 		if (user.id === this.client.user.id) return;
+		if (reaction.message.partial) await reaction.message.fetch();
 		if (!reaction.message.guild) return;
 
 		if (reaction.emoji.name === '⭐') {
