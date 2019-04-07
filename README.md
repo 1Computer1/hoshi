@@ -9,6 +9,7 @@ Invite Link: [Click here!](https://discordapp.com/oauth2/authorize?permissions=9
 
 - Setting a custom prefix.
 - Starring and unstarring messages via reaction or command.
+- Setting a custom emoji for reactions.
 - Setting a custom starboard channel.
 - Deleting messages from the starboard in case of abuse.
 - Viewing the people who starred a message.

@@ -129,8 +129,9 @@ class Starboard {
 			return undefined;
 		}
 
-		if (message.reactions.has('⭐')) {
-			const reaction = message.reactions.get('⭐');
+		const emojiID = this.client.settings.get(message.guild, 'emoji', '⭐');
+		if (message.reactions.has(emojiID)) {
+			const reaction = message.reactions.get(emojiID);
 			if (reaction.users.has(unstarredBy.id)) {
 				await reaction.users.remove(unstarredBy).then(() => {
 					this.reactionsRemoved.add(reaction.message.id);
@@ -223,10 +224,12 @@ class Starboard {
 			return fetch();
 		};
 
-		if (!star) {
-			if (!message.reactions.has('⭐')) return undefined;
+		const emojiID = this.client.settings.get(message.guild, 'emoji', '⭐');
 
-			const users = await fetchUsers(message.reactions.get('⭐'));
+		if (!star) {
+			if (!message.reactions.has(emojiID)) return undefined;
+
+			const users = await fetchUsers(message.reactions.get(emojiID));
 			const starredBy = users
 				.map(user => user.id)
 				.filter(user => message.author.id !== user && !blacklist.includes(user));
@@ -255,8 +258,8 @@ class Starboard {
 			return undefined;
 		}
 
-		const users = message.reactions.has('⭐')
-			? await fetchUsers(message.reactions.get('⭐'))
+		const users = message.reactions.has(emojiID)
+			? await fetchUsers(message.reactions.get(emojiID))
 			: this.client.util.collection();
 
 		const newStarredBy = users
@@ -379,8 +382,33 @@ class Starboard {
 	}
 
 	static getEscapedStarEmoji(count) {
-		const emoji = this.getStarEmoji(count);
-		return `\\${emoji.replace('•', '•\\')}`;
+		const emojis = this.getStarEmoji(count);
+		return `\\${emojis.replace('•', '•\\')}`;
+	}
+
+	static emojiFromID(client, id) {
+		if (/^\d+$/.test(id)) {
+			return client.emojis.get(id);
+		}
+
+		return id;
+	}
+
+	// Either is a Unicode emoji string or an Emoji object.
+	static emojiEquals(x, y) {
+		if (typeof x === 'string' && typeof y === 'string') {
+			return x === y;
+		}
+
+		if (typeof x === 'string') {
+			return x === y.name;
+		}
+
+		if (typeof y === 'string') {
+			return x.name === y;
+		}
+
+		return x.id === y.id;
 	}
 }
 
