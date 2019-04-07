@@ -12,16 +12,16 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "eslint": "^5.4.0",
-    "eslint-config-aqua": "^4.3.4"
+    "eslint": "^5.16.0",
+    "eslint-config-aqua": "^4.4.1"
   },
   "dependencies": {
-    "chalk": "^2.4.1",
-    "discord-akairo": "github:1computer1/discord-akairo",
-    "discord.js": "github:hydrabolt/discord.js",
-    "moment": "^2.22.2",
-    "pg": "^6.4.2",
-    "raven": "^2.6.3",
-    "sequelize": "^4.38.0"
+    "chalk": "^2.4.2",
+    "discord-akairo": "8.0.0-beta.6",
+    "discord.js": "github:discordjs/discord.js",
+    "moment": "^2.24.0",
+    "pg": "^7.9.0",
+    "raven": "^2.6.4",
+    "sequelize": "^5.2.12"
   }
 }
