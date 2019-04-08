@@ -408,7 +408,7 @@ class Starboard {
 			return x.name === y;
 		}
 
-		return x.id === y.id;
+		return x.identifier === y.identifier;
 	}
 }
 
