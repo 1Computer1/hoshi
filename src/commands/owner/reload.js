@@ -31,7 +31,7 @@ class ReloadCommand extends Command {
 					listener: 'listener'
 				}[type]);
 
-				return resolver(phrase);
+				return resolver(msg, phrase);
 			}
 		};
 
