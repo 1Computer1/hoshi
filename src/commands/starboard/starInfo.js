@@ -19,7 +19,7 @@ class StarInfoCommand extends Command {
 
 	*args() {
 		const channel = yield {
-			unordered: true,
+			index: 1,
 			type: 'textChannel',
 			default: message => message.channel,
 			prompt: {
@@ -30,7 +30,7 @@ class StarInfoCommand extends Command {
 		};
 
 		const message = yield {
-			unordered: true,
+			index: 0,
 			type: (msg, phrase) => {
 				if (!phrase) return null;
 				return channel.messages.fetch(phrase).catch(() => null);
