@@ -16,13 +16,13 @@
     "eslint-config-aqua": "^4.4.1"
   },
   "dependencies": {
+    "@sentry/node": "^5.1.0",
     "chalk": "^2.4.2",
     "discord-akairo": "^8.0.0-beta.8",
     "discord.js": "github:discordjs/discord.js",
     "moment": "^2.24.0",
     "node-emoji": "^1.10.0",
     "pg": "^7.9.0",
-    "raven": "^2.6.4",
     "sequelize": "^5.2.12"
   }
 }
