@@ -57,39 +57,48 @@ class ShowStarsCommand extends Command {
 
 		if (guildStars.length) {
 			const topStar = guildStars.sort((a, b) => b.starCount - a.starCount)[0];
-			const msg = await message.guild.channels.get(topStar.channelID).messages.fetch(topStar.messageID)
-				.catch(() => null);
 
-			let content;
-			let attachment;
+			const topStarChannel = message.guild.channels.get(topStar.channelID);
+			if (topStarChannel) {
+				const msg = await topStarChannel.messages.fetch(topStar.messageID)
+					.catch(() => null);
 
-			if (msg) {
-				content = msg.content;
-				attachment = Starboard.findAttachment(msg);
-			} else if (topStar.starboardMessageID) {
-				const starboardMsg = await starboard.channel.messages.fetch(topStar.starboardMessageID).catch(() => null);
+				let content;
+				let attachment;
 
-				if (starboardMsg) {
-					content = starboardMsg.embeds[0].fields[2] && starboardMsg.embeds[0].fields[2].value;
-					attachment = starboardMsg.embeds[0].attachment;
-				}
-			}
+				if (msg) {
+					content = msg.content;
+					attachment = Starboard.findAttachment(msg);
+				} else if (topStar.starboardMessageID) {
+					const starboardMsg = await starboard.channel.messages.fetch(topStar.starboardMessageID).catch(() => null);
 
-			const emoji = Starboard.getEscapedStarEmoji(topStar.starCount);
-			embed.addField('Top Star', `${emoji} ${topStar.starCount} (${topStar.messageID})`, true)
-				.addField('Channel', `<#${topStar.channelID}>`, true);
-
-			if (content) {
-				if (content.length > 1000) {
-					content = content.slice(0, 1000);
-					content += '...';
+					if (starboardMsg) {
+						content = starboardMsg.embeds[0].fields[2] && starboardMsg.embeds[0].fields[2].value;
+						attachment = starboardMsg.embeds[0].attachment;
+					}
 				}
 
-				embed.addField('Message', content);
-			}
+				const emoji = Starboard.getEscapedStarEmoji(topStar.starCount);
+				embed.addField('Top Star', `${emoji} ${topStar.starCount} (${topStar.messageID})`, true)
+					.addField('Channel', `<#${topStar.channelID}>`, true);
 
-			if (attachment) {
-				embed.setImage(attachment);
+				if (content) {
+					if (content.length > 1000) {
+						content = content.slice(0, 1000);
+						content += '...';
+					}
+
+					embed.addField('Message', content);
+				}
+
+				if (attachment) {
+					embed.setImage(attachment);
+				}
+			} else {
+				const emoji = Starboard.getEscapedStarEmoji(topStar.starCount);
+				embed.addField('Top Star', `${emoji} ${topStar.starCount} (${topStar.messageID})`, true)
+					.addField('Channel', `*Channel could not be found... (ID: ${topStar.channelID})*`, true)
+					.addField('Message', '*Content could not be found...*');
 			}
 		}
 
