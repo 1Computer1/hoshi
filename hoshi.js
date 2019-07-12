@@ -3,12 +3,12 @@ require('./src/util/Extensions');
 const config = require('./config.json');
 const HoshiClient = require('./src/struct/HoshiClient');
 const Logger = require('./src/util/Logger');
-const Raven = require('raven');
+const Sentry = require('@sentry/node');
 
 const client = new HoshiClient(config);
 
 if (config.sentryKey) {
-	Raven.config(config.sentryKey).install();
+	Sentry.init({ dsn: config.sentryKey });
 }
 
 client.on('disconnect', () => Logger.warn('Connection lost...'))
