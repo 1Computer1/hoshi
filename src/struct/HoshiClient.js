@@ -53,7 +53,7 @@ class HoshiClient extends AkairoClient {
 			for (const guild of this.guilds.values()) {
 				guild.presences.clear();
 			}
-		}, 900);
+		}, 9e5);
 	}
 
 	setup() {
