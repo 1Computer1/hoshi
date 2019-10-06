@@ -43,6 +43,11 @@ class Starboard {
 			return 'You have been blacklisted from using the starboard';
 		}
 
+		const channelBlacklist = this.client.settings.get(message.guild, 'channel-blacklist', []);
+		if (channelBlacklist.includes(message.channel.id)) {
+			return 'This channel has been blacklisted from the starboard';
+		}
+
 		if (!this.channel) {
 			const prefix = this.client.commandHandler.prefix(message);
 			return `There isn't a starboard channel to use. Set one using the \`${prefix}starboard\` command!`;

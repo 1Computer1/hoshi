@@ -16,7 +16,8 @@ class SettingsCommand extends Command {
 		const prefix = this.handler.prefix(message);
 		const emojiID = this.client.settings.get(message.guild, 'emoji', '⭐');
 		const starboard = this.client.starboards.get(message.guild.id);
-		const blacklist = this.client.settings.get(message.guild, 'blacklist', []);
+		const blacklist = this.client.settings.get(message.guild, 'blacklist', []).map(id => `<@${id}>`);
+		const channelBlacklist = this.client.settings.get(message.guild, 'channel-blacklist', []).map(id => `<#${id}>`);
 
 		const embed = this.client.util.embed()
 			.setColor(0xFFAC33)
@@ -26,7 +27,8 @@ class SettingsCommand extends Command {
 				`**Emoji**: ${Starboard.emojiFromID(this.client, emojiID)}`,
 				`**Starboard**: ${(starboard && starboard.channel) || 'None'}`,
 				`**Threshold**: ${(starboard && starboard.threshold) || 'None'}`,
-				`**Blacklist**: ${blacklist.join(', ') || 'None'}`
+				`**Blacklist**: ${blacklist.join(', ') || 'None'}`,
+				`**Channel Blacklist**: ${channelBlacklist.join(', ') || 'None'}`
 			]);
 
 		return message.util.send({ embed });
