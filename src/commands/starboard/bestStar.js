@@ -30,51 +30,60 @@ class BestStarCommand extends Command {
 		const embed = this.client.util.embed().setColor(0xFFAC33);
 
 		if (bestStar) {
-			const msg = await message.guild.channels.get(bestStar.channelID)
-				.messages.fetch(bestStar.messageID).catch(() => null);
+			const bestStarChannel = message.guild.channels.get(bestStar.channelID);
 
-			let content;
-			let attachment;
-			let tag = 'Unknown#????';
-			let displayAvatarURL;
+			if (bestStarChannel) {
+				const msg = await bestStarChannel.messages.fetch(bestStar.messageID).catch(() => null);
 
-			if (msg) {
-				content = msg.content;
-				attachment = Starboard.findAttachment(msg);
+				let content;
+				let attachment;
+				let tag = 'Unknown#????';
+				let displayAvatarURL;
 
-				// Fallbacks
-				tag = msg.author.tag;
-				displayAvatarURL = msg.author.displayAvatarURL.bind(msg.author);
-			} else if (bestStar.starboardMessageID) {
-				const starboardMsg = await starboard.channel.messages.fetch(bestStar.starboardMessageID).catch(() => null);
+				if (msg) {
+					content = msg.content;
+					attachment = Starboard.findAttachment(msg);
 
-				// Fallbacks
-				if (starboardMsg) {
-					content = starboardMsg.embeds[0].fields[2] && starboardMsg.embeds[0].fields[2].value;
-					attachment = starboardMsg.embeds[0].attachment;
-					displayAvatarURL = () => starboardMsg.embeds[0].thumbnail.url;
-				}
-			}
+					// Fallbacks
+					tag = msg.author.tag;
+					displayAvatarURL = msg.author.displayAvatarURL.bind(msg.author);
+				} else if (bestStar.starboardMessageID) {
+					const starboardMsg = await starboard.channel.messages.fetch(bestStar.starboardMessageID).catch(() => null);
 
-			const user = await this.client.users.fetch(bestStar.authorID).catch(() => ({ tag, displayAvatarURL }));
-			const emoji = Starboard.getEscapedStarEmoji(bestStar.starCount);
-
-			embed.setTitle(`Best of ${message.guild.name} — ${user.tag}`)
-				.setThumbnail(user.displayAvatarURL())
-				.addField('Top Star', `${emoji} ${bestStar.starCount} (${bestStar.messageID})`, true)
-				.addField('Channel', `<#${bestStar.channelID}>`, true);
-
-			if (content) {
-				if (content.length > 1000) {
-					content = content.slice(0, 1000);
-					content += '...';
+					// Fallbacks
+					if (starboardMsg) {
+						content = starboardMsg.embeds[0].fields[2] && starboardMsg.embeds[0].fields[2].value;
+						attachment = starboardMsg.embeds[0].attachment;
+						displayAvatarURL = () => starboardMsg.embeds[0].thumbnail.url;
+					}
 				}
 
-				embed.addField('Message', content);
-			}
 
-			if (attachment) {
-				embed.setImage(attachment);
+				const user = await this.client.users.fetch(bestStar.authorID).catch(() => ({ tag, displayAvatarURL }));
+				const emoji = Starboard.getEscapedStarEmoji(bestStar.starCount);
+
+				embed.setTitle(`Best of ${message.guild.name} — ${user.tag}`)
+					.setThumbnail(user.displayAvatarURL())
+					.addField('Top Star', `${emoji} ${bestStar.starCount} (${bestStar.messageID})`, true)
+					.addField('Channel', `<#${bestStar.channelID}>`, true);
+
+				if (content) {
+					if (content.length > 1000) {
+						content = content.slice(0, 1000);
+						content += '...';
+					}
+
+					embed.addField('Message', content);
+				}
+
+				if (attachment) {
+					embed.setImage(attachment);
+				}
+			} else {
+				const emoji = Starboard.getEscapedStarEmoji(bestStar.starCount);
+				embed.addField('Top Star', `${emoji} ${bestStar.starCount} (${bestStar.messageID})`, true)
+					.addField('Channel', `*Channel could not be found... (ID: ${bestStar.channelID})*`, true)
+					.addField('Message', '*Content could not be found...*');
 			}
 		} else {
 			embed.setTitle(`Best of ${message.guild.name}`)
